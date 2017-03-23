@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-03-23T12:38:08.632Z</updated>
+  <updated>2017-03-23T13:06:05.265Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,11 +20,11 @@
     <link href="http://yoursite.com/2017/03/23/My-First-Post-New/"/>
     <id>http://yoursite.com/2017/03/23/My-First-Post-New/</id>
     <published>2017-03-23T12:21:29.387Z</published>
-    <updated>2017-03-23T12:38:08.632Z</updated>
+    <updated>2017-03-23T13:06:05.265Z</updated>
     
     <content type="html"><![CDATA[<hr>
-<p>title: My First Post(New)<br>date: 2017-03-23 20:21:29</p>
-<h2 id="tags-博客-文章"><a href="#tags-博客-文章" class="headerlink" title="tags:[博客, 文章]"></a>tags:[博客, 文章]</h2><p>我的第一篇博客,里面并没有什么特别的东西,只是为了测试一下。写一下我之前已经写好一些文章。<br>关于RecyclerView.ViewHolder的第一次总结，由于本人水平有限，总结一下希望自己能够理解<br>//第一步首先继承RecyclerView.ViewHolder</p>
+<p>title: 关于relcyerView的Adapter和holder的简单总结<br>categories: blog<br>date: 2017-03-23 20:21:29</p>
+<h2 id="tags-博客-文章"><a href="#tags-博客-文章" class="headerlink" title="tags:[博客, 文章]"></a>tags:[博客, 文章]</h2><p>我的第一篇博客,里面并没有什么特别的东西,只是为了测试一下。写一下我之前已经写好一些文章。<br>关于RecyclerView.ViewHolder的第一次总结，由于本人水平有限,比较垃圾,总结一下希望自己能够理解<br>//第一步首先继承RecyclerView.ViewHolder</p>
 <p>public class ViewHolder extends RecyclerView.ViewHolder{</p>
 <pre><code>//首先把需要的控件简单声明一下,暂时不用实例化
 public TextView textView;
@@ -87,8 +87,8 @@ public int getItemCount(){
     <summary type="html">
     
       &lt;hr&gt;
-&lt;p&gt;title: My First Post(New)&lt;br&gt;date: 2017-03-23 20:21:29&lt;/p&gt;
-&lt;h2 id=&quot;tags-博客-文章&quot;&gt;&lt;a href=&quot;#tags-博客-文章&quot; class=&quot;headerlink&quot; title=&quot;tags:
+&lt;p&gt;title: 关于relcyerView的Adapter和holder的简单总结&lt;br&gt;categories: blog&lt;br&gt;date: 2017-03-23 20:21:29&lt;/p&gt;
+&lt;h2 id=&quot;tags-博客-文章&quot;&gt;&lt;a href=&quot;#tags-博客-
     
     </summary>
     
