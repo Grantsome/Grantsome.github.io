@@ -4,6 +4,74 @@
   
     
     <entry>
+      <title></title>
+      <url>http://yoursite.com/2017/03/23/My-First-Post-New/</url>
+      <content type="html"><![CDATA[<hr>
+<p>title: My First Post(New)<br>date: 2017-03-23 20:21:29</p>
+<h2 id="tags-博客-文章"><a href="#tags-博客-文章" class="headerlink" title="tags:[博客, 文章]"></a>tags:[博客, 文章]</h2><p>我的第一篇博客,里面并没有什么特别的东西,只是为了测试一下。写一下我之前已经写好一些文章。<br>关于RecyclerView.ViewHolder的第一次总结，由于本人水平有限，总结一下希望自己能够理解<br>//第一步首先继承RecyclerView.ViewHolder</p>
+<p>public class ViewHolder extends RecyclerView.ViewHolder{</p>
+<pre><code>//首先把需要的控件简单声明一下,暂时不用实例化
+public TextView textView;
+
+public ImageView imageView;
+
+//调用父类的构造方法,实现实例化功能
+public ViewHolder(View itemView){
+
+    //必须写的super方法
+    super(itemView);
+
+    //初始化需要的控件,注意必须是itemView.findViewById();
+    textView = (TextView) itemView.findViewById(R.id.);
+    imageView = (TextView) itemView.findViewByIf(R.id.);
+
+}
+</code></pre><p>}</p>
+<p>#####下面写一下如何在其他地方使用ViewHolder;<br>//一般在public ViewHolder onCreateViewHolder(ViewGroup parent,int viewType)里面写这个方法<br>/*<br>  LayoutInflater layoutInflater = LayoutInflater.from(context);<br>  View viewItem = layoutInflater.inflate(R.layout. ,parent,false);<br>  ViewHolder viewHolder = new ViewHolder(viewItem);<br>  return viewHolder;</p>
+<p>*/</p>
+<p>当然这里少不了RecyclerView.Adapter<br>//首先继承RecyclerView.Adapter</p>
+<p>public class MyAdapter extends RecyclerView.Adapter{</p>
+<pre><code>//把需要的数据简单声明一下,暂时不用实例化
+private List&lt;Crime&gt; crimes;
+
+private Context context;
+
+//然后调用父类的构造器,实现实例化功能
+public MyAdapter(Context context,List&lt;Crime&gt; crimes){
+    this.context = context;
+    this.crimes = crimes;
+}
+
+//复写的第一个方法
+//主要的作用是实例化ViewHolder,一般格式都是这样子
+public ViewHolder onCreateViewHolder(ViewGroup parent,int viewType){
+    LayoutInflater layoutInflater = LayoutInflater.from(context);
+    View itemView = layoutInflater.inflate(R.layout. ,parent,false);
+    ViewHolder viewHolder = new ViewHolder(itemView);
+    return viewHolder;
+}
+
+//主要作用是将viewHolder和position绑定,并给ViewHolder里面的元素/属性赋值
+public void onBindViewHolder(ViewHolder viewHolder,int position){
+    //通过position的位置实例化crime类
+    Crime crime = crimes.get(position);
+    //向ViewHolder中的textView赋值
+    viewHolder.textView.setText(crime.getTitle());
+
+}
+
+//首先调用的就是这个方法,返回数值/列表中有多少个对象
+public int getItemCount(){
+   return crimes.size();
+}
+</code></pre><p>}<br>/*<br>下面写一下如何在其他地方调用/使用MyAdapter<br>  如果是继承的FragmentActivity,一般就在public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState)方法里面<br>  如果是继承的AppCompatActivity,一般就在protected void onCreate(Bundle savedInstanceState)方法里面</p>
+<p>   //声明一个RecyclerView的组件<br>   private RecyclerView recyclerView;<br>   //实例化RecyclerView<br>   recyclerView = (RecyclerView) findViewById(R.id.);<br>   //实例化MyAdapter<br>   MyAdapter myAdapter = new MyAdapter(context,crimes);<br>   //给RecyclerView设置adapter<br>   recyclerView.setAdapter();<br>*/</p>
+]]></content>
+      
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[Hello World]]></title>
       <url>http://yoursite.com/2017/03/23/hello-world/</url>
       <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
