@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Grantsome</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="title: SVM第一次完全解析–入门篇date: 2017-03-24 09:45:57
+tags:数学模型–SVM支持向量机（SVM：Support Vector Machine）Grantsome（管山林）编写，转载请注明出处：www.grantsome.com1、概念：支持向量机是新一代基于统计理论基础的学习系统。支持向量机方法是建立在统计学习理论的VC维理论和结构风险最小原理基础上的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Grantsome">
+<meta property="og:url" content="http://yoursite.com/2017/03/24/SVM第一次完全解析-入门篇/index.html">
+<meta property="og:site_name" content="Grantsome">
+<meta property="og:description" content="title: SVM第一次完全解析–入门篇date: 2017-03-24 09:45:57
+tags:数学模型–SVM支持向量机（SVM：Support Vector Machine）Grantsome（管山林）编写，转载请注明出处：www.grantsome.com1、概念：支持向量机是新一代基于统计理论基础的学习系统。支持向量机方法是建立在统计学习理论的VC维理论和结构风险最小原理基础上的">
+<meta property="og:updated_time" content="2017-03-24T01:47:14.187Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Grantsome">
+<meta name="twitter:description" content="title: SVM第一次完全解析–入门篇date: 2017-03-24 09:45:57
+tags:数学模型–SVM支持向量机（SVM：Support Vector Machine）Grantsome（管山林）编写，转载请注明出处：www.grantsome.com1、概念：支持向量机是新一代基于统计理论基础的学习系统。支持向量机方法是建立在统计学习理论的VC维理论和结构风险最小原理基础上的">
+<meta name="twitter:creator" content="@[object Object]">
+  
+    <link rel="alternate" href="/atom.xml" title="Grantsome" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Grantsome</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">以接受自己的态度接受一切</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-SVM第一次完全解析-入门篇" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/03/24/SVM第一次完全解析-入门篇/" class="article-date">
+  <time datetime="2017-03-24T01:45:57.690Z" itemprop="datePublished">2017-03-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>title: SVM第一次完全解析–入门篇<br>date: 2017-03-24 09:45:57</p>
+<h2 id="tags-数学模型–SVM"><a href="#tags-数学模型–SVM" class="headerlink" title="tags:数学模型–SVM"></a>tags:数学模型–SVM</h2><p>支持向量机（SVM：Support Vector Machine）<br>Grantsome（管山林）编写，转载请注明出处：www.grantsome.com<br>1、概念：<br>支持向量机是新一代基于统计理论基础的学习系统。支持向量机方法是建立在统计学习理论的VC维理论和结构风险最小原理基础上的，根据有限的样本信息在模型的复杂性（即对特定训练样本的学习精度）和学习能力（即无错误地识别任意样本的能力）之间寻求最佳折中，以求获得最好的推广能力 。<br>可能看到这里大家就有疑惑了，什么是VC理论？什么又是结构风险最小呢？<br>什么是VC理论？简单易理解的解释是：VC是统计学理论用来衡量函数集性能的一种指标。准确的定义：对于一个指示函数集，如果存在h个数据样本能够被函数集中的函数按所有可能的2^h种形式分开 ，则称函数集能够把h个数据样本打散（shatter）。函数集的VC维就是能打散的最大数据样本数目h。若对任意数目的数据样本都有函数能将它们shatter，则函数集的VC维为无穷大。<br>还是不懂对吧?没关系，下面举一个例子，你就大概能够明白什么是VC维了。<br>（1）平面内只能找到3个点能被直线打散：直线只能把一堆点分成两堆，对于3个点，要分成两堆加上顺序就有2^3种。其中A、B、C表示3个点，+1，-1表示堆的类别， {A→-1,BC→+1}表示A分在标号为-1的那堆，B和C分在标号为+1的那堆。这就是一种分发。以此类推。则有如下8种分法：<br>{A→-1,BC→+1}，{A→+1,BC→-1}<br>{B→-1,AC→+1}，{B→+1,BC→-1}<br>{C→-1,AB→+1}，{C→+1,BC→-1}<br>{ABC→-1}，{ABC→+1}<br>函数集的VC维就是能打散的最大数据样本数目，这里VC维就是8。<br>（2）找不到4个点。假设有，则应该有2^4=16分法，但是把四个点分成两堆有：一堆一个点另一对三个点（1，3）；两两均分（2，2）；一堆四个另一堆没有（0，4）三种情况。对于第一种情况，4个点可分别做一次一个一堆的，加上顺序就有8种：<br>{A→-1,BCD→+1}，{A→+1,BCD→-1}<br>{B→-1,ACD→+1}，{B→+1,ACD→-1}<br>{C→-1,ABD→+1}，{C→+1,ABD→-1}<br>{D→-1,ABC→+1}，{D→+1,ABC→-1}<br>对于第二种情况有4种：<br>{AB→-1,CD→+1}，{AB→+1,CD→-1}<br>{AC→-1,BD→+1}，{AC→+1,BD→-1}<br>没有一条直线能使AD在一堆，BC在一堆，因为A、D处在对角线位置，B、C处在对角线位置。（这是我直观在图上找出来的）<br>对于第三种情况有2种；<br>{ABCD→-1}<br>{ABCD→+1}<br>所以总共加起来只有8+4+2=14种分法，不满足2^4=16分法，所以平面找不到4个点能被直线打散。<br>你可能又想问了，那么到底怎么计算VC维呢？不好意思，遗憾的是，目前尚没有通用的关于如何计算任意函数集的VC维的理论，只有对一些特殊的函数集的VC维可以准确知道。<br>第一个概念，我想我大概也只能解释到这里了,如果还有什么不明白的，欢迎留言，觉得我写得哪里有问题的，请指出。<br>下面我们来看看第二个概念，结构风险最小原理。<br>结构化风险 = 经验风险 + 置信风险<br>经验风险 =  分类器在给定样本上的误差<br>置信风险 = 分类器在未知文本上分类的结果的误差<br>对于给定的样本数量越大，学习结果越有可能正确，此时置信风险越小。<br>分类函数的VC维，显然VC维越大，推广能力越差，置信风险会变大。<br>提高样本数量，降低VC维，降低置信风险。这就是SVM的基础和目标，也是使用SVM的优势所在（优势和具体应用将在下面进行说明）。<br>概念就大概说到这里，下面进入正题。<br>2、基本思想<br>SVM，可以说它是一种算法，因为在机器学习的领域当中，常常把算法看做是一个机器，这种算法被称为学习机器或者学习系统。<br>SVM属于有导师监督的学习算法，</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/03/24/SVM第一次完全解析-入门篇/" data-id="cj0n63dev00009ov1soegu403" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/03/23/My-First-Post-New/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/03/24/SVM第一次完全解析-入门篇/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/23/My-First-Post-New/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/23/hello-world/">Hello World</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 Grantsome<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
