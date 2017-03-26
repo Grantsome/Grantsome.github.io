@@ -5,19 +5,16 @@
   
   <title>Grantsome</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="title:  关于relcyerView的Adapter和holder的简单总结categories:  blogdate:  2017-03-23 20:21:29
-tags: [博客, 文章]我的第一篇博客,里面并没有什么特别的东西,只是为了测试一下。写一下我之前已经写好一些文章。关于RecyclerView.ViewHolder的第一次总结，由于本人水平有限,比较垃圾,总结一下希望自己能">
+  <meta name="description" content="title:  关于relcyerView的Adapter和holder的简单总结categories:  Android RecyclerViewdate:  2017-03-23 20:21:29tags: [博客, 文章]我的第一篇博客,里面并没有什么特别的东西,只是为了测试一下。写一下我之前已经写好一些文章。关于RecyclerView.ViewHolder的第一次总结，由于本人水平有限">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Grantsome">
 <meta property="og:url" content="http://yoursite.com/2017/03/23/My-First-Post-New/index.html">
 <meta property="og:site_name" content="Grantsome">
-<meta property="og:description" content="title:  关于relcyerView的Adapter和holder的简单总结categories:  blogdate:  2017-03-23 20:21:29
-tags: [博客, 文章]我的第一篇博客,里面并没有什么特别的东西,只是为了测试一下。写一下我之前已经写好一些文章。关于RecyclerView.ViewHolder的第一次总结，由于本人水平有限,比较垃圾,总结一下希望自己能">
-<meta property="og:updated_time" content="2017-03-23T13:29:46.089Z">
+<meta property="og:description" content="title:  关于relcyerView的Adapter和holder的简单总结categories:  Android RecyclerViewdate:  2017-03-23 20:21:29tags: [博客, 文章]我的第一篇博客,里面并没有什么特别的东西,只是为了测试一下。写一下我之前已经写好一些文章。关于RecyclerView.ViewHolder的第一次总结，由于本人水平有限">
+<meta property="og:updated_time" content="2017-03-26T04:47:22.269Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Grantsome">
-<meta name="twitter:description" content="title:  关于relcyerView的Adapter和holder的简单总结categories:  blogdate:  2017-03-23 20:21:29
-tags: [博客, 文章]我的第一篇博客,里面并没有什么特别的东西,只是为了测试一下。写一下我之前已经写好一些文章。关于RecyclerView.ViewHolder的第一次总结，由于本人水平有限,比较垃圾,总结一下希望自己能">
+<meta name="twitter:description" content="title:  关于relcyerView的Adapter和holder的简单总结categories:  Android RecyclerViewdate:  2017-03-23 20:21:29tags: [博客, 文章]我的第一篇博客,里面并没有什么特别的东西,只是为了测试一下。写一下我之前已经写好一些文章。关于RecyclerView.ViewHolder的第一次总结，由于本人水平有限">
 <meta name="twitter:creator" content="@[object Object]">
   
     <link rel="alternate" href="/atom.xml" title="Grantsome" type="application/atom+xml">
@@ -84,8 +81,8 @@ tags: [博客, 文章]我的第一篇博客,里面并没有什么特别的东西
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>title:  关于relcyerView的Adapter和holder的简单总结<br>categories:  blog<br>date:  2017-03-23 20:21:29</p>
-<h2 id="tags-博客-文章"><a href="#tags-博客-文章" class="headerlink" title="tags: [博客, 文章]"></a>tags: [博客, 文章]</h2><p>我的第一篇博客,里面并没有什么特别的东西,只是为了测试一下。写一下我之前已经写好一些文章。<br>关于RecyclerView.ViewHolder的第一次总结，由于本人水平有限,比较垃圾,总结一下希望自己能够理解<br>//第一步首先继承RecyclerView.ViewHolder</p>
+<h2 id="title-关于relcyerView的Adapter和holder的简单总结"><a href="#title-关于relcyerView的Adapter和holder的简单总结" class="headerlink" title="title:  关于relcyerView的Adapter和holder的简单总结"></a>title:  关于relcyerView的Adapter和holder的简单总结</h2><h2 id="categories-Android-RecyclerView"><a href="#categories-Android-RecyclerView" class="headerlink" title="categories:  Android RecyclerView"></a>categories:  Android RecyclerView</h2><h2 id="date-2017-03-23-20-21-29"><a href="#date-2017-03-23-20-21-29" class="headerlink" title="date:  2017-03-23 20:21:29"></a>date:  2017-03-23 20:21:29</h2><h2 id="tags-博客-文章"><a href="#tags-博客-文章" class="headerlink" title="tags: [博客, 文章]"></a>tags: [博客, 文章]</h2><p>我的第一篇博客,里面并没有什么特别的东西,只是为了测试一下。写一下我之前已经写好一些文章。<br>关于RecyclerView.ViewHolder的第一次总结，由于本人水平有限,比较垃圾,总结一下希望自己能够理解</p>
+<p>###第一步首先继承RecyclerView.ViewHolder</p>
 <pre><code class="java">
 <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ViewHolder</span> <span class="keyword">extends</span> <span class="title">RecyclerView</span>.<span class="title">ViewHolder</span></span>{
 
@@ -107,7 +104,7 @@ tags: [博客, 文章]我的第一篇博客,里面并没有什么特别的东西
     }
 }
 </code></pre>
-<p>下面写一下如何在其他地方使用ViewHolder;<br>//一般在public ViewHolder onCreateViewHolder(ViewGroup parent,int viewType)里面写这个方法</p>
+<p>###下面写一下如何在其他地方使用ViewHolder;<br>一般在public ViewHolder onCreateViewHolder(ViewGroup parent,int viewType)里面写这个方法</p>
 <pre><code class="java">  <span class="function"><span class="keyword">public</span> ViewHolder <span class="title">onCreateViewHolder</span><span class="params">(ViewGroup parent,<span class="keyword">int</span> viewType)</span></span>{
   LayoutInflater layoutInflater = LayoutInflater.from(context);
   View viewItem = layoutInflater.inflate(R.layout. ,parent,<span class="keyword">false</span>);
@@ -115,7 +112,7 @@ tags: [博客, 文章]我的第一篇博客,里面并没有什么特别的东西
   <span class="keyword">return</span> viewHolder;
 }
 </code></pre>
-<p>当然这里少不了RecyclerView.Adapter<br>//首先继承RecyclerView.Adapter</p>
+<p>###当然这里少不了RecyclerView.Adapter<br>首先继承RecyclerView.Adapter</p>
 <pre><code class="java"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyAdapter</span> <span class="keyword">extends</span> <span class="title">RecyclerView</span>.<span class="title">Adapter</span></span>{
 
     <span class="comment">//把需要的数据简单声明一下,暂时不用实例化</span>
@@ -154,7 +151,7 @@ tags: [博客, 文章]我的第一篇博客,里面并没有什么特别的东西
 
 }
 </code></pre>
-<p>下面写一下如何在其他地方调用/使用MyAdapter<br>  如果是继承的FragmentActivity,一般就在public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState)方法里面<br>  如果是继承的AppCompatActivity,一般就在protected void onCreate(Bundle savedInstanceState)方法里面</p>
+<p>###下面写一下如何在其他地方调用/使用MyAdapter<br>  如果是继承的FragmentActivity,一般就在public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState)方法里面<br>  如果是继承的AppCompatActivity,一般就在protected void onCreate(Bundle savedInstanceState)方法里面</p>
 <pre><code class="java"><span class="function"><span class="keyword">public</span> View <span class="title">onCreateView</span><span class="params">(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState)</span></span>{
    <span class="comment">//声明一个RecyclerView的组件</span>
    <span class="keyword">private</span> RecyclerView recyclerView;
@@ -170,7 +167,7 @@ tags: [博客, 文章]我的第一篇博客,里面并没有什么特别的东西
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/03/23/My-First-Post-New/" data-id="cj0pc3y9m0000qkv16qt7h0ac" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/03/23/My-First-Post-New/" data-id="cj0q7rca5000094v1ltzenia0" class="article-share-link">Share</a>
       
       
     </footer>
@@ -226,6 +223,10 @@ tags: [博客, 文章]我的第一篇博客,里面并没有什么特别的东西
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2017/03/26/Take-Photo/">(no title)</a>
+          </li>
         
           <li>
             <a href="/2017/03/24/SVM第一次完全解析-入门篇/">(no title)</a>
