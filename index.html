@@ -82,71 +82,85 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<h2 id="title-拍照并显示在ImageView–超详解析"><a href="#title-拍照并显示在ImageView–超详解析" class="headerlink" title="title: 拍照并显示在ImageView–超详解析"></a>title: 拍照并显示在ImageView–超详解析</h2><h2 id="date-2017-03-26-12-53-09"><a href="#date-2017-03-26-12-53-09" class="headerlink" title="date: 2017-03-26 12:53:09"></a>date: 2017-03-26 12:53:09</h2><h2 id="tags-Android-Photos"><a href="#tags-Android-Photos" class="headerlink" title="tags: Android Photos"></a>tags: Android Photos</h2><p>###拍照并显示在ImageView里面<br>这是一个很常见的功能，思路分析如下：<br>通过Context.getExternalCacheDir()方法可以获取到 SDCard/Android/data/你的应用包名/cache/目录，一般存放临时缓存数据<br>创建File对象 实现图片存储的路径<br>File(direction,filename)的这个构造方法传入的参数是我们需要的两个参数,第一个是文件路径，第二是文件名<br>将file转化为uri<br>如果BuildSDK&gt;24通过FileProvider.getUriForFile()来得到我们在Manifest.xml里面注册过的FileProvider的文件的路径,里面的参数有三个,第一个就是content,第一个就是唯一的表示的名称，一般使用Android的文件的包名加上provider,第三个就是文件名<br>如果不是,就使用直接Uri.FromFile(),<br>创建隐式intent拍照,将图片输入到指定位置的URI<br>然后用new Intent()直接新建一个拍照的变量里面的参数为”android.media.action.IMAGE_CAPTURE”(PS:android.media.action.IMAGE_CAPTURE：Intent的Action类型，从现有的相机应用中请求拍摄一张图片)<br>MediaStore.EXTRA_OUTPUT:拍照生成的图片由于没有保存在data,需要有个地方保存图片,而这key-value就是指图片保存的URI，指向文件的地址.<br>intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri)-此设置需要一个Uri对象，这个对象指定了一个保存图像的路径和文件名．<br>启动相机并传递参数<br>startActivityForResult();<br>在对应onActivityResult里面进行处理<br>使用bitmap = Bitmapfactory.decodeStream();里面的参数填写getContentResolver().openInputStream();其中contentProvider().openInputStream(imageUri)：一定要的内容其提供器里面的方法；里面的参数是本地图片的uri。之前我们已经获取<br>然后在使用imageView.setImageBitmap(bitmap);用来显示图片<br>贴上代码<br>```java<br>public class MainActivity extends AppCompatActivity {</p>
-<pre><code>private ImageView mImageView;
+<h2 id="title-拍照并显示在ImageView–超详解析"><a href="#title-拍照并显示在ImageView–超详解析" class="headerlink" title="title:  拍照并显示在ImageView–超详解析"></a>title:  拍照并显示在ImageView–超详解析</h2><h2 id="date-2017-03-26-12-53-09"><a href="#date-2017-03-26-12-53-09" class="headerlink" title="date:  2017-03-26 12:53:09"></a>date:  2017-03-26 12:53:09</h2><h2 id="tags-Android-Photos"><a href="#tags-Android-Photos" class="headerlink" title="tags:  Android Photos"></a>tags:  Android Photos</h2><h3 id="拍照并显示在ImageView里面"><a href="#拍照并显示在ImageView里面" class="headerlink" title="拍照并显示在ImageView里面"></a>拍照并显示在ImageView里面</h3><p><strong>拍照</strong><br>这是一个很常见的功能，思路分析如下：<br>通过Context.getExternalCacheDir()方法可以获取到 SDCard/Android/data/你的应用包名/cache/目录，一般存放临时缓存数据<br>创建File对象 实现图片存储的路径<br>File(direction,filename)的这个构造方法传入的参数是我们需要的两个参数,第一个是文件路径，第二是文件名<br>将file转化为uri<br>如果BuildSDK&gt;24通过FileProvider.getUriForFile()来得到我们在Manifest.xml里面注册过的FileProvider的文件的路径,里面的参数有三个,第一个就是content,第一个就是唯一的表示的名称，一般使用Android的文件的包名加上provider,第三个就是文件名<br>如果不是,就使用直接Uri.FromFile(),<br>创建隐式intent拍照,将图片输入到指定位置的URI<br>然后用new Intent()直接新建一个拍照的变量里面的参数为”android.media.action.IMAGE_CAPTURE”(PS:android.media.action.IMAGE_CAPTURE：Intent的Action类型，从现有的相机应用中请求拍摄一张图片)<br>MediaStore.EXTRA_OUTPUT:拍照生成的图片由于没有保存在data,需要有个地方保存图片,而这key-value就是指图片保存的URI，指向文件的地址.<br>intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri)-此设置需要一个Uri对象，这个对象指定了一个保存图像的路径和文件名．<br>启动相机并传递参数<br>startActivityForResult();<br>在对应onActivityResult里面进行处理<br>使用bitmap = Bitmapfactory.decodeStream();里面的参数填写getContentResolver().openInputStream();其中contentProvider().openInputStream(imageUri)：一定要的内容其提供器里面的方法；里面的参数是本地图片的uri。之前我们已经获取<br>然后在使用imageView.setImageBitmap(bitmap);用来显示图片<br>贴上代码</p>
+<pre><code class="java"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>{
 
-private Button mTakePhotoButton;
+    <span class="keyword">private</span> ImageView mImageView;
 
-private static final int TAKE_PHOTO = 1;
+    <span class="keyword">private</span> Button mTakePhotoButton;
 
-private Uri imageUri;
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> TAKE_PHOTO = <span class="number">1</span>;
 
-@Override
-protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
-    mImageView = (CircleImageView) findViewById(R.id.civ);
-    String uri = null;
-    mTakePhotoButton = (Button) findViewById(R.id.take_photo);
-    setTakePhotoButtonOnClickListener();
-}
+    <span class="keyword">private</span> Uri imageUri;
 
- private void setTakePhotoButtonOnClickListener(){
+    <span class="meta">@Override</span>
+    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>{
+        <span class="keyword">super</span>.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        mImageView = (CircleImageView) findViewById(R.id.civ);
+        String uri = <span class="keyword">null</span>;
+        mTakePhotoButton = (Button) findViewById(R.id.take_photo);
+        setTakePhotoButtonOnClickListener();
+    }
 
-    mTakePhotoButton.setOnClickListener(new View.OnClickListener() {
+     <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">setTakePhotoButtonOnClickListener</span><span class="params">()</span></span>{
 
-        @Override
-        public void onClick(View v) {
-            File outputImage = new File(getExternalCacheDir(),&quot;output_image.jpg&quot;);
-            try{
-                if(outputImage.exists()){
-                    outputImage.delete();
+        mTakePhotoButton.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() {
+
+            <span class="meta">@Override</span>
+            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>{
+                File outputImage = <span class="keyword">new</span> File(getExternalCacheDir(),<span class="string">"output_image.jpg"</span>);
+                <span class="keyword">try</span>{
+                    <span class="keyword">if</span>(outputImage.exists()){
+                        outputImage.delete();
+                    }
+                    outputImage.createNewFile();
+                } <span class="keyword">catch</span> (IOException e) {
+                    e.printStackTrace();
                 }
-                outputImage.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
+                <span class="keyword">if</span>(Build.VERSION.SDK_INT&gt;<span class="number">24</span>){
+                    imageUri = FileProvider.getUriForFile(MainActivity.<span class="keyword">this</span>,<span class="string">"com.grantsome.mycicleimage.provider"</span>,outputImage);
+                }<span class="keyword">else</span> {
+                    imageUri = Uri.fromFile(outputImage);
+                }
+                Intent intent = <span class="keyword">new</span> Intent(<span class="string">"android.media.action.IMAGE_CAPTURE"</span>);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);
+                startActivityForResult(intent,TAKE_PHOTO);
             }
-            if(Build.VERSION.SDK_INT&gt;24){
-                imageUri = FileProvider.getUriForFile(MainActivity.this,&quot;com.grantsome.mycicleimage.provider&quot;,outputImage);
-            }else {
-                imageUri = Uri.fromFile(outputImage);
-            }
-            Intent intent = new Intent(&quot;android.media.action.IMAGE_CAPTURE&quot;);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);
-            startActivityForResult(intent,TAKE_PHOTO);
-        }
-    });
-}
+        });
+    }
 
-@Override
-protected void onActivityResult(int requestCode,int resultCode,Intent data){
-      switch (requestCode){
-          case TAKE_PHOTO:
-              if(resultCode ==RESULT_OK) {
-                  try {
-                      Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
-                      mImageView_1.setImageBitmap(bitmap);
-                  } catch (Exception e) {
-                      e.printStackTrace();
+    <span class="meta">@Override</span>
+    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onActivityResult</span><span class="params">(<span class="keyword">int</span> requestCode,<span class="keyword">int</span> resultCode,Intent data)</span></span>{
+          <span class="keyword">switch</span> (requestCode){
+              <span class="keyword">case</span> TAKE_PHOTO:
+                  <span class="keyword">if</span>(resultCode ==RESULT_OK) {
+                      <span class="keyword">try</span> {
+                          Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
+                          mImageView_1.setImageBitmap(bitmap);
+                      } <span class="keyword">catch</span> (Exception e) {
+                          e.printStackTrace();
+                      }
                   }
-              }
-              break;
-          default:
-              break;
-      }
+                  <span class="keyword">break</span>;
+              <span class="keyword">default</span>:
+                  <span class="keyword">break</span>;
+          }
+    }
 }
-</code></pre><p>}<br>‘’’java<br>之前不是说过这里有一个内容提供器吗？<br>现在我们就来看看这个内容提供器的具体的实现<br>```xml</p>
-<p><provider android:exported="false" android:granturipermissions="true" android:authorities="com.grantsome.mycircleimage.provider" android:name="android.support.v4.content.FileProvider"><br>    <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/path"><br></meta-data></provider><br>‘’’<br>我们来意义分析一下是这里面的一些属性的意义和作用<br>首先看provider里面的属性<br>属性：<br>android:authorities:<br>一个或多个URI权限的列表，用于标识内容提供器提供的数据，通过用分号分隔他们的名字列出多个权限。为了避免冲突，权限名称应该使用Java风格的命名约定（如com.example.provider.cartoonprovider ）。 通常，它是实现提供者的ContentProvider子类的名称<br>没有默认值。必须至少指定一个权限。</p>
+</code></pre>
+<p>之前不是说过这里有一个内容提供器吗？<br>现在我们就来看看这个内容提供器的具体的实现</p>
+<pre><code class="java">&lt;provider
+    android:exported="false"
+    android:grantUriPermissions="true"
+    android:authorities="com.grantsome.mycircleimage.provider"
+    android:name="android.support.v4.content.FileProvider"&gt;
+    &lt;meta-data
+        android:name="android.support.FILE_PROVIDER_PATHS"
+        android:resource="@xml/path"/&gt;
+&lt;/provider&gt;
+</code></pre>
+<p>我们来意义分析一下是这里面的一些属性的意义和作用<br>首先看provider里面的属性<br>属性：<br>android:authorities:<br>一个或多个URI权限的列表，用于标识内容提供器提供的数据，通过用分号分隔他们的名字列出多个权限。为了避免冲突，权限名称应该使用Java风格的命名约定（如com.example.provider.cartoonprovider ）。 通常，它是实现提供者的ContentProvider子类的名称<br>没有默认值。必须至少指定一个权限。</p>
 <p>android:exported<br>内容提供商是否可供其他应用使用：<br>true ：提供程序可用于其他应用程序。 任何应用程序都可以使用提供者的内容URI来访问它，但必须遵守为提供者指定的权限。<br>false ：提供程序不适用于其他应用程序。 设置android:exported=”false”以限制对您的应用程序的提供程序的访问。 只有与提供者具有相同用户ID（UID）的应用程序才能访问它。<br>因为这个属性是在API级别17中引入的，所以运行API级别16和更低级别的设备就像这个属性设置为”true” 。 如果将android:targetSdkVersion设置为17或更高版本，则运行API级别17及更高版本的设备的默认值为”false” 。<br>您可以设置android:exported=”false” ，并通过权限属性设置权限来限制对您的提供者的访问。</p>
 <p>android:grantUriPermissions<br>通常无权访问内容提供者数据的用户是否可以获得这样做的权限，暂时克服readPermission ， writePermission和permission属性所施加的readPermission ，如果可以授予权限， true “ true ”，而“ false “如果没有。 如果为“ true ”，则可以向任何内容提供者的数据授予权限。 如果为“ false ”，则只能授予<grant-uri-permission>子元素（如果有）中列出的数据子集的<grant-uri-permission> 。 默认值为“ false ”。<br>授予权限是向应用程序组件一次访问受权限保护的数据的一种方式。 例如，当电子邮件消息包含附件时，邮件应用程序可以呼叫适当的查看者来打开它，即使观众没有一般权??限来查看所有内容提供商的数据。<br>在这种情况下，在FLAG_GRANT_READ_URI_PERMISSION FLAG_GRANT_WRITE_URI_PERMISSION的Intent对象中由FLAG_GRANT_READ_URI_PERMISSION和FLAG_GRANT_WRITE_URI_PERMISSION标志授予权限。 例如，邮件应用程序可能FLAG_GRANT_READ_URI_PERMISSION FLAG_GRANT_READ_URI_PERMISSION放入传递给Context.startActivity()的Intent中。 该权限特定于Intent中的URI。<br>如果启用此功能，通过将此属性设置为“ true ”或通过定义<grant-uri-permission>子元素，必须在从提供程序中删除被覆盖的URI时调用Context.revokeUriPermission() 。<br>简单来说就是这样子：比如当application A需要使用Component B去访问Provider C，但是Component B并未添加Provider C的Read/Write permission，如果这个Provider设置了属性android:grantUriPermissions，那么就有办法使Component B访问C。</grant-uri-permission></grant-uri-permission></grant-uri-permission></p>
 <p>android:name<br>实现内容提供者的类的名称，ContentProvider的子类。 这应该是一个完全限定的类名（如“ com.example.project.TransportationProvider ”）。 但是，作为一个简写，如果名称的第一个字符是一个句点，它将附加到<manifest>元素中指定的包名称中。<br>没有默认值。 必须指定名称。</manifest></p>
@@ -154,19 +168,42 @@ protected void onActivityResult(int requestCode,int resultCode,Intent data){
 <p>接着看一看meta-date里面的属性<br>meta-data<br>可以提供给父组件的附加任意数据项的名称 - 值对。 组件元素可以包含任意数量的<meta-data>子元素。 所有这些值都收集在一个Bundle对象中，并作为PackageItemInfo.metaData字段提供给PackageItemInfo.metaData 。<br>通过value指定普通值。 但是，要分配资源ID作为值，请改用resource属性。 例如，以下代码将@string/kangaroo资源中存储的任何值分配给“ zoo ”名称：</meta-data></p>
 <p>  <meta-data android：name="“zoo”android：value" =“@="" string="" kangaroo”=""><br>另一方面，使用resource属性将分配“ zoo ”资源的数字ID，而不是资源中存储的值：</meta-data></p>
 <p>  <meta-data android：name="“zoo”android：resource" =“@="" string="" kangaroo”=""><br>强烈建议您避免将相关数据提供为多个单独的<meta-data>条目。 相反，如果您有复杂的数据与组件关联，则将其作为资源存储，并使用resource属性通知组件的ID。</meta-data></meta-data></p>
-<p>属性：<br>android:name<br>该项目的唯一名称。 为了确保名称是唯一的，请使用Java风格的命名约定，例如“ com.example.project.activity.fred ”。<br>android:resource<br>对资源的引用。 资源的ID是分配给项目的值。 可以通过Bundle.getInt()方法从元数据包中Bundle.getInt() 。<br>android:value<br>分配给该项目的值。 可以分配为值的数据类型和组件用于检索这些值的Bundle方法列在下表中：<br><img src="/image/image_1.PNG" alt=""><br>觉得还不够？满足不了你对知识的渴望？戳这里：<a href="https://developer.android.com/guide/topics/manifest/meta-data-element.html" target="_blank" rel="external">https://developer.android.com/guide/topics/manifest/meta-data-element.html</a><br>好了 做完了介绍我们在回头看一下这几行xml文件代表的意思：<br>‘’’xml</p>
-<p><provider android:exported="false" android:granturipermissions="true" android:authorities="com.grantsome.mycircleimage.provider" android:name="android.support.v4.content.FileProvider"><br>    <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/path"><br></meta-data></provider><br>‘’’<br>该内容提供器不可供其他应用程序使用，只能在本应用程序中使用，且对于本应用程序中没有访问权限的元素也可以访问该内容提供器。设置了一个唯一的标识符authorities。里面的附加了一个mete-data的数据项，在数据项里面引用了一个xml文件里面的path。<br>现在应该清楚明白了吧？<br>这个上面不是写了一个path文件吗？我们在resource下面新建一个文件夹xml然后在xml里面新建一个path.xml<br>&lt;?xml version=”1.0” encoding=”utf-8”?&gt;</p>
-<p><resources><br>    <paths><br>       <external-path name="images" path=""><br>    </external-path></paths><br></resources><br>下面这个说明可以帮助你理解为什么是这样子：</p>
+<p>属性：<br>android:name<br>该项目的唯一名称。 为了确保名称是唯一的，请使用Java风格的命名约定，例如“ com.example.project.activity.fred ”。<br>android:resource<br>对资源的引用。 资源的ID是分配给项目的值。 可以通过Bundle.getInt()方法从元数据包中Bundle.getInt() 。<br>android:value<br>分配给该项目的值。 可以分配为值的数据类型和组件用于检索这些值的Bundle方法列在下表中：<br><img src="/image/image_1.PNG" alt=""><br>觉得还不够？满足不了你对知识的渴望？戳这里：<a href="https://developer.android.com/guide/topics/manifest/meta-data-element.html" target="_blank" rel="external">https://developer.android.com/guide/topics/manifest/meta-data-element.html</a><br>好了 做完了介绍我们在回头看一下这几行xml文件代表的意思：</p>
+<pre><code class="java">&lt;provider
+    android:exported="false"
+    android:grantUriPermissions="true"
+    android:authorities="com.grantsome.mycircleimage.provider"
+    android:name="android.support.v4.content.FileProvider"&gt;
+    &lt;meta-data
+        android:name="android.support.FILE_PROVIDER_PATHS"
+        android:resource="@xml/path"/&gt;
+&lt;/provider&gt;
+</code></pre>
+<p>该内容提供器不可供其他应用程序使用，只能在本应用程序中使用，且对于本应用程序中没有访问权限的元素也可以访问该内容提供器。设置了一个唯一的标识符authorities。里面的附加了一个mete-data的数据项，在数据项里面引用了一个xml文件里面的path。<br>现在应该清楚明白了吧？<br>这个上面不是写了一个path文件吗？我们在resource下面新建一个文件夹xml然后在xml里面新建一个path.xml</p>
+<pre><code class="java">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;resources&gt;
+    &lt;paths&gt;
+       &lt;external-path  name="images" path="" /&gt;
+    &lt;/paths&gt;
+&lt;/resources&gt;
+</code></pre>
+<p>下面这个说明可以帮助你理解为什么是这样子：</p>
 <p><files-path name="name" path="path"> //相当 Context.getFilesDir() + path, name是分享url的一部分</files-path></p>
-<p><cache-path name="name" path="path"> //getCacheDir()</cache-path></p>
-<p><external-path name="name" path="path"> //Environment.getExternalStorageDirectory()</external-path></p>
-<p><external-files-path name="name" path="path">//getExternalFilesDir(String) Context.getExternalFilesDir(null)</external-files-path></p>
-<p><external-cache-path name="name" path="path"> //Context.getExternalCacheDir()<br>path路径的值表示共享的具体路径，这里设置空值表示整个SD卡都进行共享.其中path=””,代表根目录,如果是path=”images”,表示可以向其他应用共享根目录以及其子目录的任何文件. 则表示目录名为:/storage/emulated/0/images,如果你向其他应用分享images目录范围之外的文件是不行.<br>现在我们要画一个思维导图来梳理一下我们的思维。<br><img src="/image/image_2.PNG" alt=""><br>当然 GitHub地址是不可缺少的，戳这里 <a href="https://github.com/Grantsome/MyCircleImage" target="_blank" rel="external">https://github.com/Grantsome/MyCircleImage</a><br>好了，拍照就写到这里，觉得我写得有问题的请指出，在下万分感谢。</external-cache-path></p>
+<pre><code class="java">&lt;cache-path name=<span class="string">"name"</span> path=<span class="string">"path"</span> /&gt; <span class="comment">//getCacheDir()</span>
+
+&lt;external-path name=<span class="string">"name"</span> path=<span class="string">"path"</span> /&gt; <span class="comment">//Environment.getExternalStorageDirectory()</span>
+
+&lt;external-files-path name=<span class="string">"name"</span> path=<span class="string">"path"</span> /&gt;<span class="comment">//getExternalFilesDir(String) Context.getExternalFilesDir(null)</span>
+
+&lt;external-cache-path name=<span class="string">"name"</span> path=<span class="string">"path"</span> /&gt; 
+<span class="comment">//Context.getExternalCacheDir()</span>
+</code></pre>
+<p>path路径的值表示共享的具体路径，这里设置空值表示整个SD卡都进行共享.其中path=””,代表根目录,如果是path=”images”,表示可以向其他应用共享根目录以及其子目录的任何文件. 则表示目录名为:/storage/emulated/0/images,如果你向其他应用分享images目录范围之外的文件是不行.<br>现在我们要画一个思维导图来梳理一下我们的思维。<br><img src="/image/image_2.PNG" alt=""><br>当然 GitHub地址是不可缺少的，戳这里 <a href="https://github.com/Grantsome/MyCircleImage" target="_blank" rel="external">https://github.com/Grantsome/MyCircleImage</a><br>好了，拍照就写到这里，觉得我写得有问题的请指出，在下万分感谢。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/03/26/Take-Photo/" data-id="cj0q7rca5000194v1aog2po5w" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/03/26/Take-Photo/" data-id="cj0qczlz300021ov1ysatsadl" class="article-share-link">Share</a>
       
       
     </footer>
@@ -189,26 +226,23 @@ protected void onActivityResult(int requestCode,int resultCode,Intent data){
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<h2 id="title-SVM第一次完全解析–入门篇"><a href="#title-SVM第一次完全解析–入门篇" class="headerlink" title="title: SVM第一次完全解析–入门篇"></a>title: SVM第一次完全解析–入门篇</h2><h2 id="date-2017-03-24-09-45-57"><a href="#date-2017-03-24-09-45-57" class="headerlink" title="date: 2017-03-24 09:45:57"></a>date: 2017-03-24 09:45:57</h2><h2 id="tags-数学模型–SVM"><a href="#tags-数学模型–SVM" class="headerlink" title="tags:数学模型–SVM"></a>tags:数学模型–SVM</h2><h2 id="mathjax-true"><a href="#mathjax-true" class="headerlink" title="mathjax: true"></a>mathjax: true</h2><p>####支持向量机（SVM：Support Vector Machine）</p>
-<p>####Grantsome（管山林）编写，转载请注明出处：www.grantsome.com</p>
-<p>###1、概念：<br>支持向量机是新一代基于统计理论基础的学习系统。支持向量机方法是建立在统计学习理论的VC维理论和结构风险最小原理基础上的，根据有限的样本信息在模型的复杂性（即对特定训练样本的学习精度）和学习能力（即无错误地识别任意样本的能力）之间寻求最佳折中，以求获得最好的推广能力 。<br>可能看到这里大家就有疑惑了，什么是VC理论？什么又是结构风险最小呢？<br>什么是VC理论？简单易理解的解释是：VC是统计学理论用来衡量函数集性能的一种指标。准确的定义：对于一个指示函数集，如果存在h个数据样本能够被函数集中的函数按所有可能的2^h种形式分开 ，则称函数集能够把h个数据样本打散（shatter）。函数集的VC维就是能打散的最大数据样本数目h。若对任意数目的数据样本都有函数能将它们shatter，则函数集的VC维为无穷大。<br>还是不懂对吧?没关系，下面举一个例子，你就大概能够明白什么是VC维了。<br>（1）平面内只能找到3个点能被直线打散：直线只能把一堆点分成两堆，对于3个点，要分成两堆加上顺序就有2^3种。其中A、B、C表示3个点，+1，-1表示堆的类别， {A→-1,BC→+1}表示A分在标号为-1的那堆，B和C分在标号为+1的那堆。这就是一种分发。以此类推。则有如下8种分法：<br>{A→-1,BC→+1}，{A→+1,BC→-1}<br>{B→-1,AC→+1}，{B→+1,BC→-1}<br>{C→-1,AB→+1}，{C→+1,BC→-1}<br>{ABC→-1}，{ABC→+1}<br>函数集的VC维就是能打散的最大数据样本数目，这里VC维就是8。<br>（2）找不到4个点。假设有，则应该有2^4=16分法，但是把四个点分成两堆有：一堆一个点另一对三个点（1，3）；两两均分（2，2）；一堆四个另一堆没有（0，4）三种情况。对于第一种情况，4个点可分别做一次一个一堆的，加上顺序就有8种：<br>{A→-1,BCD→+1}，{A→+1,BCD→-1}<br>{B→-1,ACD→+1}，{B→+1,ACD→-1}<br>{C→-1,ABD→+1}，{C→+1,ABD→-1}<br>{D→-1,ABC→+1}，{D→+1,ABC→-1}<br>对于第二种情况有4种：<br>{AB→-1,CD→+1}，{AB→+1,CD→-1}<br>{AC→-1,BD→+1}，{AC→+1,BD→-1}<br>没有一条直线能使AD在一堆，BC在一堆，因为A、D处在对角线位置，B、C处在对角线位置。（这是我直观在图上找出来的）<br>对于第三种情况有2种；<br>{ABCD→-1}<br>{ABCD→+1}<br>所以总共加起来只有8+4+2=14种分法，不满足2^4=16分法，所以平面找不到4个点能被直线打散。<br>你可能又想问了，那么到底怎么计算VC维呢？不好意思，遗憾的是，目前尚没有通用的关于如何计算任意函数集的VC维的理论，只有对一些特殊的函数集的VC维可以准确知道。<br>第一个概念，我想我大概也只能解释到这里了,如果还有什么不明白的，欢迎留言，觉得我写得哪里有问题的，请指出。<br>下面我们来看看第二个概念，结构风险最小原理。<br>结构化风险 = 经验风险 + 置信风险<br>经验风险 =  分类器在给定样本上的误差<br>置信风险 = 分类器在未知文本上分类的结果的误差<br>对于给定的样本数量越大，学习结果越有可能正确，此时置信风险越小。<br>分类函数的VC维，显然VC维越大，推广能力越差，置信风险会变大。<br>提高样本数量，降低VC维，降低置信风险。这就是SVM的基础和目标，也是使用SVM的优势所在（优势和具体应用将在下面进行说明）。<br>概念就大概说到这里，下面进入正题。</p>
-<p>###2、基本思想<br>SVM，可以说它是一种算法，因为在机器学习的领域当中，常常把算法看做是一个机器，这种算法被称为学习机器或者学习系统。<br>SVM属于有导师监督的学习算法(利用一组已知类别的样本调整分类器的参数，使其达到所要求性能的过程)，即已知训练及其所对应的类别，求训练点和类别之间的关系，以便将训练集按照类别分开，或者是预测新的训练点所对应的类别。<br>首先讲解一个概念。超平面：数学中超平面是n维欧氏空间中余维度等于一的线性子空间。这是平面中的直线、空间中的平面之推广。超平面H是从n维空间到n-1维空间的一个映射子空间，它有一个n维向量和一个实数定义。设d是n维欧式空间R中的一个非零向量，a是实数，则R中满足条件dX=a的点X所组成的集合称为R中的一张超平面。<br>这个概念有点抽象，直观一点的理解是这样子：实3维空间中，满足三元一次方程ax+by+cz=d的点(x,y,z)的全体在几何上是空间的一张平面。推而广之，n维空间中, 满足n元一次方程a1x1+a2x2+…+anxn=b的点(x1,x2,…,xn)的全体就叫空间的一张超平面（即广义平面）。由于3维以上的线性空间是比较抽象的概念，无法用现实世界中的具象物来比拟，所以唯有定义才能刻画它。<br>SVM构建了一个分割两类的超平面，在构建的过程中试图实现使两类之间的分割达到最大化。有人可能又不明白了，为什么要使得两类之间的分割达到最大化呢？有什么好处吗？<br>当然有好处，分割最大化（以一个很大的边缘分割）可以使得期望的泛误差化最小。泛误差最小的含义是：当对于新的样本（数据未知的数据点）进行分类时，基于学习系统或者学习机器所得到的分类器（超平面）,使得我们对其分类的预测错误的几率被最小化。直观来讲，这样的分类器（超平面）实现了两个类别之间的分离边缘最大化。<br>来上图片，请看下图。问如何画两条直线使得平面上的两种点能够得到最好的区分？先想一下，马上揭晓答案。<img src="/image/empty.png" alt="图1-1"><br>来看下面这张图片的划分，你觉得怎么样？<img src="/image/right_line.png" alt="图1-2"><br>这一张图片的划分呢?<img src="/image/wrong_line.png" alt="图1-3"><br>哪一个更准确？划分的误差更小？我们要的就是让它误差最小（图中所画的不一定是最小的）。当然第二张图片的划分比第三张误差更小（因为第二张图片有3个误差点，第三张图片不止4个误差点）。所以分割最大化这个概念应该能够理解了吧。<br>和分类器平面平行，分别穿过平面数据集中的一个或者多个点的两个平面就是边界平面。这些边界平面称为边缘，而SVM学习就是为了找到这个最大化的边缘超平面。落在边界平面上面的点称为支持向量。<br>如图所示<img src="/image/support.PNG" alt="图1-4"><br>现在明白了吧?<br>简单总结一下，支持向量机就是与分类器平行的两个超平面，这两个超平面能够很好的分开两类不同的数据，且穿越两类数据区域中集中的点，现预找到最佳超几何分布平面使之与两个超平面之间的距离最大，如此便能实现分类的总误差变小。</p>
-<p>###3、理论基础<br>支持向量机最初是在研究线性可分问题的过程中提出来的。所以先来介绍线性SVM的基本原理，过程有点小复杂，还请各位耐心看完。一般使用X表示输入空间，Y表示输出域。通常X∈Rn，对于两类问题，Y = {-1, 1};对于多类问题，Y = {1,2,…,m}; 训练集是训练数据（样本）的集合，通常S=((x1,y1),..(xn, yn)) ∈（X×Y）n，其中n是样本数目，xi是样本(向量)，yi是它们的标记。假设样本容量为n的训练样本点集{(x<em>{i},y</em>{i}),i=1,2,3,4…n}，由两个类别组成。若x<em>{i}属于第一类，则记为y</em>{i}=1；同样的道理,若x<em>{i}属于第二类，则记为y</em>{i}=-1。<br>若存在超平面：<br>       w^{T}x+b=0<br>其中 x_{i}、x、b、w表示的是向量,而不是一个值。<br>能够将样本正确的划分成两类,即相同的类别落在超平面的同一侧，则称样本点集是线性可分的，即满足<br>      w^{T}x+b ≥1  yi=1<br>       w^{T}x+b≤-1  yi=-1<br>此处,可知平面w^T<em>xi+b=1;w^T</em>xi+b=-1该问题的超平面。<br>但或许大家又想问了：为何用y取1 或者 -1来表示两个不同的类别呢？其实，这个1或-1的分类标准起源于logistic回归，我们就先来看看这个logistic回归，这里只是简单介绍一下logistic回归。<br>Logistic回归为概率型非线性回归模型，是研究二分类观察结果与一些影响因素之间关系的一种多<br>变量分析方法。通常的问题是，研究某些因素条件下某个结果是否发生，比如医学中根据病人的一些症状来判断它是<br>否患有某种病。</p>
+<h2 id="title-SVM第一次完全解析–入门篇"><a href="#title-SVM第一次完全解析–入门篇" class="headerlink" title="title: SVM第一次完全解析–入门篇"></a>title: SVM第一次完全解析–入门篇</h2><h2 id="date-2017-03-24-09-45-57"><a href="#date-2017-03-24-09-45-57" class="headerlink" title="date: 2017-03-24 09:45:57"></a>date: 2017-03-24 09:45:57</h2><h2 id="tags-数学模型–SVM"><a href="#tags-数学模型–SVM" class="headerlink" title="tags: 数学模型–SVM"></a>tags: 数学模型–SVM</h2><h2 id="mathjax-true"><a href="#mathjax-true" class="headerlink" title="mathjax: true"></a>mathjax: true</h2><h4 id="支持向量机（SVM：Support-Vector-Machine）"><a href="#支持向量机（SVM：Support-Vector-Machine）" class="headerlink" title="支持向量机（SVM：Support Vector Machine）"></a>支持向量机（SVM：Support Vector Machine）</h4><h4 id="Grantsome（管山林）编写，转载请注明出处：www-grantsome-com"><a href="#Grantsome（管山林）编写，转载请注明出处：www-grantsome-com" class="headerlink" title="Grantsome（管山林）编写，转载请注明出处：www.grantsome.com"></a>Grantsome（管山林）编写，转载请注明出处：www.grantsome.com</h4><h3 id="1、概念："><a href="#1、概念：" class="headerlink" title="1、概念："></a>1、概念：</h3><p>支持向量机是新一代基于统计理论基础的学习系统。支持向量机方法是建立在统计学习理论的VC维理论和结构风险最小原理基础上的，根据有限的样本信息在模型的复杂性（即对特定训练样本的学习精度）和学习能力（即无错误地识别任意样本的能力）之间寻求最佳折中，以求获得最好的推广能力 。<br>可能看到这里大家就有疑惑了，什么是VC理论？什么又是结构风险最小呢？<br>什么是VC理论？简单易理解的解释是：VC是统计学理论用来衡量函数集性能的一种指标。准确的定义：对于一个指示函数集，如果存在h个数据样本能够被函数集中的函数按所有可能的2^h种形式分开 ，则称函数集能够把h个数据样本打散（shatter）。函数集的VC维就是能打散的最大数据样本数目h。若对任意数目的数据样本都有函数能将它们shatter，则函数集的VC维为无穷大。<br>还是不懂对吧?没关系，下面举一个例子，你就大概能够明白什么是VC维了。<br>（1）平面内只能找到3个点能被直线打散：直线只能把一堆点分成两堆，对于3个点，要分成两堆加上顺序就有2^3种。其中A、B、C表示3个点，+1，-1表示堆的类别， {A→-1,BC→+1}表示A分在标号为-1的那堆，B和C分在标号为+1的那堆。这就是一种分发。以此类推。则有如下8种分法：<br>{A→-1,BC→+1}，{A→+1,BC→-1}<br>{B→-1,AC→+1}，{B→+1,BC→-1}<br>{C→-1,AB→+1}，{C→+1,BC→-1}<br>{ABC→-1}，{ABC→+1}<br>函数集的VC维就是能打散的最大数据样本数目，这里VC维就是8。<br>（2）找不到4个点。假设有，则应该有2^4=16分法，但是把四个点分成两堆有：一堆一个点另一对三个点（1，3）；两两均分（2，2）；一堆四个另一堆没有（0，4）三种情况。对于第一种情况，4个点可分别做一次一个一堆的，加上顺序就有8种：<br>{A→-1,BCD→+1}，{A→+1,BCD→-1}<br>{B→-1,ACD→+1}，{B→+1,ACD→-1}<br>{C→-1,ABD→+1}，{C→+1,ABD→-1}<br>{D→-1,ABC→+1}，{D→+1,ABC→-1}<br>对于第二种情况有4种：<br>{AB→-1,CD→+1}，{AB→+1,CD→-1}<br>{AC→-1,BD→+1}，{AC→+1,BD→-1}<br>没有一条直线能使AD在一堆，BC在一堆，因为A、D处在对角线位置，B、C处在对角线位置。（这是我直观在图上找出来的）<br>对于第三种情况有2种；<br>{ABCD→-1}<br>{ABCD→+1}<br>所以总共加起来只有8+4+2=14种分法，不满足2^4=16分法，所以平面找不到4个点能被直线打散。<br>你可能又想问了，那么到底怎么计算VC维呢？不好意思，遗憾的是，目前尚没有通用的关于如何计算任意函数集的VC维的理论，只有对一些特殊的函数集的VC维可以准确知道。<br>第一个概念，我想我大概也只能解释到这里了,如果还有什么不明白的，欢迎留言，觉得我写得哪里有问题的，请指出。<br>下面我们来看看第二个概念，结构风险最小原理。<br>结构化风险 = 经验风险 + 置信风险<br>经验风险 =  分类器在给定样本上的误差<br>置信风险 = 分类器在未知文本上分类的结果的误差<br>对于给定的样本数量越大，学习结果越有可能正确，此时置信风险越小。<br>分类函数的VC维，显然VC维越大，推广能力越差，置信风险会变大。<br>提高样本数量，降低VC维，降低置信风险。这就是SVM的基础和目标，也是使用SVM的优势所在（优势和具体应用将在下面进行说明）。<br>概念就大概说到这里，下面进入正题。</p>
+<h3 id="2、基本思想"><a href="#2、基本思想" class="headerlink" title="2、基本思想"></a>2、基本思想</h3><p>SVM，可以说它是一种算法，因为在机器学习的领域当中，常常把算法看做是一个机器，这种算法被称为学习机器或者学习系统。<br>SVM属于有导师监督的学习算法(利用一组已知类别的样本调整分类器的参数，使其达到所要求性能的过程)，即已知训练及其所对应的类别，求训练点和类别之间的关系，以便将训练集按照类别分开，或者是预测新的训练点所对应的类别。<br>首先讲解一个概念。超平面：数学中超平面是n维欧氏空间中余维度等于一的线性子空间。这是平面中的直线、空间中的平面之推广。超平面H是从n维空间到n-1维空间的一个映射子空间，它有一个n维向量和一个实数定义。设d是n维欧式空间R中的一个非零向量，a是实数，则R中满足条件dX=a的点X所组成的集合称为R中的一张超平面。<br>这个概念有点抽象，直观一点的理解是这样子：实3维空间中，满足三元一次方程ax+by+cz=d的点(x,y,z)的全体在几何上是空间的一张平面。推而广之，n维空间中, 满足n元一次方程a1x1+a2x2+…+anxn=b的点(x1,x2,…,xn)的全体就叫空间的一张超平面（即广义平面）。由于3维以上的线性空间是比较抽象的概念，无法用现实世界中的具象物来比拟，所以唯有定义才能刻画它。<br>SVM构建了一个分割两类的超平面，在构建的过程中试图实现使两类之间的分割达到最大化。有人可能又不明白了，为什么要使得两类之间的分割达到最大化呢？有什么好处吗？<br>当然有好处，分割最大化（以一个很大的边缘分割）可以使得期望的泛误差化最小。泛误差最小的含义是：当对于新的样本（数据未知的数据点）进行分类时，基于学习系统或者学习机器所得到的分类器（超平面）,使得我们对其分类的预测错误的几率被最小化。直观来讲，这样的分类器（超平面）实现了两个类别之间的分离边缘最大化。<br>来上图片，请看下图。问如何画两条直线使得平面上的两种点能够得到最好的区分？先想一下，马上揭晓答案。<img src="/image/empty.png" alt="图1-1"><br>来看下面这张图片的划分，你觉得怎么样？<img src="/image/right_line.png" alt="图1-2"><br>这一张图片的划分呢?<img src="/image/wrong_line.png" alt="图1-3"><br>哪一个更准确？划分的误差更小？我们要的就是让它误差最小（图中所画的不一定是最小的）。当然第二张图片的划分比第三张误差更小（因为第二张图片有3个误差点，第三张图片不止4个误差点）。所以分割最大化这个概念应该能够理解了吧。<br>和分类器平面平行，分别穿过平面数据集中的一个或者多个点的两个平面就是边界平面。这些边界平面称为边缘，而SVM学习就是为了找到这个最大化的边缘超平面。落在边界平面上面的点称为支持向量。<br>如图所示<img src="/image/support.PNG" alt="图1-4"><br>现在明白了吧?<br>简单总结一下，支持向量机就是与分类器平行的两个超平面，这两个超平面能够很好的分开两类不同的数据，且穿越两类数据区域中集中的点，现预找到最佳超几何分布平面使之与两个超平面之间的距离最大，如此便能实现分类的总误差变小。</p>
+<h3 id="3、理论基础"><a href="#3、理论基础" class="headerlink" title="3、理论基础"></a>3、理论基础</h3><p>支持向量机最初是在研究线性可分问题的过程中提出来的。所以先来介绍线性SVM的基本原理，过程有点小复杂，还请各位耐心看完。一般使用X表示输入空间，Y表示输出域。通常X∈Rn，对于两类问题，Y = {-1, 1};对于多类问题，Y = {1,2,…,m}; 训练集是训练数据（样本）的集合，通常S=((x1,y1),..(xn, yn)) ∈（X×Y）n，其中n是样本数目，xi是样本(向量)，yi是它们的标记。假设样本容量为n的训练样本点集{(x<em>{i},y</em>{i}),i=1,2,3,4…n}，由两个类别组成。若x<em>{i}属于第一类，则记为y</em>{i}=1；同样的道理,若x<em>{i}属于第二类，则记为y</em>{i}=-1。<br>若存在超平面：<br>       w^{T}x+b=0<br>其中 x_{i}、x、b、w表示的是向量,而不是一个值。<br>能够将样本正确的划分成两类,即相同的类别落在超平面的同一侧，则称样本点集是线性可分的，即满足<br>      w^{T}x+b ≥1  yi=1<br>       w^{T}x+b≤-1  yi=-1<br>此处,可知平面w^T<em>xi+b=1;w^T</em>xi+b=-1该问题的超平面。<br>但或许大家又想问了：为何用y取1 或者 -1来表示两个不同的类别呢？其实，这个1或-1的分类标准起源于logistic回归，我们就先来看看这个logistic回归，这里只是简单介绍一下logistic回归。<br>Logistic回归为概率型非线性回归模型，是研究二分类观察结果与一些影响因素之间关系的一种多<br>变量分析方法。通常的问题是，研究某些因素条件下某个结果是否发生，比如医学中根据病人的一些症状来判断它是<br>否患有某种病。</p>
 <p>在讲解Logistic回归理论之前，我们先从LR分类器说起。LR分类器，即Logistic Regression Classifier。<br>在分类情形下，经过学习后的LR分类器是一组权值，当测试样本的数据输入时，这组权值与测试数据按w0,w1,w2…..wn照线性加和得到<img src="/image/pic_1.PNG" alt=""><br>这里是每个样本的个特征。<br>之后按照sigmoid函数的形式求出<img src="/image/pic_2.PNG" alt=""><br>由于sigmoid函数的定义域为负无穷到正无穷，值域为（0，1），因此最基本的LR分类器适合对两类目标进行分类。<br>所以Logistic回归最关键的问题就是研究如何求得这组权值.下面正式地来讲Logistic回归模型。<br>考虑具有个独立变量的向量星x={x1,x2,x3,x4….xn}，设条件慨率P(y=1|x)=p为根据观测量相对于某事件x发生的概率。那么Logistic回归模型可以表示为<img src="/image/pic_3.PNG" alt=""><br>这里<img src="/image/pic_4.PNG" alt="">称为Logistic函数。图像如图所示<img src="/image/pic_9.PNG" alt="">其中<img src="/image/pic_5.PNG" alt=""><br>那么在条件下不发生的概率为<img src="/image/pic_6.PNG" alt=""><br>所以事件发生与不发生的概率之比为<img src="/image/pic_7.PNG" alt=""><br>这个比值称为事件的发生比（the odds of experiencing an event），简记为odds。<br>取对数得到<img src="/image/pic_8.PNG" alt=""><br>其中0&lt;p&lt;1<br>可以看出Logistic回归都是围绕一个Logistic函数来展开的。<br>当我们要判别一个其他的数据点属于哪个类时，只需求，p若大于0.5就是y=1的类，反之属于y=0类。<br>我们这次使用的结果标签是y=-1,y=1，替换在logistic回归中使用的y=0和y=1。<br>w^T<em>x=w1</em>x1+w2<em>x2+w3</em>x3+w4<em>x4+…+wn</em>xn。<br>从而第一个分类超平面就得到了解释。<br>我们回到刚刚那里，<br>      w^{T}x+b ≥1  yi=1<br>       w^{T}x+b≤-1  yi=-1<br>此处,可知平面w^T<em>xi+b=1;w^T</em>xi+b=-1该问题的超平面。<br>并且对于平面w^T<em>xi+b=1而言，到超平面的原点的距离为：|b-1|//||w||,该方程不仅仅适用于二维平面（在 二维平面上是很好证明的）和三维。也是用于高维。<br>同理，对于w^T</em>xi+b=1而言，到超平面的原点的距离为：|b+1|//||w||。所以两个超平面之间的距离是2/||w||（这两个超平面之间思想相互平行的）。<br>根据SVM的思想，应该使得两个超平面之间的距离最大化，也就是（2/||w||）max,转换一下，相当于对（||w||/2）min.<br>即是说：min: ||w||/2=sqrt(w^T<em>w)/2;<br>为了求解该超平面方程,可以最小化上式。又要满足刚刚的那两个方程，<br>可以表达成：yi(w^T</em>xi+b)≥1;<br>现在转化成为如下目标规划：<br>    min: ||w||/2=sqrt(w^T<em>w)/2;<br>s.t.   yi(w^T</em>xi+b)≥1;<br>也就是二规划问题（QP问题）。并且约束条件是线性的。<br>将约束条件变化一下：可得<img src="/image/pic_10.PNG" alt=""><br>现在我们通过拉格朗日变换到拉格朗日对偶变量。拉格朗日变换的作用，简单来说就是：通过给每一个约束条件乘以一个拉格朗日乘值α,然后带入目标函数中。<br>那么我们的问题的拉格朗日表达式为：<img src="/image/pic_11.PNG" alt=""><br><img src="/image/pic_12.PNG" alt=""></p>
 <p><img src="/image/pic_13.PNG" alt=""></p>
 <p><img src="/image/pic_14.PNG" alt=""></p>
 <p><img src="/image/pic_15.PNG" alt=""></p>
 <p>其中b=-1/2<em>w</em>(xr+xs); xr和xs是任意一对支持向量。<br>在输入空间中，如果它是线性不可分的呢？支持向量机通过非线性映射φ：n维度的R -&gt; F将数据映射到某个其他维度点集空间（称为特征空间），然后在F中执行上述线性算法，这需要φ^T*φ完成映射，这一函数称之为核函数。<br>一图胜过千言<img src="/image/pic_16.PNG" alt=""><br>假如我们映射到高维空间之后还是不可分怎么样？想一下？不卖关子了。<br>先看图<img src="/image/pic_17.PNG" alt=""><br>这一张图片不怎么明显，这一张图片<img src="/image/pic_19.PNG" alt=""><br>看到那一个黄色的方块？那一个点是不是让你觉得很烦？想把它舍弃？<br>可以看到一个离群点（可能是噪声）可以造成超平面的移动，间隔缩小，可见以前的模型对噪声非常敏感。再有甚者，如果离群点在另外一个类中，那么这时候就是线性不可分了。<br>这时候我们应该允许一些点游离并在在模型中违背限制条件（函数间隔大于1）。我们设计得到新的模型如下（也称软间隔）：<br><img src="/image/pic_18.PNG" alt=""><br>引入非负参数εi后（称为松弛变量），就允许某些样本点的函数间隔小于1，即在最大间隔区间里面，或者函数间隔是负数，即样本点在对方的区域中。而放松限制条件后，我们需要重新调整目标函数，以对离群点进行处罚，目标函数后面加上，松弛变量的求和乘以C，表示离群点越多，目标函数值越大，而我们要求的是尽可能小的目标函数值。<br>这里的C是离群点的权重，C越大表明离群点对目标函数影响越大，也就是越不希望看到离群点。我们看到，目标函数控制了离群点的数目和程度，使大部分样本点仍然遵守限制条件。<br>引入松弛变量（惩罚因子）后，有一种很常用的变形可以用来解决分类问题中样本的“偏斜”问题。<br>  这个式子有这么几点要注意：<br>     （1）并非所有的样本点都有一个松弛变量与其对应。实际上只有“离群点”才有，或者也可以这么看，所有没离群的点松弛变量都等于0（对负类来说，离群点就是在前面图中，跑到H2右侧的那些负样本点，对正类来说，就是跑到H1左侧的那些正样本点）。<br>     （2）松弛变量的值实际上标示出了对应的点到底离群有多远，值越大，点就越远。<br>     （3）惩罚因子C决定了你有多重视离群点带来的损失，显然当所有离群点的松弛变量的和一定时，你定的C越大，对目标函数的损失也越大，此时就暗示着你非常不愿意放弃这些离群点，最极端的情况是你把C定为无限大，这样只要稍有一个点离群，目标函数的值马上变成无限大，马上让问题变成无解，这就退化成了硬间隔问题。<br>     （4）惩罚因子C不是一个变量，整个优化问题在解的时候，C是一个你必须事先指定的值，指定这个值以后，解一下，得到一个分类器，然后用测试数据看看结果怎么样，如果不够好，换一个C的值，再解一次优化问题，得到另一个分类器，再看看效果，如此就是一个参数寻优的过程，但这和优化问题本身决不是一回事，优化问题在解的过程中，C一直是定值，要记住。<br>     （5）尽管加了松弛变量这么一说，但这个问题仍然是一个优化问题，解它的过程比起原始的硬间隔问题来说，没有任何更加特殊的地方。<br>好了，理论就暂时解释到这里。简单总结一下。支持向量机的四个要点：<br>①最大化距离②核函数③对偶理论④松弛变量。<br>当然，如果你觉得我没有讲清楚，戳这里：<a href="http://www.matlabsky.com/thread-10309-1-1.html" target="_blank" rel="external">http://www.matlabsky.com/thread-10309-1-1.html</a></p>
-<p>###4、案例分析+代码实现一个银行的商业贷款经理想要建立一个规则来决定是否批准各种贷款要求。经理认为在做决策的时候，一个公司业绩的三个关键特征是非常重要的：资产折现能力，盈利能力，活性。这个经理以目前资产和负债比作为资产的折现力的度量。盈利能力以净利润和销售额之比度量，活性以销售额和固定资产之比作为度量。这个经理收集了银行在过去五年内的18个样本于下表中。这些贷款被分为两组：1表示批准贷款，-1表示拒绝贷款。试着建立该问题分类的SVM模型。<br>数据在这里：<img src="/image/pic_20.PNG" alt=""><br>代码在这里：</p>
+<h3 id="4、案例分析-代码实现一个银行的商业贷款经理想要建立一个规则来决定是否批准各种贷款要求。经理认为在做决策的时候，一个公司业绩的三个关键特征是非常重要的：资产折现能力，盈利能力，活性。这个经理以目前资产和负债比作为资产的折现力的度量。盈利能力以净利润和销售额之比度量，活性以销售额和固定资产之比作为度量。这个经理收集了银行在过去五年内的18个样本于下表中。这些贷款被分为两组：1表示批准贷款，-1表示拒绝贷款。试着建立该问题分类的SVM模型。"><a href="#4、案例分析-代码实现一个银行的商业贷款经理想要建立一个规则来决定是否批准各种贷款要求。经理认为在做决策的时候，一个公司业绩的三个关键特征是非常重要的：资产折现能力，盈利能力，活性。这个经理以目前资产和负债比作为资产的折现力的度量。盈利能力以净利润和销售额之比度量，活性以销售额和固定资产之比作为度量。这个经理收集了银行在过去五年内的18个样本于下表中。这些贷款被分为两组：1表示批准贷款，-1表示拒绝贷款。试着建立该问题分类的SVM模型。" class="headerlink" title="4、案例分析+代码实现一个银行的商业贷款经理想要建立一个规则来决定是否批准各种贷款要求。经理认为在做决策的时候，一个公司业绩的三个关键特征是非常重要的：资产折现能力，盈利能力，活性。这个经理以目前资产和负债比作为资产的折现力的度量。盈利能力以净利润和销售额之比度量，活性以销售额和固定资产之比作为度量。这个经理收集了银行在过去五年内的18个样本于下表中。这些贷款被分为两组：1表示批准贷款，-1表示拒绝贷款。试着建立该问题分类的SVM模型。"></a>4、案例分析+代码实现一个银行的商业贷款经理想要建立一个规则来决定是否批准各种贷款要求。经理认为在做决策的时候，一个公司业绩的三个关键特征是非常重要的：资产折现能力，盈利能力，活性。这个经理以目前资产和负债比作为资产的折现力的度量。盈利能力以净利润和销售额之比度量，活性以销售额和固定资产之比作为度量。这个经理收集了银行在过去五年内的18个样本于下表中。这些贷款被分为两组：1表示批准贷款，-1表示拒绝贷款。试着建立该问题分类的SVM模型。</h3><p>数据在这里：<img src="/image/pic_20.PNG" alt=""><br>代码在这里：</p>
 <pre><code class="java">  function [] = svm_first()
 %UNTITLED ´Ë´¦ÏÔÊ¾ÓÐ¹Ø´Ëº¯ÊýµÄÕªÒª
-%   Çå¿Õ»·¾³±äÁ¿£¬¶ÁÈëÊý¾Ý
+
 clc
 clear all
 X0=xlsread(&#39;G:\MATLAB\Function\svm_data.xlsx&#39;,&#39;B2:E19&#39;); 
-%   ºÍPCAÖ÷³É·Ö·ÖÎöµÚÒ»²½ÏàÍ¬µÄ´¦Àí·½·¨
 for i = 1:3
-    X(:,i)=(X0(:,i)-mean(X0(:,i)))/std(X0(:,i)); %Êý¾Ý±ê×¼»¯´¦Àí
+    X(:,i)=(X0(:,i)-mean(X0(:,i)))/std(X0(:,i)); 
 end
 
 %   Êý¾ÝÔ¤´¦Àí
@@ -229,8 +263,8 @@ b=-e;
 f=[0,0,0,0,ones(1,m)];
 lb=[-Inf,-Inf,-Inf,-Inf,zeros(1,m)]&#39;;
 x=linprog(f,A,b,[],[],lb);
-%  Ä£ÐÍµÄÑéÖ¤ºÍ½á¹ûÏÔÊ¾
-W=[x(1,1),x(2,1),x(3,1)]; %ÌáÈ¡ÏµÊý
+
+W=[x(1,1),x(2,1),x(3,1)]; 
 CC=x(4,1);
 X1=[X(:,1),X(:,2),X(:,3)];
 R1=X1*W&#39;-CC;
@@ -254,7 +288,7 @@ end
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/03/24/SVM第一次完全解析-入门篇/" data-id="cj0q7rca5000294v1x5ryfwae" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/03/24/SVM第一次完全解析-入门篇/" data-id="cj0qczlyo00011ov1c10nkvxu" class="article-share-link">Share</a>
       
       
     </footer>
@@ -278,8 +312,7 @@ end
       
         <hr>
 <h2 id="title-关于relcyerView的Adapter和holder的简单总结"><a href="#title-关于relcyerView的Adapter和holder的简单总结" class="headerlink" title="title:  关于relcyerView的Adapter和holder的简单总结"></a>title:  关于relcyerView的Adapter和holder的简单总结</h2><h2 id="categories-Android-RecyclerView"><a href="#categories-Android-RecyclerView" class="headerlink" title="categories:  Android RecyclerView"></a>categories:  Android RecyclerView</h2><h2 id="date-2017-03-23-20-21-29"><a href="#date-2017-03-23-20-21-29" class="headerlink" title="date:  2017-03-23 20:21:29"></a>date:  2017-03-23 20:21:29</h2><h2 id="tags-博客-文章"><a href="#tags-博客-文章" class="headerlink" title="tags: [博客, 文章]"></a>tags: [博客, 文章]</h2><p>我的第一篇博客,里面并没有什么特别的东西,只是为了测试一下。写一下我之前已经写好一些文章。<br>关于RecyclerView.ViewHolder的第一次总结，由于本人水平有限,比较垃圾,总结一下希望自己能够理解</p>
-<p>###第一步首先继承RecyclerView.ViewHolder</p>
-<pre><code class="java">
+<h3 id="第一步首先继承RecyclerView-ViewHolder"><a href="#第一步首先继承RecyclerView-ViewHolder" class="headerlink" title="第一步首先继承RecyclerView.ViewHolder"></a>第一步首先继承RecyclerView.ViewHolder</h3><pre><code class="java">
 <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ViewHolder</span> <span class="keyword">extends</span> <span class="title">RecyclerView</span>.<span class="title">ViewHolder</span></span>{
 
     <span class="comment">//首先把需要的控件简单声明一下,暂时不用实例化</span>
@@ -300,7 +333,7 @@ end
     }
 }
 </code></pre>
-<p>###下面写一下如何在其他地方使用ViewHolder;<br>一般在public ViewHolder onCreateViewHolder(ViewGroup parent,int viewType)里面写这个方法</p>
+<h3 id="下面写一下如何在其他地方使用ViewHolder"><a href="#下面写一下如何在其他地方使用ViewHolder" class="headerlink" title="下面写一下如何在其他地方使用ViewHolder;"></a>下面写一下如何在其他地方使用ViewHolder;</h3><p>一般在public ViewHolder onCreateViewHolder(ViewGroup parent,int viewType)里面写这个方法</p>
 <pre><code class="java">  <span class="function"><span class="keyword">public</span> ViewHolder <span class="title">onCreateViewHolder</span><span class="params">(ViewGroup parent,<span class="keyword">int</span> viewType)</span></span>{
   LayoutInflater layoutInflater = LayoutInflater.from(context);
   View viewItem = layoutInflater.inflate(R.layout. ,parent,<span class="keyword">false</span>);
@@ -308,7 +341,7 @@ end
   <span class="keyword">return</span> viewHolder;
 }
 </code></pre>
-<p>###当然这里少不了RecyclerView.Adapter<br>首先继承RecyclerView.Adapter</p>
+<h3 id="当然这里少不了RecyclerView-Adapter"><a href="#当然这里少不了RecyclerView-Adapter" class="headerlink" title="当然这里少不了RecyclerView.Adapter"></a>当然这里少不了RecyclerView.Adapter</h3><p>首先继承RecyclerView.Adapter</p>
 <pre><code class="java"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyAdapter</span> <span class="keyword">extends</span> <span class="title">RecyclerView</span>.<span class="title">Adapter</span></span>{
 
     <span class="comment">//把需要的数据简单声明一下,暂时不用实例化</span>
@@ -347,7 +380,7 @@ end
 
 }
 </code></pre>
-<p>###下面写一下如何在其他地方调用/使用MyAdapter<br>  如果是继承的FragmentActivity,一般就在public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState)方法里面<br>  如果是继承的AppCompatActivity,一般就在protected void onCreate(Bundle savedInstanceState)方法里面</p>
+<h3 id="下面写一下如何在其他地方调用-使用MyAdapter"><a href="#下面写一下如何在其他地方调用-使用MyAdapter" class="headerlink" title="下面写一下如何在其他地方调用/使用MyAdapter"></a>下面写一下如何在其他地方调用/使用MyAdapter</h3><p>  如果是继承的FragmentActivity,一般就在public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState)方法里面<br>  如果是继承的AppCompatActivity,一般就在protected void onCreate(Bundle savedInstanceState)方法里面</p>
 <pre><code class="java"><span class="function"><span class="keyword">public</span> View <span class="title">onCreateView</span><span class="params">(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState)</span></span>{
    <span class="comment">//声明一个RecyclerView的组件</span>
    <span class="keyword">private</span> RecyclerView recyclerView;
@@ -363,7 +396,7 @@ end
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/03/23/My-First-Post-New/" data-id="cj0q7rca5000094v1ltzenia0" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/03/23/My-First-Post-New/" data-id="cj0qczldu00001ov1s8maslo1" class="article-share-link">Share</a>
       
       
     </footer>
@@ -408,7 +441,7 @@ end
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/03/23/hello-world/" data-id="cj0q7rcal000394v10pnbv7b4" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/03/23/hello-world/" data-id="cj0qczlz300031ov1lai92s62" class="article-share-link">Share</a>
       
       
     </footer>
