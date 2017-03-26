@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-03-26T07:21:10.885Z</updated>
+  <updated>2017-03-26T12:09:34.079Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,10 +20,10 @@
     <link href="http://yoursite.com/2017/03/26/Take-Photo/"/>
     <id>http://yoursite.com/2017/03/26/Take-Photo/</id>
     <published>2017-03-26T04:53:09.324Z</published>
-    <updated>2017-03-26T07:21:10.885Z</updated>
+    <updated>2017-03-26T12:09:34.079Z</updated>
     
     <content type="html"><![CDATA[<hr>
-<h2 id="title-拍照并显示在ImageView–超详解析"><a href="#title-拍照并显示在ImageView–超详解析" class="headerlink" title="title:  拍照并显示在ImageView–超详解析"></a>title:  拍照并显示在ImageView–超详解析</h2><h2 id="date-2017-03-26-12-53-09"><a href="#date-2017-03-26-12-53-09" class="headerlink" title="date:  2017-03-26 12:53:09"></a>date:  2017-03-26 12:53:09</h2><h2 id="tags-Android-Photos"><a href="#tags-Android-Photos" class="headerlink" title="tags:  Android Photos"></a>tags:  Android Photos</h2><h3 id="拍照并显示在ImageView里面"><a href="#拍照并显示在ImageView里面" class="headerlink" title="拍照并显示在ImageView里面"></a>拍照并显示在ImageView里面</h3><p><strong>拍照</strong><br>这是一个很常见的功能，思路分析如下：<br>通过Context.getExternalCacheDir()方法可以获取到 SDCard/Android/data/你的应用包名/cache/目录，一般存放临时缓存数据<br>创建File对象 实现图片存储的路径<br>File(direction,filename)的这个构造方法传入的参数是我们需要的两个参数,第一个是文件路径，第二是文件名<br>将file转化为uri<br>如果BuildSDK&gt;24通过FileProvider.getUriForFile()来得到我们在Manifest.xml里面注册过的FileProvider的文件的路径,里面的参数有三个,第一个就是content,第一个就是唯一的表示的名称，一般使用Android的文件的包名加上provider,第三个就是文件名<br>如果不是,就使用直接Uri.FromFile(),<br>创建隐式intent拍照,将图片输入到指定位置的URI<br>然后用new Intent()直接新建一个拍照的变量里面的参数为”android.media.action.IMAGE_CAPTURE”(PS:android.media.action.IMAGE_CAPTURE：Intent的Action类型，从现有的相机应用中请求拍摄一张图片)<br>MediaStore.EXTRA_OUTPUT:拍照生成的图片由于没有保存在data,需要有个地方保存图片,而这key-value就是指图片保存的URI，指向文件的地址.<br>intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri)-此设置需要一个Uri对象，这个对象指定了一个保存图像的路径和文件名．<br>启动相机并传递参数<br>startActivityForResult();<br>在对应onActivityResult里面进行处理<br>使用bitmap = Bitmapfactory.decodeStream();里面的参数填写getContentResolver().openInputStream();其中contentProvider().openInputStream(imageUri)：一定要的内容其提供器里面的方法；里面的参数是本地图片的uri。之前我们已经获取<br>然后在使用imageView.setImageBitmap(bitmap);用来显示图片<br>贴上代码</p>
+<h2 id="title-拍照并显示在ImageView–超详解析"><a href="#title-拍照并显示在ImageView–超详解析" class="headerlink" title="title:  # 拍照并显示在ImageView–超详解析"></a>title:  # 拍照并显示在ImageView–超详解析</h2><h2 id="date-2017-03-26-12-53-09"><a href="#date-2017-03-26-12-53-09" class="headerlink" title="date:  2017-03-26 12:53:09"></a>date:  2017-03-26 12:53:09</h2><h2 id="tags-Android-Photos"><a href="#tags-Android-Photos" class="headerlink" title="tags:  Android Photos"></a>tags:  Android Photos</h2><h3 id="拍照并显示在ImageView里面"><a href="#拍照并显示在ImageView里面" class="headerlink" title="拍照并显示在ImageView里面"></a>拍照并显示在ImageView里面</h3><p><strong>拍照</strong><br>这是一个很常见的功能，思路分析如下：<br>通过Context.getExternalCacheDir()方法可以获取到 SDCard/Android/data/你的应用包名/cache/目录，一般存放临时缓存数据<br>创建File对象 实现图片存储的路径<br>File(direction,filename)的这个构造方法传入的参数是我们需要的两个参数,第一个是文件路径，第二是文件名<br>将file转化为uri<br>如果BuildSDK&gt;24通过FileProvider.getUriForFile()来得到我们在Manifest.xml里面注册过的FileProvider的文件的路径,里面的参数有三个,第一个就是content,第一个就是唯一的表示的名称，一般使用Android的文件的包名加上provider,第三个就是文件名<br>如果不是,就使用直接Uri.FromFile(),<br>创建隐式intent拍照,将图片输入到指定位置的URI<br>然后用new Intent()直接新建一个拍照的变量里面的参数为”android.media.action.IMAGE_CAPTURE”(PS:android.media.action.IMAGE_CAPTURE：Intent的Action类型，从现有的相机应用中请求拍摄一张图片)<br>MediaStore.EXTRA_OUTPUT:拍照生成的图片由于没有保存在data,需要有个地方保存图片,而这key-value就是指图片保存的URI，指向文件的地址.<br>intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri)-此设置需要一个Uri对象，这个对象指定了一个保存图像的路径和文件名．<br>启动相机并传递参数<br>startActivityForResult();<br>在对应onActivityResult里面进行处理<br>使用bitmap = Bitmapfactory.decodeStream();里面的参数填写getContentResolver().openInputStream();其中contentProvider().openInputStream(imageUri)：一定要的内容其提供器里面的方法；里面的参数是本地图片的uri。之前我们已经获取<br>然后在使用imageView.setImageBitmap(bitmap);用来显示图片<br>贴上代码</p>
 <pre><code class="java"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>{
 
     <span class="keyword">private</span> ImageView mImageView;
@@ -145,7 +145,7 @@
     <summary type="html">
     
       &lt;hr&gt;
-&lt;h2 id=&quot;title-拍照并显示在ImageView–超详解析&quot;&gt;&lt;a href=&quot;#title-拍照并显示在ImageView–超详解析&quot; class=&quot;headerlink&quot; title=&quot;title:  拍照并显示在ImageView–超详解析&quot;&gt;&lt;/a&gt;t
+&lt;h2 id=&quot;title-拍照并显示在ImageView–超详解析&quot;&gt;&lt;a href=&quot;#title-拍照并显示在ImageView–超详解析&quot; class=&quot;headerlink&quot; title=&quot;title:  # 拍照并显示在ImageView–超详解析&quot;&gt;&lt;/a
     
     </summary>
     
