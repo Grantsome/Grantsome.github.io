@@ -411,8 +411,7 @@
 <p>AsyncTask，翻译过来的字面意思是异步任务,我们习惯上说异步操作(换句话说，也就是在主线程中新开线程进行的操作)。简单比喻：假设你饿了，你肯定会去饭店地方吃东西，但是饭店为你准备食物需要一定的时间，所以你饿了必须要到了饭店等一会儿才能吃饭，这就是异步操作，你不能马上做下一件事情，因为它需要当前事情完成之后才能做下一件事情。至于为什么需要异步操作，Android主线程里面不能进行耗时操作，也就是只能在子线程里进行耗时操作比如网络请求，并且只能在主线程里面更新UI。简单例子，从网上加载图片数据并显示图片，现在你要通过网络请求获取一段数据给你，其中有图片的url，得到url转化成bitmap或者drawable，然后在回到主线程里面给imageview设置图片。</p>
 <p>现在我们来看看AsyncTask，它就是一个封装过的抽象的后台任务类，一个使用后台线程的工具类，使用的时候直接继承AsyncTask类就行了</p>
 <h3 id="1、参数"><a href="#1、参数" class="headerlink" title="1、参数"></a>1、参数</h3><p>AsyncTask<params,progress,result>里面有三个泛型参数，分别表示：<br>Params: 启动任务时执行的输入参数<br>Progress: 任务执行的进度<br>Result: 返回执行的结果<br>当不需要设置这三个参数的时候，设置Void类型，表示没有。</params,progress,result></p>
-<h3 id="2、重写的方法"><a href="#2、重写的方法" class="headerlink" title="2、重写的方法"></a>2、重写的方法</h3><h4 id="1-、必须要重写的方法"><a href="#1-、必须要重写的方法" class="headerlink" title="(1)、必须要重写的方法"></a>(1)、必须要重写的方法</h4><pre><code class="java">
-<span class="function"><span class="keyword">protected</span> Result <span class="title">doInBackground</span><span class="params">(Params...param)</span></span>{
+<h3 id="2、重写的方法"><a href="#2、重写的方法" class="headerlink" title="2、重写的方法"></a>2、重写的方法</h3><h4 id="1-、必须要重写的方法"><a href="#1-、必须要重写的方法" class="headerlink" title="(1)、必须要重写的方法"></a>(1)、必须要重写的方法</h4><pre><code class="java"><span class="function"><span class="keyword">protected</span> Result <span class="title">doInBackground</span><span class="params">(Params...param)</span></span>{
    <span class="comment">/* your code here*/</span>
 }
 </code></pre>
@@ -436,119 +435,386 @@
 <p>好了，有了这个介绍，我们下面来看一个简单的例子。</p>
 <pre><code class="java">
 <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">FetchItemsTask</span> <span class="keyword">extends</span> <span class="title">AsyncTask</span>&lt;<span class="title">Void</span>,<span class="title">Void</span>,<span class="title">Void</span>&gt;</span>{
-    <span class="meta">@Override</span>    <span class="function"><span class="keyword">protected</span> Void <span class="title">doInBackground</span><span class="params">(Void... params)</span> </span>{
+    <span class="meta">@Override</span>    <span class="function"><span class="keyword">protected</span> Void <span class="title">doInBackground</span><span class="params">(Void... params)</span> </span>{
         <span class="comment">//网络请求</span>
-        <span class="keyword">new</span> HttpUtil().fetchItems();
-        <span class="keyword">return</span> <span class="keyword">null</span>;
-    }
-}
+        <span class="keyword">new</span> HttpUtil().fetchItems();
+        <span class="keyword">return</span> <span class="keyword">null</span>;
+    }
+}
 </code></pre>
 <p>这个是工具类</p>
-<pre><code class="java"><span class="keyword">package</span> com.grantsome.photogallery;
+<pre><code class="java"><span class="keyword">package</span> com.grantsome.photogallery;
 
-<span class="keyword">import</span> android.content.Context;
-<span class="keyword">import</span> android.net.ConnectivityManager;
-<span class="keyword">import</span> android.net.NetworkInfo;
-<span class="keyword">import</span> android.net.Uri;
-<span class="keyword">import</span> android.util.Log;<span class="keyword">import</span> org.json.JSONArray;
-<span class="keyword">import</span> org.json.JSONObject;<span class="keyword">import</span> java.io.ByteArrayOutputStream;
-<span class="keyword">import</span> java.io.IOException;
+<span class="keyword">import</span> android.content.Context;
+<span class="keyword">import</span> android.net.ConnectivityManager;
+<span class="keyword">import</span> android.net.NetworkInfo;
+<span class="keyword">import</span> android.net.Uri;
+<span class="keyword">import</span> android.util.Log;
+
+<span class="keyword">import</span> org.json.JSONArray;
+<span class="keyword">import</span> org.json.JSONObject;
+
+<span class="keyword">import</span> java.io.ByteArrayOutputStream;
+<span class="keyword">import</span> java.io.IOException;
 <span class="keyword">import</span> java.io.InputStream;
-<span class="keyword">import</span> java.net.HttpURLConnection;
-<span class="keyword">import</span> java.net.URL;
-<span class="keyword">import</span> java.security.KeyManagementException;
-<span class="keyword">import</span> java.security.NoSuchAlgorithmException;
-<span class="keyword">import</span> java.util.ArrayList;
-<span class="keyword">import</span> java.util.List;<span class="keyword">import</span> javax.net.ssl.HttpsURLConnection;
-<span class="comment">/**
- * Created by tom on 2017/4/8.
- */</span>
-<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HttpUtil</span> </span>{
-    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String TAG = <span class="string">"HttpUtil"</span>;
+<span class="keyword">import</span> java.net.HttpURLConnection;
+<span class="keyword">import</span> java.net.URL;
+<span class="keyword">import</span> java.security.KeyManagementException;
+<span class="keyword">import</span> java.security.NoSuchAlgorithmException;
+<span class="keyword">import</span> java.util.ArrayList;
+<span class="keyword">import</span> java.util.List;
 
+<span class="keyword">import</span> javax.net.ssl.HttpsURLConnection;
 
-    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String API_KEY = <span class="string">"89b13c41adafc85b80edbadc4a655b60"</span>;
+<span class="comment">/**
+ * Created by tom on 2017/4/8.
+ */</span>
 
-    <span class="keyword">public</span> <span class="keyword">byte</span>[] getUrlBytes(String urlSpec) <span class="keyword">throws</span> IOException, NoSuchAlgorithmException, KeyManagementException {       
- URL url = <span class="keyword">new</span> URL(urlSpec);       
- HttpsURLConnection connection = (HttpsURLConnection)url.openConnection();     
-   <span class="keyword">try</span> {          
-  ByteArrayOutputStream out = <span class="keyword">new</span> ByteArrayOutputStream();          
-  InputStream in = connection.getInputStream();          
-  <span class="keyword">if</span> (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {              
-  <span class="keyword">throw</span> <span class="keyword">new</span> IOException(connection.getResponseMessage() + <span class="string">": with "</span> +urlSpec);            
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HttpUtil</span> </span>{
+
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String TAG = <span class="string">"HttpUtil"</span>;
+
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String API_KEY = <span class="string">"89b13c41adafc85b80edbadc4a655b60"</span>;
+
+    <span class="keyword">public</span> <span class="keyword">byte</span>[] getUrlBytes(String urlSpec) <span class="keyword">throws</span> IOException, NoSuchAlgorithmException, KeyManagementException {
+        URL url = <span class="keyword">new</span> URL(urlSpec);
+        HttpsURLConnection connection = (HttpsURLConnection)url.openConnection();
+        <span class="keyword">try</span> {
+            ByteArrayOutputStream out = <span class="keyword">new</span> ByteArrayOutputStream();
+            InputStream in = connection.getInputStream();
+            <span class="keyword">if</span> (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+                <span class="keyword">throw</span> <span class="keyword">new</span> IOException(connection.getResponseMessage() +<span class="string">": with "</span> +urlSpec);
+            }
+            <span class="keyword">int</span> bytesRead = <span class="number">0</span>;
+            <span class="keyword">byte</span>[] buffer = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];
+            <span class="keyword">while</span> ((bytesRead = in.read(buffer)) &gt; <span class="number">0</span>) {
+                out.write(buffer, <span class="number">0</span>, bytesRead);
+            }
+            out.close();
+            <span class="keyword">return</span> out.toByteArray();
+        } <span class="keyword">finally</span> {
+            connection.disconnect();
+        }
+    }
+
+    <span class="function"><span class="keyword">public</span> String <span class="title">getUrlString</span><span class="params">(String urlSpec)</span> <span class="keyword">throws</span> IOException, KeyManagementException, NoSuchAlgorithmException </span>{
+        <span class="keyword">return</span> <span class="keyword">new</span> String(getUrlBytes(urlSpec));
+    }
+
+    <span class="function"><span class="keyword">public</span> List&lt;GalleryItem&gt; <span class="title">fetchItems</span><span class="params">()</span></span>{
+
+        List&lt;GalleryItem&gt; galleryItemList = <span class="keyword">new</span> ArrayList&lt;&gt;();
+
+        <span class="keyword">try</span> {
+            <span class="keyword">if</span> (PreUtil.getStringFromDefault(AppContext.getInstance(), TAG, <span class="string">""</span>) == <span class="keyword">null</span>) {
+                String url = Uri.parse(<span class="string">"https://api.flickr.com/services/rest/"</span>).buildUpon().appendQueryParameter(<span class="string">"method"</span>, <span class="string">"flickr.photos.getRecent"</span>).appendQueryParameter(<span class="string">"api_key"</span>, API_KEY).appendQueryParameter(<span class="string">"format"</span>, <span class="string">"json"</span>).appendQueryParameter(<span class="string">"nojsoncallback"</span>, <span class="string">"1"</span>).appendQueryParameter(<span class="string">"extras"</span>, <span class="string">"url_s"</span>).build().toString();
+                Log.i(TAG, <span class="string">"HttpUrl: "</span> + url);
+                String jsonString = getUrlString(url);
+                PreUtil.putStringToDefault(AppContext.getInstance(), TAG, jsonString);
+                Log.i(TAG, <span class="string">"Receive Json From Internet "</span> + jsonString);
+                JSONObject jsonObject = <span class="keyword">new</span> JSONObject(jsonString);
+                parseItems(galleryItemList,jsonObject);
+            }<span class="keyword">else</span> {
+                String jsonString = PreUtil.getStringFromDefault(AppContext.getInstance(), TAG, <span class="string">""</span>);
+                Log.i(TAG, <span class="string">"Receive Json From Shared in else"</span> + jsonString);
+                JSONObject jsonObject = <span class="keyword">new</span> JSONObject(jsonString);
+                parseItems(galleryItemList,jsonObject);
+            }
+        }<span class="keyword">catch</span> (Exception e){
+            e.printStackTrace();
+        }
+        <span class="keyword">return</span> galleryItemList;
+    }
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">parseItems</span><span class="params">(List&lt;GalleryItem&gt; items,JSONObject jsonObject)</span></span>{
+        <span class="keyword">try</span>{
+            JSONObject photosJsonObject = jsonObject.getJSONObject(<span class="string">"photos"</span>);
+            JSONArray photosJsonArray = photosJsonObject.getJSONArray(<span class="string">"photo"</span>);
+            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;photosJsonArray.length();i++){
+                JSONObject photoJsonObject = photosJsonArray.getJSONObject(i);
+                GalleryItem item = <span class="keyword">new</span> GalleryItem();
+                item.setId(photoJsonObject.getString(<span class="string">"id"</span>));
+                item.setCaption(photoJsonObject.getString(<span class="string">"title"</span>));
+                <span class="keyword">if</span>(!photoJsonObject.has(<span class="string">"url_s"</span>)){
+                    <span class="keyword">continue</span>;
+                }
+                item.setUrl(photoJsonObject.getString(<span class="string">"url_s"</span>));
+                items.add(item);
+            }
+        }<span class="keyword">catch</span>(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isNetWorkConntected</span><span class="params">(Context context)</span></span>{
+        <span class="keyword">if</span>(context!=<span class="keyword">null</span>){
+            ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+            <span class="keyword">if</span>(networkInfo != <span class="keyword">null</span>){
+                <span class="keyword">return</span> networkInfo.isAvailable();
+            }
+        }
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+    }
 }
-            <span class="keyword">int</span> bytesRead = <span class="number">0</span>;
-            <span class="keyword">byte</span>[] buffer = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];
-            <span class="keyword">while</span> ((bytesRead = in.read(buffer)) &gt; <span class="number">0</span>) {
-                out.write(buffer, <span class="number">0</span>, bytesRead);
-            }
-            out.close();
-            <span class="keyword">return</span> out.toByteArray();
-        } <span class="keyword">finally</span> {
-            connection.disconnect();
-        }    }
-    <span class="function"><span class="keyword">public</span> String <span class="title">getUrlString</span><span class="params">(String urlSpec)</span> <span class="keyword">throws</span> IOException, KeyManagementException, NoSuchAlgorithmException </span>{
-        <span class="keyword">return</span> <span class="keyword">new</span> String(getUrlBytes(urlSpec));
-    }
-    <span class="function"><span class="keyword">public</span> List&lt;GalleryItem&gt; <span class="title">fetchItems</span><span class="params">()</span></span>{
-        List&lt;GalleryItem&gt; galleryItemList = <span class="keyword">new</span> ArrayList&lt;&gt;();
-        <span class="keyword">try</span> {            <span class="keyword">if</span> (PreUtil.getStringFromDefault(AppContext.getInstance(), TAG, <span class="string">""</span>) == <span class="keyword">null</span>) {
-  String url = Uri.parse(<span class="string">"https://api.flickr.com/services/rest/"</span>).buildUpon().appendQueryParameter(<span class="string">"method"</span>, <span class="string">"flickr.photos.getRecent"</span>).appendQueryParameter(<span class="string">"api_key"</span>, API_KEY).appendQueryParameter(<span class="string">"format"</span>, <span class="string">"json"</span>).appendQueryParameter(<span class="string">"nojsoncallback"</span>, <span class="string">"1"</span>).appendQueryParameter(<span class="string">"extras"</span>, <span class="string">"url_s"</span>).build().toString();                Log.i(TAG, <span class="string">"HttpUrl: "</span> + url);                String jsonString = getUrlString(url);                PreUtil.putStringToDefault(AppContext.getInstance(), TAG, jsonString);                Log.i(TAG, <span class="string">"Receive Json From Internet "</span> + jsonString);                    }<span class="keyword">else</span> {                String jsonString = PreUtil.getStringFromDefault(AppContext.getInstance(), TAG, <span class="string">""</span>);                Log.i(TAG, <span class="string">"Receive Json From Shared in else"</span> + jsonString);      }
-        }<span class="keyword">catch</span> (Exception e){
-            e.printStackTrace();
-        }
-        <span class="keyword">return</span> galleryItemList;
-    }
-}
 </code></pre>
 <p>这里例子很简单吧？得到的json:</p>
 <pre><code class="xml">
 {
 &quot;photos&quot;:
-{
-&quot;page&quot;:1,&quot;pages&quot;:10,&quot;perpage&quot;:100,&quot;total&quot;:1000,&quot;photo&quot;:[
-{&quot;id&quot;:&quot;33079594864&quot;,&quot;owner&quot;:&quot;135557505@N08&quot;,&quot;secret&quot;:&quot;4aa208ddb9&quot;,&quot;server&quot;:&quot;3841&quot;,&quot;farm&quot;:4,&quot;title&quot;:&quot;upload&quot;,&quot;ispublic&quot;:1,&quot;isfriend&quot;:0,&quot;isfamily&quot;:0,&quot;url_s&quot;:&quot;https:\/\/farm4.staticflickr.com\/3841\/33079594864_4aa208ddb9_m.jpg&quot;,&quot;height_s&quot;:&quot;240&quot;,&quot;width_s&quot;:&quot;194&quot;},
-{&quot;id&quot;:&quot;33079595044&quot;,&quot;owner&quot;:&quot;33255825@N07&quot;,&quot;secret&quot;:&quot;e7cc46dc7c&quot;,&quot;server&quot;:&quot;2902&quot;,&quot;farm&quot;:3,&quot;title&quot;:&quot;2017-04-09_09-54-25&quot;,&quot;ispublic&quot;:1,&quot;isfriend&quot;:0,&quot;isfamily&quot;:0,&quot;url_s&quot;:&quot;https:\/\/farm3.staticflickr.com\/2902\/33079595044_e7cc46dc7c_m.jpg&quot;,&quot;height_s&quot;:&quot;240&quot;,&quot;width_s&quot;:&quot;240&quot;},
-{&quot;id&quot;:&quot;33079596844&quot;,&quot;owner&quot;:&quot;153628499@N08&quot;,&quot;secret&quot;:&quot;c51b00fcfb&quot;,&quot;server&quot;:&quot;679&quot;,&quot;farm&quot;:1,&quot;title&quot;:&quot;Dako Island, Siargao #throwback #summerfeels #sheenamariephotography&quot;,&quot;ispublic&quot;:1,&quot;isfriend&quot;:0,&quot;isfamily&quot;:0,&quot;url_s&quot;:&quot;https:\/\/farm1.staticflickr.com\/679\/33079596844_c51b00fcfb_m.jpg&quot;,&quot;height_s&quot;:&quot;240&quot;,&quot;width_s&quot;:&quot;240&quot;},
-{&quot;id&quot;:&quot;33079598224&quot;,&quot;owner&quot;:&quot;142581045@N07&quot;,&quot;secret&quot;:&quot;94ed8ea590&quot;,&quot;server&quot;:&quot;581&quot;,&quot;farm&quot;:1,&quot;title&quot;:&quot;B.M.W Entertainment presents Urban Spalsh 6 Music Fest to kick off the Summer Splash Pool Series at  BLK Live  in Scottsdale AZ is going to  be  an insane summer. Artist and celebrity host every week for the sexiest day party in the state. better reserve&quot;,&quot;ispublic&quot;:1,&quot;isfriend&quot;:0,&quot;isfamily&quot;:0,&quot;url_s&quot;:&quot;https:\/\/farm1.staticflickr.com\/581\/33079598224_94ed8ea590_m.jpg&quot;,&quot;height_s&quot;:&quot;240&quot;,&quot;width_s&quot;:&quot;240&quot;},
-{&quot;id&quot;:&quot;33079598584&quot;,&quot;owner&quot;:&quot;75860432@N02&quot;,&quot;secret&quot;:&quot;59211f9a1a&quot;,&quot;server&quot;:&quot;3943&quot;,&quot;farm&quot;:4,&quot;title&quot;:&quot;Cr\u00e9met d&#39;Anjou&quot;,&quot;ispublic&quot;:1,&quot;isfriend&quot;:0,&quot;isfamily&quot;:0,&quot;url_s&quot;:&quot;https:\/\/farm4.staticflickr.com\/3943\/33079598584_59211f9a1a_m.jpg&quot;,&quot;height_s&quot;:&quot;180&quot;,&quot;width_s&quot;:&quot;240&quot;}
-]},
-&quot;stat&quot;:&quot;ok&quot;}
+   {
+   &quot;page&quot;:1,&quot;pages&quot;:10,&quot;perpage&quot;:100,&quot;total&quot;:1000,&quot;photo&quot;:
+   [
+      {
+      &quot;id&quot;:&quot;33079594864&quot;,&quot;owner&quot;:&quot;135557505@N08&quot;,&quot;secret&quot;:&quot;4aa208ddb9&quot;,&quot;server&quot;:&quot;3841&quot;,&quot;farm&quot;:4,&quot;title&quot;:&quot;upload&quot;,&quot;ispublic&quot;:1,&quot;isfriend&quot;:0,&quot;isfamily&quot;:0,&quot;url_s&quot;:&quot;https:\/\/farm4.staticflickr.com\/3841\/33079594864_4aa208ddb9_m.jpg&quot;,&quot;height_s&quot;:&quot;240&quot;,&quot;width_s&quot;:&quot;194&quot;
+      },
+      {
+      &quot;id&quot;:&quot;33079595044&quot;,&quot;owner&quot;:&quot;33255825@N07&quot;,&quot;secret&quot;:&quot;e7cc46dc7c&quot;,&quot;server&quot;:&quot;2902&quot;,&quot;farm&quot;:3,&quot;title&quot;:&quot;2017-04-09_09-54-25&quot;,&quot;ispublic&quot;:1,&quot;isfriend&quot;:0,&quot;isfamily&quot;:0,&quot;url_s&quot;:&quot;https:\/\/farm3.staticflickr.com\/2902\/33079595044_e7cc46dc7c_m.jpg&quot;,&quot;height_s&quot;:&quot;240&quot;,&quot;width_s&quot;:&quot;240&quot;
+      },
+      {
+      &quot;id&quot;:&quot;33079596844&quot;,&quot;owner&quot;:&quot;153628499@N08&quot;,&quot;secret&quot;:&quot;c51b00fcfb&quot;,&quot;server&quot;:&quot;679&quot;,&quot;farm&quot;:1,&quot;title&quot;:&quot;Dako Island, Siargao #throwback #summerfeels #sheenamariephotography&quot;,&quot;ispublic&quot;:1,&quot;isfriend&quot;:0,&quot;isfamily&quot;:0,&quot;url_s&quot;:&quot;https:\/\/farm1.staticflickr.com\/679\/33079596844_c51b00fcfb_m.jpg&quot;,&quot;height_s&quot;:&quot;240&quot;,&quot;width_s&quot;:&quot;240&quot;
+      },
+      {
+      &quot;id&quot;:&quot;33079598224&quot;,&quot;owner&quot;:&quot;142581045@N07&quot;,&quot;secret&quot;:&quot;94ed8ea590&quot;,&quot;server&quot;:&quot;581&quot;,&quot;farm&quot;:1,&quot;title&quot;:&quot;B.M.W Entertainment presents Urban Spalsh 6 Music Fest to kick off the Summer Splash Pool Series at  BLK Live  in Scottsdale AZ is going to  be  an insane summer. Artist and celebrity host every week for the sexiest day party in the state. better reserve&quot;,&quot;ispublic&quot;:1,&quot;isfriend&quot;:0,&quot;isfamily&quot;:0,&quot;url_s&quot;:&quot;https:\/\/farm1.staticflickr.com\/581\/33079598224_94ed8ea590_m.jpg&quot;,&quot;height_s&quot;:&quot;240&quot;,&quot;width_s&quot;:&quot;240&quot;
+      },
+      {&quot;id&quot;:&quot;33079598584&quot;,&quot;owner&quot;:&quot;75860432@N02&quot;,&quot;secret&quot;:&quot;59211f9a1a&quot;,&quot;server&quot;:&quot;3943&quot;,&quot;farm&quot;:4,&quot;title&quot;:&quot;Cr\u00e9met d&#39;Anjou&quot;,&quot;ispublic&quot;:1,&quot;isfriend&quot;:0,&quot;isfamily&quot;:0,&quot;url_s&quot;:&quot;https:\/\/farm4.staticflickr.com\/3943\/33079598584_59211f9a1a_m.jpg&quot;,&quot;height_s&quot;:&quot;180&quot;,&quot;width_s&quot;:&quot;240&quot;
+      }
+    ]},
+     &quot;stat&quot;:&quot;ok&quot;}
 </code></pre>
 <p>没有写完json。这个不重要。没关系。简单理解一下它的用法就可以了。</p>
 <p>下面再来看一个比较全面一点的例子</p>
-<pre><code class="java">
-<span class="keyword">package</span> com.grantsome.photogallery;<span class="keyword">import</span> android.os.AsyncTask;<span class="keyword">import</span> android.widget.Toast;<span class="comment">/** * Created by tom on 2017/4/9. */</span><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DwonloadTask</span> <span class="keyword">extends</span> <span class="title">AsyncTask</span>&lt;<span class="title">Void</span>,<span class="title">Integer</span>,<span class="title">Boolean</span>&gt; </span>{        <span class="comment">//进行一些UI初始化操作,这里是准备进度条    @Override    protected void onPreExecute(){        progressDialog.show();    }    //核心的方法,里面的代码都在子线程里面操作,返回AsyncTask第三个参数的结果Boolean    //这里主要是执行下载和更新进度百分比    @Override    protected Boolean doInBackground(Void... params) {        try {            while (true) {                int downloadPercent = doDownload();//该方法并不存在,只是表示一个意思                publishProgress(downloadPercent);                if (downloadPercent &gt;= 100) {                    break;                }            }        } catch (Exception e) {            return false;        }        return true;    }        //更新下载进度    @Override    protected void onProgressUpdate(Integer... values){        progressDialog.dismiss();        if(result){            Toast.makeText(context,"Download Succeeded",Toast.LENGTH_SHORT).show();        }else {            Toast.makeText(context,"Download Failed",Toast.LENGTH_SHORT).show();        }    }}</span>
+<pre><code class="java"><span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">FetchItemsTask</span> <span class="keyword">extends</span> <span class="title">AsyncTask</span>&lt;<span class="title">Void</span>,<span class="title">Void</span>,<span class="title">Void</span>&gt;</span>{
+
+       <span class="meta">@Override</span>
+       <span class="function"><span class="keyword">protected</span> Void <span class="title">doInBackground</span><span class="params">(Void... params)</span> </span>{
+           <span class="keyword">return</span> <span class="keyword">new</span> HttpUtil().fetchItems();
+       }
+
+   }
 </code></pre>
 <p>说完了AysncTask我们再来讨论一下它的优缺点，这个抽象的工具类虽然好用，但是它也只是一种轻量级的工具而已，只适合只有几秒的短时间的异步操作而已，并且有可能导致内存泄漏的问题。我们当然要要去寻找其他的替代的东西以写出更好的程序。</p>
 <p>这时候Looper、Handler、HandlerThread就闪亮登场了。<br>Message:汉语翻译过来是消息的意思，顾名思义，就是在线程之间传递的消息，可以携带message.what的int类型,也可以携带一个object类型的obj.<br>Handler:处理者,主要用于发送和处理消息，发送是handler.sendMessage()，最终传递到handler.handlerMessage();说简单一点就是异步更新UI，并且更新UI的时候，是主线程与子线程之间的通信。<br>这里讲的最清楚不过了<a href="https://developer.android.com/reference/android/os/Handler.html" target="_blank" rel="external">https://developer.android.com/reference/android/os/Handler.html</a><br>MessageQueue:消息队列，主要用于存放所有通过handler.sendMessage();的所有消息，这部分会一直存储着MessageQueue()里面，等待被处理，每一个线程只会有一个MessageQueue对象。<br>Looper:消息的循环者，也就是MessageQueue的管家,每发现MessageQueue里面有一个message的时候,就会将它取出，并传递给handler.handlerMessage();每一个线程也只会有一个looper<br>HandlerThread:HandlerThread继承与Thread，但是又有不同，唯一的不同之处在于，建立了一个单独的线程以及创立了一个消息队列,有自己单独的looper。前面有说过Handler用于主线程和子线程之间的通信。而假如你现在需要子线程与子线程之间的通信和传递数据呢？我们要在子线程中调用Looper.prepare() 为一个线程开启一个消息循环，默认情况下Android中新诞生的线程是没有开启消息循环的。（主线程除外，主线程系统会自动为其创建Looper对象，开启消息循环。） Looper对象通过MessageQueue来存放消息和事件。一个线程只能有一个Looper，对应一个MessageQueue。 然后通过Looper.loop() 让Looper开始工作，从消息队列里取消息，处理消息。比如这样子</p>
-<pre><code class="java">
-Handler mHandler;<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">createManualThreadWithHandler</span><span class="params">()</span> </span>{    <span class="keyword">new</span> Thread() {        <span class="meta">@Override</span>        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>{            <span class="keyword">super</span>.run();            <span class="comment">//调用Looper.prepare 创建与当前线程绑定的Looper实例            Looper.prepare();            //使用上面创建的Looper生成Handler实例            mHandler = new Handler(Looper.myLooper());            //调用Looper.loop()实现消息循环            Looper.loop();        }    }.start();}</span>
+<pre><code class="java">Handler mHandler;
+
+<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">createManualThreadWithHandler</span><span class="params">()</span> </span>{
+    <span class="keyword">new</span> Thread() {
+       <span class="meta">@Override</span>
+       <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>{
+       <span class="keyword">super</span>.run();
+       <span class="comment">//调用Looper.prepare 创建与当前线程绑定的Looper实例</span>
+       Looper.prepare();            
+       <span class="comment">//使用上面创建的Looper生成Handler实例</span>
+       mHandler = <span class="keyword">new</span> Handler(Looper.myLooper());
+       <span class="comment">//调用Looper.loop()实现消息循环</span>
+       Looper.loop();        
+       }    
+    }.start();
+}
 </code></pre>
-<p>这时候Google就很贴心的早就为我们封装好了一个类，就是HandlerThread。<br>Google大门常打开，开怀容纳天地：<a href="https://developer.android.com/reference/android/os/HandlerThread.html" target="_blank" rel="external">https://developer.android.com/reference/android/os/HandlerThread.html</a></p>
+<p>如果每次使用都这样写的话 感觉也不是太方便。<br>这时候Google就很贴心的早就为我们封装好了一个类，就是HandlerThread。<br>Google大门常打开，开怀容纳天地：<a href="https://developer.android.com/reference/android/os/HandlerThread.html" target="_blank" rel="external">https://developer.android.com/reference/android/os/HandlerThread.html</a></p>
 <p>让我们来看看它最简单的使用</p>
-<pre><code class="java">
-<span class="keyword">private</span> Handler mHandler;<span class="function"><span class="keyword">private</span> <span class="title">UseHandlerThread</span><span class="params">()</span> </span>{    <span class="comment">//创建实例化对象,参数的作用仅仅是一个标记作用。    HandlerThread workerThread = new HandlerThread("LightTaskThread");    //启动线程    workerThread.start();    //创建Handler,时任务投放到该先线程中,    //复写Handler的CallBack接口类当中的的handlerMessger,调用getLooper()得到looper对象    mHandler = new Handler(workerThread.getLooper(),new Handler.Callback() {        @Override        public boolean handleMessage(Message msg) {            //实现自己的消息处理            return true;        }    });}</span>
+<pre><code class="java"><span class="keyword">private</span> Handler mHandler;
+<span class="function"><span class="keyword">private</span> <span class="title">UseHandlerThread</span><span class="params">()</span> </span>{
+    <span class="comment">//创建实例化对象,参数的作用仅仅是一个标记作用。</span>
+    HandlerThread workerThread = <span class="keyword">new</span> HandlerThread(<span class="string">"LightTaskThread"</span>);
+    <span class="comment">//启动线程</span>
+    workerThread.start();
+    <span class="comment">//创建Handler,时任务投放到该先线程中,</span>
+
+    <span class="comment">//复写Handler的CallBack接口类当中的的handlerMessger,调用getLooper()得到looper对象</span>
+    mHandler = <span class="keyword">new</span> Handler(workerThread.getLooper(),<span class="keyword">new</span> Handler.Callback() {
+         <span class="meta">@Override</span>
+        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">handleMessage</span><span class="params">(Message msg)</span> </span>{
+        <span class="comment">//实现自己的消息处理</span>
+        <span class="keyword">return</span> <span class="keyword">true</span>;
+        }
+    });
+}
 </code></pre>
 <p>是的,你没看错，就是这么简单。</p>
 <p>下面我们来看一个稍微复杂一点点的例子</p>
-<pre><code class="java">
-<span class="keyword">package</span> com.grantsome.photogallery;<span class="keyword">import</span> android.graphics.Bitmap;<span class="keyword">import</span> android.graphics.BitmapFactory;<span class="keyword">import</span> android.os.Handler;<span class="keyword">import</span> android.os.HandlerThread;<span class="keyword">import</span> android.os.Message;<span class="keyword">import</span> android.util.Log;<span class="keyword">import</span> java.util.concurrent.ConcurrentHashMap;<span class="keyword">import</span> java.util.concurrent.ConcurrentMap;<span class="comment">/** * Created by tom on 2017/4/9. */</span><span class="comment">//一个下载图片的工具类，继承Handlerpublic class ThumbnailDownloader&lt;T&gt; extends HandlerThread {    public static final String TAG = "ThumbnailDownloader";    private static int MESSAGE_DOWNLOAD = 0;    private Handler mRequestHandler;</span>
-    <span class="comment">//实例化ConcurrentHashMap    private ConcurrentMap&lt;T,String&gt; mRequestMap = new ConcurrentHashMap&lt;&gt;();    private boolean mHashQuit = false;</span>
-    <span class="comment">//声明该接口    private ThumbnailDownloaderListener&lt;T&gt; mThumbnailDownloader;</span>
-    <span class="comment">//自定义一个接口    public interface ThumbnailDownloaderListener&lt;T&gt;{        void onThumbnailDownloaded(T target,Bitmap thumbnail);    }    </span>
-    <span class="comment">//提供一个方法设置该接口    public void setThumbnailDownloadListener(ThumbnailDownloaderListener&lt;T&gt; listener){        mThumbnailDownloader = listener;    }    </span>
-    <span class="comment">//构造方法    public ThumbnailDownloader(Handler responseHandler) {        super(TAG);</span>
-        <span class="comment">//切换到主线程        mRequestHandler = responseHandler;    }</span>
-    <span class="comment">//实现一个handler    @Override    protected void onLooperPrepared(){        mRequestHandler = new Handler(){           @Override            public void handleMessage(Message msg){               if(msg.what == MESSAGE_DOWNLOAD){                   T target = (T) msg.obj;                   Log.i(TAG,"Got a request for URL: " + mRequestMap.get(target));                   handleRequest(target);               }           }        };    }    private void handleRequest(final T target){        try{            final String url = mRequestMap.get(target);            if(url==null){                return;            }            byte[] bitmapBytes = new HttpUtil().getUrlBytes(url);            final BitmapFactory.Options options = new BitmapFactory.Options();            options.inSampleSize = 3;            final Bitmap bitmap = BitmapFactory.decodeByteArray(bitmapBytes,0,bitmapBytes.length,options);            Log.i(TAG,"Bitmap created");            //主线程            mRequestHandler.post(new Runnable() {                @Override                public void run() {                    if(mRequestMap.get(target)!=url||mHashQuit){                        return;                    }                    mRequestMap.remove(target);                    mThumbnailDownloader.onThumbnailDownloaded(target,bitmap);                }            });        }catch (Exception e){            e.printStackTrace();        }    }    @Override    public boolean quit(){        mHashQuit = true;        return super.quit();    }    public void queueThumbnail(T target,String url){        Log.i(TAG,"Got a URL " + url);        if(url == null){            mRequestMap.remove(target,url);        }else {            mRequestMap.put(target,url);            mRequestHandler.obtainMessage(MESSAGE_DOWNLOAD,target).sendToTarget();        }    }    public void clearQueue(){        mRequestHandler.removeMessages(MESSAGE_DOWNLOAD);    }</span>
+<pre><code class="java"><span class="keyword">package</span> com.grantsome.photogallery;
+
+<span class="keyword">import</span> android.graphics.Bitmap;
+<span class="keyword">import</span> android.graphics.BitmapFactory;
+<span class="keyword">import</span> android.os.Handler;
+<span class="keyword">import</span> android.os.HandlerThread;
+<span class="keyword">import</span> android.os.Message;
+<span class="keyword">import</span> android.util.Log;
+
+<span class="keyword">import</span> java.util.concurrent.ConcurrentHashMap;
+<span class="keyword">import</span> java.util.concurrent.ConcurrentMap;
+
+<span class="comment">/**
+ * Created by tom on 2017/4/9.
+ */</span>
+
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThumbnailDownloader</span>&lt;<span class="title">T</span>&gt; <span class="keyword">extends</span> <span class="title">HandlerThread</span> </span>{
+
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String TAG = <span class="string">"ThumbnailDownloader"</span>;
+
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> MESSAGE_DOWNLOAD = <span class="number">0</span>;
+
+    <span class="keyword">private</span> Handler mRequestHandler;
+
+    <span class="keyword">private</span> Handler mResponseHandler;
+
+    <span class="keyword">private</span> ConcurrentMap&lt;T,String&gt; mRequestMap = <span class="keyword">new</span> ConcurrentHashMap&lt;&gt;();
+
+    <span class="keyword">private</span> <span class="keyword">boolean</span> mHashQuit = <span class="keyword">false</span>;
+
+    <span class="keyword">private</span> ThumbnailDownloaderListener&lt;T&gt; mThumbnailDownloader;
+
+    <span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ThumbnailDownloaderListener</span>&lt;<span class="title">T</span>&gt;</span>{
+        <span class="function"><span class="keyword">void</span> <span class="title">onThumbnailDownloaded</span><span class="params">(T target,Bitmap thumbnail)</span></span>;
+    }
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setThumbnailDownloadListener</span><span class="params">(ThumbnailDownloaderListener&lt;T&gt; listener)</span></span>{
+        mThumbnailDownloader = listener;
+    }
+
+    <span class="function"><span class="keyword">public</span> <span class="title">ThumbnailDownloader</span><span class="params">(Handler responseHandler)</span> </span>{
+        <span class="keyword">super</span>(TAG);
+        mResponseHandler = responseHandler;
+    }
+
+    <span class="meta">@Override</span>
+    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onLooperPrepared</span><span class="params">()</span></span>{
+        mRequestHandler = <span class="keyword">new</span> Handler(){
+           <span class="meta">@Override</span>
+            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleMessage</span><span class="params">(Message msg)</span></span>{
+               <span class="keyword">if</span>(msg.what == MESSAGE_DOWNLOAD){
+                   T target = (T) msg.obj;
+                   Log.i(TAG,<span class="string">"Got a request for URL: "</span> + mRequestMap.get(target));
+                   handleRequest(target);
+               }
+           }
+        };
+    }
+
+    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">handleRequest</span><span class="params">(<span class="keyword">final</span> T target)</span></span>{
+        <span class="keyword">try</span>{
+            <span class="keyword">final</span> String url = mRequestMap.get(target);
+            <span class="keyword">if</span>(url==<span class="keyword">null</span>){
+                <span class="keyword">return</span>;
+            }
+            <span class="keyword">byte</span>[] bitmapBytes = <span class="keyword">new</span> HttpUtil().getUrlBytes(url);
+
+            <span class="keyword">final</span> Bitmap bitmap = BitmapFactory.decodeByteArray(bitmapBytes,<span class="number">0</span>,bitmapBytes.length);
+            Log.i(TAG,<span class="string">"Bitmap created"</span>);
+
+            mResponseHandler.post(<span class="keyword">new</span> Runnable() {
+                <span class="meta">@Override</span>
+                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>{
+                    <span class="keyword">if</span>(mRequestMap.get(target)!=url||mHashQuit){
+                        <span class="keyword">return</span>;
+                    }
+                    mRequestMap.remove(target);
+                    mThumbnailDownloader.onThumbnailDownloaded(target,bitmap);
+                }
+            });
+        }<span class="keyword">catch</span> (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    <span class="meta">@Override</span>
+    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">quit</span><span class="params">()</span></span>{
+        mHashQuit = <span class="keyword">true</span>;
+        <span class="keyword">return</span> <span class="keyword">super</span>.quit();
+    }
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">queueThumbnail</span><span class="params">(T target,String url)</span></span>{
+        Log.i(TAG,<span class="string">"Got a URL "</span> + url);
+        <span class="keyword">if</span>(url == <span class="keyword">null</span>){
+            mRequestMap.remove(target,url);
+        }<span class="keyword">else</span> {
+            mRequestMap.put(target,url);
+            mRequestHandler.obtainMessage(MESSAGE_DOWNLOAD,target).sendToTarget();
+        }
+    }
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">clearQueue</span><span class="params">()</span></span>{
+        mRequestHandler.removeMessages(MESSAGE_DOWNLOAD);
+    }
+
+
+
+}
 </code></pre>
 <pre><code class="java">
-<span class="keyword">package</span> com.grantsome.photogallery;<span class="keyword">import</span> android.graphics.Bitmap;<span class="keyword">import</span> android.graphics.drawable.BitmapDrawable;<span class="keyword">import</span> android.graphics.drawable.Drawable;<span class="keyword">import</span> android.os.AsyncTask;<span class="keyword">import</span> android.os.Bundle;<span class="keyword">import</span> android.os.Handler;<span class="keyword">import</span> android.support.v4.app.Fragment;<span class="keyword">import</span> android.support.v4.content.ContextCompat;<span class="keyword">import</span> android.support.v7.widget.GridLayoutManager;<span class="keyword">import</span> android.support.v7.widget.RecyclerView;<span class="keyword">import</span> android.util.Log;<span class="keyword">import</span> android.view.LayoutInflater;<span class="keyword">import</span> android.view.View;<span class="keyword">import</span> android.view.ViewGroup;<span class="keyword">import</span> android.widget.ImageView;<span class="keyword">import</span> java.util.ArrayList;<span class="keyword">import</span> java.util.List;<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PhotoGalleryFragment</span> <span class="keyword">extends</span> <span class="title">Fragment</span> </span>{        <span class="keyword">private</span> ThumbnailDownloader&lt;PhotoHolder&gt; mThumbnailDownloader;       <span class="meta">@Override</span>    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>{        <span class="keyword">super</span>.onCreate(savedInstanceState);        setRetainInstance(<span class="keyword">true</span>);        <span class="keyword">new</span> FetchItemsTask().execute();        Handler handler = <span class="keyword">new</span> Handler();
-        <span class="comment">//传入参数以切换到主线程        mThumbnailDownloader = new ThumbnailDownloader&lt;&gt;(handler);</span>
-        <span class="comment">//设置ThumbnailDownloadListener        mThumbnailDownloader.setThumbnailDownloadListener(new ThumbnailDownloader.ThumbnailDownloaderListener&lt;PhotoHolder&gt;() {            @Override            public void onThumbnailDownloaded(PhotoHolder target, Bitmap thumbnail) {                Drawable drawable = new BitmapDrawable(getResources(),thumbnail);                target.bindDrawable(drawable);            }        });</span>
-        <span class="comment">//执行start        mThumbnailDownloader.start();</span>
-        <span class="comment">//执行getLooper        mThumbnailDownloader.getLooper();        Log.i(TAG,"Background thread started ");    }    private class PhotoAdapter extends RecyclerView.Adapter&lt;PhotoHolder&gt;{          @Override        public void onBindViewHolder(PhotoHolder holder, int position) {            GalleryItem galleryItem = mGalleryItemList.get(position);          mThumbnailDownloader.queueThumbnail(holder,galleryItem.getUrl());        }        @Override        public int getItemCount() {            return mGalleryItemList.size();        }    }    @Override    public void onDestroy(){        super.onDestroy();        mThumbnailDownloader.quit();        Log.i(TAG,"Background thread destroyed");    }    @Override    public void onDestroyView(){        super.onDestroyView();        mThumbnailDownloader.clearQueue();    }}</span>
+<span class="keyword">package</span> com.grantsome.photogallery;
+<span class="keyword">import</span> android.graphics.Bitmap;
+<span class="keyword">import</span> android.graphics.drawable.BitmapDrawable;
+<span class="keyword">import</span> android.graphics.drawable.Drawable;
+<span class="keyword">import</span> android.os.AsyncTask;
+<span class="keyword">import</span> android.os.Bundle;
+<span class="keyword">import</span> android.os.Handler;
+<span class="keyword">import</span> android.support.v4.app.Fragment;
+<span class="keyword">import</span> android.support.v4.content.ContextCompat;
+<span class="keyword">import</span> android.support.v7.widget.GridLayoutManager;
+<span class="keyword">import</span> android.support.v7.widget.RecyclerView;
+<span class="keyword">import</span> android.util.Log;
+<span class="keyword">import</span> android.view.LayoutInflater;
+port android.view.View;
+<span class="keyword">import</span> android.view.ViewGroup;
+<span class="keyword">import</span> android.widget.ImageView;
+<span class="keyword">import</span> java.util.ArrayList;
+<span class="keyword">import</span> java.util.List;
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PhotoGalleryFragment</span> <span class="keyword">extends</span> <span class="title">Fragment</span> </span>{    
+    <span class="keyword">private</span> ThumbnailDownloader&lt;PhotoHolder&gt; mThumbnailDownloader;
+
+    <span class="meta">@Override</span>
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>{
+        <span class="keyword">super</span>.onCreate(savedInstanceState);
+        setRetainInstance(<span class="keyword">true</span>);
+        <span class="keyword">new</span> FetchItemsTask().execute();
+        Handler handler = <span class="keyword">new</span> Handler();
+        <span class="comment">//传入参数以切换到主线程</span>
+        mThumbnailDownloader = <span class="keyword">new</span> ThumbnailDownloader&lt;&gt;(handler);
+        <span class="comment">//设置ThumbnailDownloadListener</span>
+        mThumbnailDownloader.setThumbnailDownloadListener(<span class="keyword">new</span> ThumbnailDownloader.ThumbnailDownloaderListener&lt;PhotoHolder&gt;() {
+            <span class="meta">@Override</span>
+            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onThumbnailDownloaded</span><span class="params">(PhotoHolder target, Bitmap thumbnail)</span> </span>{
+            Drawable drawable = <span class="keyword">new</span> BitmapDrawable(getResources(),thumbnail);
+            target.bindDrawable(drawable);
+            }
+        });
+        <span class="comment">//执行start</span>
+        mThumbnailDownloader.start();
+        <span class="comment">//执行getLooper</span>
+        mThumbnailDownloader.getLooper();
+        Log.i(TAG,<span class="string">"Background thread started "</span>);
+    }    
+
+    <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">PhotoAdapter</span> <span class="keyword">extends</span> <span class="title">RecyclerView</span>.<span class="title">Adapter</span>&lt;<span class="title">PhotoHolder</span>&gt;</span>{
+         <span class="meta">@Override</span>
+        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onBindViewHolder</span><span class="params">(PhotoHolder holder, <span class="keyword">int</span> position)</span> </span>{
+             GalleryItem galleryItem = mGalleryItemList.get(position);
+            mThumbnailDownloader.queueThumbnail(holder,galleryItem.getUrl());
+        }
+
+        <span class="meta">@Override</span>
+        <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getItemCount</span><span class="params">()</span> </span>{
+            <span class="keyword">return</span> mGalleryItemList.size();
+        }    
+
+    }    
+
+    <span class="meta">@Override</span>    
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span></span>{
+         <span class="keyword">super</span>.onDestroy();
+        mThumbnailDownloader.quit();
+        Log.i(TAG,<span class="string">"Background thread destroyed"</span>);
+    }
+
+    <span class="meta">@Override</span>
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDestroyView</span><span class="params">()</span></span>{
+        <span class="keyword">super</span>.onDestroyView();
+        mThumbnailDownloader.clearQueue();
+    }
+}
 </code></pre>
 <p>为此我特地为你准备了一张思维导图，请看<br><img src="http://mindmap.4ye.me/NGGfh75a/2" alt="思维导图"></p>
 <p>代码没有粘贴完整，有兴趣看源码吧，这里：<br><a href="https://github.com/Grantsome/PhotoGallery" target="_blank" rel="external">https://github.com/Grantsome/PhotoGallery</a></p>
