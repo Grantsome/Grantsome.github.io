@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-04-10T00:47:41.561Z</updated>
+  <updated>2017-04-10T01:11:17.961Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/2017/04/08/AsyncTask%E5%92%8CHandlerThread%E5%AE%8C%E5%85%A8%E8%A7%A3%E6%9E%90--%E5%85%A5%E9%97%A8%E7%BA%A7/"/>
     <id>http://yoursite.com/2017/04/08/AsyncTask和HandlerThread完全解析--入门级/</id>
     <published>2017-04-08T08:25:31.418Z</published>
-    <updated>2017-04-10T00:47:41.561Z</updated>
+    <updated>2017-04-10T01:11:17.961Z</updated>
     
     <content type="html"><![CDATA[<hr>
 <p>title: AsyncTask和HandlerThread完全解析–入门级<br>date: 2017-03-26 21:49:13<br>tags: Android RecyclerView</p>
@@ -53,7 +53,9 @@
 <p>好了，有了这个介绍，我们下面来看一个简单的例子。</p>
 <pre><code class="java">
 <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">FetchItemsTask</span> <span class="keyword">extends</span> <span class="title">AsyncTask</span>&lt;<span class="title">Void</span>,<span class="title">Void</span>,<span class="title">Void</span>&gt;</span>{
-    <span class="meta">@Override</span>    <span class="function"><span class="keyword">protected</span> Void <span class="title">doInBackground</span><span class="params">(Void... params)</span> </span>{
+
+    <span class="meta">@Override</span>    
+    <span class="function"><span class="keyword">protected</span> Void <span class="title">doInBackground</span><span class="params">(Void... params)</span> </span>{
         <span class="comment">//网络请求</span>
         <span class="keyword">new</span> HttpUtil().fetchItems();
         <span class="keyword">return</span> <span class="keyword">null</span>;
@@ -119,61 +121,23 @@
         <span class="keyword">return</span> <span class="keyword">new</span> String(getUrlBytes(urlSpec));
     }
 
-    <span class="function"><span class="keyword">public</span> List&lt;GalleryItem&gt; <span class="title">fetchItems</span><span class="params">()</span></span>{
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">fetchItems</span><span class="params">()</span></span>{
 
         List&lt;GalleryItem&gt; galleryItemList = <span class="keyword">new</span> ArrayList&lt;&gt;();
 
         <span class="keyword">try</span> {
-            <span class="keyword">if</span> (PreUtil.getStringFromDefault(AppContext.getInstance(), TAG, <span class="string">""</span>) == <span class="keyword">null</span>) {
-                String url = Uri.parse(<span class="string">"https://api.flickr.com/services/rest/"</span>).buildUpon().appendQueryParameter(<span class="string">"method"</span>, <span class="string">"flickr.photos.getRecent"</span>).appendQueryParameter(<span class="string">"api_key"</span>, API_KEY).appendQueryParameter(<span class="string">"format"</span>, <span class="string">"json"</span>).appendQueryParameter(<span class="string">"nojsoncallback"</span>, <span class="string">"1"</span>).appendQueryParameter(<span class="string">"extras"</span>, <span class="string">"url_s"</span>).build().toString();
-                Log.i(TAG, <span class="string">"HttpUrl: "</span> + url);
-                String jsonString = getUrlString(url);
-                PreUtil.putStringToDefault(AppContext.getInstance(), TAG, jsonString);
-                Log.i(TAG, <span class="string">"Receive Json From Internet "</span> + jsonString);
-                JSONObject jsonObject = <span class="keyword">new</span> JSONObject(jsonString);
-                parseItems(galleryItemList,jsonObject);
-            }<span class="keyword">else</span> {
-                String jsonString = PreUtil.getStringFromDefault(AppContext.getInstance(), TAG, <span class="string">""</span>);
-                Log.i(TAG, <span class="string">"Receive Json From Shared in else"</span> + jsonString);
-                JSONObject jsonObject = <span class="keyword">new</span> JSONObject(jsonString);
-                parseItems(galleryItemList,jsonObject);
-            }
+            String url = Uri.parse(<span class="string">"https://api.flickr.com/services/rest/"</span>).buildUpon().appendQueryParameter(<span class="string">"method"</span>, <span class="string">"flickr.photos.getRecent"</span>).appendQueryParameter(<span class="string">"api_key"</span>, API_KEY).appendQueryParameter(<span class="string">"format"</span>, <span class="string">"json"</span>).appendQueryParameter(<span class="string">"nojsoncallback"</span>, <span class="string">"1"</span>).appendQueryParameter(<span class="string">"extras"</span>, <span class="string">"url_s"</span>).build().toString();
+            Log.i(TAG, <span class="string">"HttpUrl: "</span> + url);
+            String jsonString = getUrlString(url);
+            PreUtil.putStringToDefault(AppContext.getInstance(), TAG, jsonString);
+               Log.i(TAG, <span class="string">"Receive Json From Internet "</span> + jsonString);
         }<span class="keyword">catch</span> (Exception e){
             e.printStackTrace();
         }
-        <span class="keyword">return</span> galleryItemList;
+
     }
 
-    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">parseItems</span><span class="params">(List&lt;GalleryItem&gt; items,JSONObject jsonObject)</span></span>{
-        <span class="keyword">try</span>{
-            JSONObject photosJsonObject = jsonObject.getJSONObject(<span class="string">"photos"</span>);
-            JSONArray photosJsonArray = photosJsonObject.getJSONArray(<span class="string">"photo"</span>);
-            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;photosJsonArray.length();i++){
-                JSONObject photoJsonObject = photosJsonArray.getJSONObject(i);
-                GalleryItem item = <span class="keyword">new</span> GalleryItem();
-                item.setId(photoJsonObject.getString(<span class="string">"id"</span>));
-                item.setCaption(photoJsonObject.getString(<span class="string">"title"</span>));
-                <span class="keyword">if</span>(!photoJsonObject.has(<span class="string">"url_s"</span>)){
-                    <span class="keyword">continue</span>;
-                }
-                item.setUrl(photoJsonObject.getString(<span class="string">"url_s"</span>));
-                items.add(item);
-            }
-        }<span class="keyword">catch</span>(Exception e){
-            e.printStackTrace();
-        }
-    }
 
-    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isNetWorkConntected</span><span class="params">(Context context)</span></span>{
-        <span class="keyword">if</span>(context!=<span class="keyword">null</span>){
-            ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-            <span class="keyword">if</span>(networkInfo != <span class="keyword">null</span>){
-                <span class="keyword">return</span> networkInfo.isAvailable();
-            }
-        }
-        <span class="keyword">return</span> <span class="keyword">false</span>;
-    }
 }
 </code></pre>
 <p>这里例子很简单吧？得到的json:</p>
@@ -202,13 +166,18 @@
 </code></pre>
 <p>没有写完json。这个不重要。没关系。简单理解一下它的用法就可以了。</p>
 <p>下面再来看一个比较全面一点的例子</p>
-<pre><code class="java"><span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">FetchItemsTask</span> <span class="keyword">extends</span> <span class="title">AsyncTask</span>&lt;<span class="title">Void</span>,<span class="title">Void</span>,<span class="title">Void</span>&gt;</span>{
+<pre><code class="java"><span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">FetchItemsTask</span> <span class="keyword">extends</span> <span class="title">AsyncTask</span>&lt;<span class="title">Void</span>,<span class="title">Void</span>,<span class="title">List</span>&lt;<span class="title">GalleryItem</span>&gt;&gt;</span>{
 
-       <span class="meta">@Override</span>
-       <span class="function"><span class="keyword">protected</span> Void <span class="title">doInBackground</span><span class="params">(Void... params)</span> </span>{
-           <span class="keyword">return</span> <span class="keyword">new</span> HttpUtil().fetchItems();
-       }
+      <span class="meta">@Override</span>
+      <span class="function"><span class="keyword">protected</span> List&lt;GalleryItem&gt; <span class="title">doInBackground</span><span class="params">(Void... params)</span> </span>{
+          <span class="keyword">return</span> <span class="keyword">new</span> HttpUtil().fetchItems();
+      }
 
+      <span class="meta">@Override</span>
+      <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onPostExecute</span><span class="params">(List&lt;GalleryItem&gt; items)</span></span>{
+          mItems = items;
+          setupAdapter();
+      }
    }
 </code></pre>
 <p>说完了AysncTask我们再来讨论一下它的优缺点，这个抽象的工具类虽然好用，但是它也只是一种轻量级的工具而已，只适合只有几秒的短时间的异步操作而已，并且有可能导致内存泄漏的问题。我们当然要要去寻找其他的替代的东西以写出更好的程序。</p>
@@ -434,7 +403,7 @@ port android.view.View;
     }
 }
 </code></pre>
-<p>为此我特地为你准备了一张思维导图，请看<br><img src="http://mindmap.4ye.me/NGGfh75a/2" alt="思维导图"></p>
+<p>为此我特地为你准备了一张思维导图，请看<br><img src="/image/think_first.PNG" alt="思维导图"></p>
 <p>代码没有粘贴完整，有兴趣看源码吧，这里：<br><a href="https://github.com/Grantsome/PhotoGallery" target="_blank" rel="external">https://github.com/Grantsome/PhotoGallery</a></p>
 ]]></content>
     
