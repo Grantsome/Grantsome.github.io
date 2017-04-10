@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-04-10T01:25:50.496Z</updated>
+  <updated>2017-04-10T09:11:57.116Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,448 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>ImageLoader的简单实现</title>
+    <link href="http://yoursite.com/2017/04/10/ImageLoader%E7%9A%84%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0/"/>
+    <id>http://yoursite.com/2017/04/10/ImageLoader的简单实现/</id>
+    <published>2017-04-10T01:35:28.000Z</published>
+    <updated>2017-04-10T09:11:57.116Z</updated>
+    
+    <content type="html"><![CDATA[<p>加载图片在Android开发过程中经常会用到，当加载的图片的数量不是很多的时候还好，但是如果图片数量一旦很多的话，就很有可能出现OOM异常和卡顿的现象。当然，这个是不能忍的，所以我们必须要想办法解决它。<br>如何解决呢？我们知道，现在GitHub上面的开源库还是不少的，比如Universal-ImageLoader、Glide、Picasso等，这里不是要教你如何使用这些开源库，而是用我们自己的思维做一个类似的ImageLoader。<br>首先我们来看一个简单的ImageLoader,这个ImageLoader是我自己写的，思路很简单，也比较好用，因为太复杂了我也写不出来(苦笑)。<br>我们来一个方法一个方法的写，这样思路会更清晰，容易梳理自己的思维。</p>
+<h3 id="1、我自己的ImageLoader"><a href="#1、我自己的ImageLoader" class="headerlink" title="1、我自己的ImageLoader"></a>1、我自己的ImageLoader</h3><p>先写一个网络请求<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">#### 1、loadFileFromHttp(URL mURL)</div><div class="line">private void loadFileFromHttp(URL mURL)&#123;</div><div class="line">        Bitmap mBitmap = null;</div><div class="line">        try &#123;</div><div class="line">              HttpURLConnection mHttpConnection = (HttpURLConnection) mURL.openConnection();</div><div class="line">              mHttpConnection.setConnectTimeout(5000);</div><div class="line">              mHttpConnection.setUseCaches(true);</div><div class="line">              mHttpConnection.setDoInput(true);</div><div class="line">              InputStream mInputStream = mHttpConnection.getInputStream();</div><div class="line">              final BitmapFactory.Options options = new BitmapFactory.Options();</div><div class="line">              options.inSampleSize = 3;</div><div class="line">              mBitmap = BitmapFactory.decodeStream(mInputStream,null,options);</div><div class="line">              handler.sendMessage(handler.obtainMessage(666,mBitmap));</div><div class="line">              saveFile(mBitmap,mURL.toString());</div><div class="line">              if(mInputStream!=null) &#123;</div><div class="line">                  mInputStream.close();</div><div class="line">              &#125;</div><div class="line">        &#125; catch (Exception e)&#123;</div><div class="line">              e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>这个网络请求方法得到了bitmap并把bitmap保存下来了,并且调用了handler.sendMessage()。<br>这个不是有一个saveFile()方法吗？它的具体内容如下:</p>
+<h4 id="2、saveFile-Bitmap-bm-String-fileName"><a href="#2、saveFile-Bitmap-bm-String-fileName" class="headerlink" title="2、saveFile(Bitmap bm, String fileName)"></a>2、saveFile(Bitmap bm, String fileName)</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">saveFile</span><span class="params">(Bitmap bm, String fileName)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        File myCaptureFile = <span class="keyword">new</span> File(sContext.getExternalCacheDir() + fileName);</div><div class="line">        myCaptureFile.getParentFile().mkdirs();</div><div class="line">        myCaptureFile.createNewFile();</div><div class="line">        Log.d(<span class="string">"ImageLoader"</span>,<span class="string">"save里面的path"</span>+myCaptureFile.getPath());</div><div class="line">        FileOutputStream out;</div><div class="line">        out = <span class="keyword">new</span> FileOutputStream(myCaptureFile);</div><div class="line">        bm.compress(Bitmap.CompressFormat.JPEG, <span class="number">100</span>, out);</div><div class="line">        out.flush();</div><div class="line">        out.close();</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>既然写了保存的方法,那么肯定要判断本地里面是否含有这个已经保存的文件，有的话就不用网络请求浪费流量而且还花时间了。</p>
+<h4 id="3、isSaveFile"><a href="#3、isSaveFile" class="headerlink" title="3、isSaveFile()"></a>3、isSaveFile()</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">isSaveFile</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</div><div class="line">        File myCaptureFile = <span class="keyword">new</span> File(sContext.getExternalCacheDir() + url);</div><div class="line">        <span class="keyword">if</span>(myCaptureFile.exists())&#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        &#125;<span class="keyword">else</span> &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<h4 id="4、getBitmapFile-String-uri"><a href="#4、getBitmapFile-String-uri" class="headerlink" title="4、getBitmapFile(String uri)"></a>4、getBitmapFile(String uri)</h4><p>如果已经保存直接从本地获取该文件<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getBitmapFile</span><span class="params">(String uri)</span> <span class="keyword">throws</span> Exception</span>&#123;</div><div class="line">        File dirFile = <span class="keyword">new</span> File(sContext.getExternalCacheDir()+uri);</div><div class="line">        <span class="keyword">if</span>(dirFile.exists())&#123;</div><div class="line">            <span class="keyword">final</span> BitmapFactory.Options options = <span class="keyword">new</span> BitmapFactory.Options();</div><div class="line">            options.inSampleSize = <span class="number">3</span>;</div><div class="line">            Bitmap mBitmap = BitmapFactory.decodeFile(dirFile.toString(),options);</div><div class="line">            Log.d(<span class="string">"ImageLoader"</span>,<span class="string">"get里面的path"</span>+dirFile.toString());</div><div class="line">            handler.sendMessage(handler.obtainMessage(<span class="number">555</span>,mBitmap));</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span>(!dirFile.exists())&#123;</div><div class="line">            Log.d(<span class="string">"ImageLoader"</span>,<span class="string">"get里面的path不存在"</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<h4 id="5、getHttpBitmap-final-String-mUri"><a href="#5、getHttpBitmap-final-String-mUri" class="headerlink" title="5、getHttpBitmap(final String mUri)"></a>5、getHttpBitmap(final String mUri)</h4><p>当然，这些操作都是在一个新开的线程里面执行的<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">getHttpBitmap</span><span class="params">(<span class="keyword">final</span> String mUri)</span></span>&#123;</div><div class="line"></div><div class="line">        <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</div><div class="line">            URL mURL = <span class="keyword">null</span>;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">                <span class="keyword">try</span>&#123;</div><div class="line"></div><div class="line">                    <span class="keyword">if</span>(!isSaveFile())&#123;</div><div class="line">                        mURL = <span class="keyword">new</span> URL(mUri);</div><div class="line">                        loadFileFromHttp(mURL);</div><div class="line">                    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(isSaveFile())&#123;</div><div class="line">                        getBitmapFile(mUri);</div><div class="line">                        Log.d(<span class="string">"ImageLoader"</span>,<span class="string">"已经执行getBitmap方法"</span>);</div><div class="line">                    &#125;</div><div class="line"></div><div class="line">                &#125;<span class="keyword">catch</span> (Exception e)&#123;</div><div class="line">                    handler.sendMessage(handler.obtainMessage(<span class="number">444</span>,<span class="string">"网络连接失败"</span>));</div><div class="line">                    e.printStackTrace();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;).start();</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>在主线程里面更新UI</p>
+<h4 id="6、handleMessage"><a href="#6、handleMessage" class="headerlink" title="6、handleMessage()"></a>6、handleMessage()</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">Handler handler = <span class="keyword">new</span> Handler()&#123;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleMessage</span><span class="params">(android.os.Message msg)</span> </span>&#123;</div><div class="line">            <span class="keyword">switch</span> (msg.what)&#123;</div><div class="line">                <span class="keyword">case</span> <span class="number">666</span>:</div><div class="line">                    Bitmap bitmap = (Bitmap) msg.obj;</div><div class="line">                    imageView.setImageBitmap(bitmap);</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">                <span class="keyword">case</span> <span class="number">555</span>:</div><div class="line">                    Bitmap mBitmap = (Bitmap) msg.obj;</div><div class="line">                    imageView.setImageBitmap(mBitmap);</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">                <span class="keyword">case</span> <span class="number">444</span>:</div><div class="line">                    <span class="comment">//Toast.makeText(sContext, (String) msg.obj, Toast.LENGTH_SHORT).show();</span></div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">                <span class="keyword">default</span>:</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;;</div></pre></td></tr></table></figure>
+<h4 id="7、ImageLoader-get"><a href="#7、ImageLoader-get" class="headerlink" title="7、ImageLoader.get()"></a>7、ImageLoader.get()</h4><p>单例构造方法和构造器<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> String url;</div><div class="line"></div><div class="line"><span class="keyword">private</span> ImageView imageView;</div><div class="line"></div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> ImageLoader sImageLoader;</div><div class="line"></div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> Context sContext;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ImageLoader <span class="title">get</span><span class="params">(Context context, String mUri, ImageView mImageView)</span></span>&#123;</div><div class="line">    sImageLoader = <span class="keyword">new</span> ImageLoader(mUri,mImageView);</div><div class="line">    sContext = context;</div><div class="line">    <span class="keyword">return</span> sImageLoader;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">private</span> <span class="title">ImageLoader</span><span class="params">(String mUri,ImageView mIageView)</span></span>&#123;</div><div class="line">    <span class="keyword">this</span>.url = mUri;</div><div class="line">    imageView = mIageView;</div><div class="line">    <span class="keyword">try</span>&#123;</div><div class="line">        getHttpBitmap(url);</div><div class="line">    &#125;<span class="keyword">catch</span> (Exception e)&#123;</div><div class="line">        e.printStackTrace();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>好了,这个图片加载器的主要方法就已经说的很清楚了，我们来看完整代码。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.grantsome.imageloader;</div><div class="line"></div><div class="line"><span class="keyword">import</span> android.content.Context;</div><div class="line"><span class="keyword">import</span> android.graphics.Bitmap;</div><div class="line"><span class="keyword">import</span> android.graphics.BitmapFactory;</div><div class="line"><span class="keyword">import</span> android.os.Handler;</div><div class="line"><span class="keyword">import</span> android.util.Log;</div><div class="line"><span class="keyword">import</span> android.widget.ImageView;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.File;</div><div class="line"><span class="keyword">import</span> java.io.FileOutputStream;</div><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"><span class="keyword">import</span> java.io.InputStream;</div><div class="line"><span class="keyword">import</span> java.io.Serializable;</div><div class="line"><span class="keyword">import</span> java.net.HttpURLConnection;</div><div class="line"><span class="keyword">import</span> java.net.URL;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Created by tom on 2017/3/21.</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ImageLoader</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> String url;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> ImageView imageView;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> ImageLoader sImageLoader;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Context sContext;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ImageLoader <span class="title">get</span><span class="params">(Context context, String mUri, ImageView mImageView)</span></span>&#123;</div><div class="line">        Log.d(<span class="string">"ImageLoader"</span>,<span class="string">"geHttpBitmap执行在ImageLoader初始化"</span>);</div><div class="line">        sImageLoader = <span class="keyword">new</span> ImageLoader(mUri,mImageView);</div><div class="line">        sContext = context;</div><div class="line">        <span class="keyword">return</span> sImageLoader;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">ImageLoader</span><span class="params">(String mUri,ImageView mIageView)</span></span>&#123;</div><div class="line">        <span class="keyword">this</span>.url = mUri;</div><div class="line">        imageView = mIageView;</div><div class="line">        <span class="keyword">try</span>&#123;</div><div class="line">            getHttpBitmap(url);</div><div class="line">            Log.d(<span class="string">"ImageLoader"</span>,<span class="string">"geHttpBitmap执行在ImageLoader里面"</span>);</div><div class="line">        &#125;<span class="keyword">catch</span> (Exception e)&#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    Handler handler = <span class="keyword">new</span> Handler()&#123;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleMessage</span><span class="params">(android.os.Message msg)</span> </span>&#123;</div><div class="line">            <span class="keyword">switch</span> (msg.what)&#123;</div><div class="line">                <span class="keyword">case</span> <span class="number">666</span>:</div><div class="line">                    Bitmap bitmap = (Bitmap) msg.obj;</div><div class="line">                    imageView.setImageBitmap(bitmap);</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">                <span class="keyword">case</span> <span class="number">555</span>:</div><div class="line">                    Bitmap mBitmap = (Bitmap) msg.obj;</div><div class="line">                    imageView.setImageBitmap(mBitmap);</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">                <span class="keyword">case</span> <span class="number">444</span>:</div><div class="line">                    <span class="comment">//Toast.makeText(sContext, (String) msg.obj, Toast.LENGTH_SHORT).show();</span></div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">                <span class="keyword">default</span>:</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">getHttpBitmap</span><span class="params">(<span class="keyword">final</span> String mUri)</span></span>&#123;</div><div class="line"></div><div class="line">        <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</div><div class="line">            URL mURL = <span class="keyword">null</span>;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">                <span class="keyword">try</span>&#123;</div><div class="line"></div><div class="line">                    <span class="keyword">if</span>(!isSaveFile())&#123;</div><div class="line">                        mURL = <span class="keyword">new</span> URL(mUri);</div><div class="line">                        loadFileFromHttp(mURL);</div><div class="line">                    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(isSaveFile())&#123;</div><div class="line">                        getBitmapFile(mUri);</div><div class="line">                        Log.d(<span class="string">"ImageLoader"</span>,<span class="string">"已经执行getBitmap方法"</span>);</div><div class="line">                    &#125;</div><div class="line"></div><div class="line">                &#125;<span class="keyword">catch</span> (Exception e)&#123;</div><div class="line">                    handler.sendMessage(handler.obtainMessage(<span class="number">444</span>,<span class="string">"网络连接失败"</span>));</div><div class="line">                    e.printStackTrace();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;).start();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">loadFileFromHttp</span><span class="params">(URL mURL)</span></span>&#123;</div><div class="line">        Bitmap mBitmap = <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">              HttpURLConnection mHttpConnection = (HttpURLConnection) mURL.openConnection();</div><div class="line">              mHttpConnection.setConnectTimeout(<span class="number">5000</span>);</div><div class="line">              mHttpConnection.setUseCaches(<span class="keyword">true</span>);</div><div class="line">              mHttpConnection.setDoInput(<span class="keyword">true</span>);</div><div class="line">              InputStream mInputStream = mHttpConnection.getInputStream();</div><div class="line">              <span class="keyword">final</span> BitmapFactory.Options options = <span class="keyword">new</span> BitmapFactory.Options();</div><div class="line">              options.inSampleSize = <span class="number">3</span>;</div><div class="line">              mBitmap = BitmapFactory.decodeStream(mInputStream,<span class="keyword">null</span>,options);</div><div class="line">              handler.sendMessage(handler.obtainMessage(<span class="number">666</span>,mBitmap));</div><div class="line">              saveFile(mBitmap,mURL.toString());</div><div class="line"></div><div class="line">              Log.d(<span class="string">"ImageLoader"</span>,<span class="string">"已经执行saveBitmap方法"</span>);</div><div class="line">              <span class="keyword">if</span>(mInputStream!=<span class="keyword">null</span>) &#123;</div><div class="line">                  mInputStream.close();</div><div class="line">              &#125;</div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e)&#123;</div><div class="line">              e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">isSaveFile</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</div><div class="line">        File myCaptureFile = <span class="keyword">new</span> File(sContext.getExternalCacheDir() + url);</div><div class="line">        <span class="keyword">if</span>(myCaptureFile.exists())&#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        &#125;<span class="keyword">else</span> &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">saveFile</span><span class="params">(Bitmap bm, String fileName)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        File myCaptureFile = <span class="keyword">new</span> File(sContext.getExternalCacheDir() + fileName);</div><div class="line">        myCaptureFile.getParentFile().mkdirs();</div><div class="line">        myCaptureFile.createNewFile();</div><div class="line">        Log.d(<span class="string">"ImageLoader"</span>,<span class="string">"save里面的path"</span>+myCaptureFile.getPath());</div><div class="line">        FileOutputStream out;</div><div class="line">        out = <span class="keyword">new</span> FileOutputStream(myCaptureFile);</div><div class="line">        bm.compress(Bitmap.CompressFormat.JPEG, <span class="number">100</span>, out);</div><div class="line">        out.flush();</div><div class="line">        out.close();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getBitmapFile</span><span class="params">(String uri)</span> <span class="keyword">throws</span> Exception</span>&#123;</div><div class="line">        File dirFile = <span class="keyword">new</span> File(sContext.getExternalCacheDir()+uri);</div><div class="line">        <span class="keyword">if</span>(dirFile.exists())&#123;</div><div class="line">            <span class="keyword">final</span> BitmapFactory.Options options = <span class="keyword">new</span> BitmapFactory.Options();</div><div class="line">            options.inSampleSize = <span class="number">3</span>;</div><div class="line">            Bitmap mBitmap = BitmapFactory.decodeFile(dirFile.toString(),options);</div><div class="line">            Log.d(<span class="string">"ImageLoader"</span>,<span class="string">"get里面的path"</span>+dirFile.toString());</div><div class="line">            handler.sendMessage(handler.obtainMessage(<span class="number">555</span>,mBitmap));</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span>(!dirFile.exists())&#123;</div><div class="line">            Log.d(<span class="string">"ImageLoader"</span>,<span class="string">"get里面的path不存在"</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>到这里，我的ImageLoader就已经结束了，不过还是要贴一下我的GitHub地址:<br><a href="https://github.com/Grantsome/ImageLoader" target="_blank" rel="external">https://github.com/Grantsome/ImageLoader</a></p>
+<h3 id="2、Simonla-我的导师-的PhotoLoader"><a href="#2、Simonla-我的导师-的PhotoLoader" class="headerlink" title="2、Simonla(我的导师)的PhotoLoader"></a>2、Simonla(我的导师)的PhotoLoader</h3><p>来，我们一起来欣赏一下大神的代码(对比之下就能看出来我有多弱了)。<br>首先，定义一个接口：</p>
+<h4 id="1、interface-DrawableCallbackListener"><a href="#1、interface-DrawableCallbackListener" class="headerlink" title="1、interface DrawableCallbackListener"></a>1、interface DrawableCallbackListener</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">* 回调接口</div><div class="line">*/</div><div class="line"> <span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">DrawableCallbackListener</span> </span>&#123;</div><div class="line">	</div><div class="line">     <span class="function"><span class="keyword">void</span> <span class="title">onBitmapFinish</span><span class="params">(Bitmap response)</span></span>;</div><div class="line"></div><div class="line">     <span class="function"><span class="keyword">void</span> <span class="title">onError</span><span class="params">(Exception e)</span></span>;</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<p>还是把声明的一些东西简要的粘贴一下。</p>
+<h4 id="2、常量声明"><a href="#2、常量声明" class="headerlink" title="2、常量声明"></a>2、常量声明</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">boolean</span> sIsFailTouchToReload = <span class="keyword">false</span>;</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String LOADING = <span class="string">"loading"</span>;</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String FAIL = <span class="string">"fail"</span>;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Context sContext;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> sResLoad;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> sResFail;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> sCompressionRatio = <span class="number">100</span>;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> sResamplingRate = <span class="number">1</span>;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> LruCache&lt;String, Bitmap&gt; mMemoryCache;</div></pre></td></tr></table></figure>
+<h4 id="3、getHttpBitmap-final-String-address-final-ImageView-iv-final-DrawableCallbackListener-listener"><a href="#3、getHttpBitmap-final-String-address-final-ImageView-iv-final-DrawableCallbackListener-listener" class="headerlink" title="3、getHttpBitmap(final String address, final ImageView iv, final DrawableCallbackListener listener)"></a>3、getHttpBitmap(final String address, final ImageView iv, final DrawableCallbackListener listener)</h4><p>判断缓存并网络请求<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/***</span></div><div class="line">     * 缓存判断。以及网络取得</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> address  网址</div><div class="line">     * <span class="doctag">@param</span> iv       ImageView</div><div class="line">     * <span class="doctag">@param</span> listener 回调方法</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">getHttpBitmap</span><span class="params">(<span class="keyword">final</span> String address, <span class="keyword">final</span> ImageView iv, <span class="keyword">final</span> DrawableCallbackListener listener)</span> </span>&#123;</div><div class="line">	    <span class="comment">//网址为空的时候调用 有主线程的Looper的handler.setFail();</span></div><div class="line">        <span class="keyword">if</span> (address == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">new</span> Handler(Looper.getMainLooper()).post(<span class="keyword">new</span> Runnable() &#123;</div><div class="line">                <span class="meta">@Override</span></div><div class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">                    setFail(iv);</div><div class="line">                &#125;</div><div class="line">            &#125;);</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">		    <span class="comment">//如果LruCache缓存(这里是mMemoryCache)不为空并且listener已经实例化，就直接从调用接口类的onBitmapFinsh()方法</span></div><div class="line">			<span class="comment">//如果LruCache缓存为空,就去本地SD卡里面找,如果有就先Put到LruCache(这里是mMemoryCache),然后直接从调用接口类的onBitmapFinsh()方法。</span></div><div class="line">			<span class="comment">//如果LruCache缓存为空,并且本地SD卡也没有,那就只有先调用主线程的setLoading()方法,然后再进行网络请求,并保存到本地，而且Put到LruCache。</span></div><div class="line">            <span class="keyword">final</span> <span class="keyword">int</span> hashName = address.hashCode();</div><div class="line">            Bitmap inCache = mMemoryCache.get(hashName + <span class="string">""</span>);</div><div class="line">            <span class="keyword">if</span> (inCache != <span class="keyword">null</span>) &#123;</div><div class="line">                <span class="keyword">if</span> (listener != <span class="keyword">null</span>) &#123;</div><div class="line">                    listener.onBitmapFinish(inCache);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">			<span class="keyword">else</span> &#123;</div><div class="line">                Bitmap inSD = getBitmapFromNative(hashName);</div><div class="line">                <span class="keyword">if</span> (inSD != <span class="keyword">null</span>) &#123;</div><div class="line">                    <span class="keyword">if</span> (listener != <span class="keyword">null</span>) &#123;</div><div class="line">                        mMemoryCache.put(hashName + <span class="string">""</span>, inSD);</div><div class="line">                        listener.onBitmapFinish(inSD);</div><div class="line">                    &#125;</div><div class="line">                &#125; <span class="keyword">else</span> &#123;</div><div class="line">                    <span class="keyword">new</span> Handler(Looper.getMainLooper()).post(<span class="keyword">new</span> Runnable() &#123;</div><div class="line">                        <span class="meta">@Override</span></div><div class="line">                        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">                            setLoading(iv);</div><div class="line">                        &#125;</div><div class="line">                    &#125;);</div><div class="line">                    HttpURLConnection connection = <span class="keyword">null</span>;</div><div class="line">                    <span class="keyword">try</span> &#123;</div><div class="line">                        URL url = <span class="keyword">new</span> URL(address);</div><div class="line">                        connection = (HttpURLConnection) url.openConnection();</div><div class="line">                        connection.setRequestMethod(<span class="string">"GET"</span>);</div><div class="line">                        connection.setUseCaches(<span class="keyword">true</span>);</div><div class="line">                        connection.setConnectTimeout(<span class="number">10000</span>);</div><div class="line">                        connection.setReadTimeout(<span class="number">10000</span>);</div><div class="line">                        InputStream in = connection.getInputStream();</div><div class="line">                        <span class="keyword">final</span> BitmapFactory.Options options = <span class="keyword">new</span> BitmapFactory.Options();</div><div class="line">                        options.inSampleSize = sResamplingRate;</div><div class="line">                        Bitmap response = BitmapFactory.decodeStream(in, <span class="keyword">null</span>, options);</div><div class="line">                        in.close();</div><div class="line">                        saveFile(hashName, response);</div><div class="line">                        <span class="keyword">if</span> (listener != <span class="keyword">null</span>) &#123;</div><div class="line">                            mMemoryCache.put(hashName + <span class="string">""</span>, response);</div><div class="line">                            listener.onBitmapFinish(response);</div><div class="line">                        &#125;</div><div class="line">                    &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">                        <span class="keyword">if</span> (listener != <span class="keyword">null</span>) &#123;</div><div class="line">                            listener.onError(e);</div><div class="line">                        &#125;</div><div class="line">                    &#125; <span class="keyword">finally</span> &#123;</div><div class="line">                        <span class="keyword">if</span> (connection != <span class="keyword">null</span>) &#123;</div><div class="line">                            connection.disconnect();</div><div class="line">                        &#125;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>这个方法稍微复杂了那么一点点，不过应该也解释清楚了吧？<br>看下一个方法</p>
+<h4 id="4、saveFile-int-name-Bitmap-bitmap"><a href="#4、saveFile-int-name-Bitmap-bitmap" class="headerlink" title="4、saveFile(int name, Bitmap bitmap)"></a>4、saveFile(int name, Bitmap bitmap)</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/***</span></div><div class="line">     * 保存到SD卡</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> name   文件名字</div><div class="line">     * <span class="doctag">@param</span> bitmap bitmap</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">saveFile</span><span class="params">(<span class="keyword">int</span> name, Bitmap bitmap)</span> </span>&#123;</div><div class="line">        FileOutputStream outputStream = <span class="keyword">null</span>;</div><div class="line">        ByteArrayOutputStream out = <span class="keyword">new</span> ByteArrayOutputStream();</div><div class="line">        <span class="keyword">if</span> (bitmap != <span class="keyword">null</span>) &#123;</div><div class="line">            bitmap.compress(Bitmap.CompressFormat.JPEG, sCompressionRatio, out);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">byte</span>[] result = out.toByteArray();</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            out.close();</div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">		    <span class="comment">//写入数据，第一个参数是文件名,不存在就创建，保存在/data/data/&lt;package name&gt;/files/目录中，第二个参数是写入方式(这里是每次写入覆盖原文件)</span></div><div class="line">            outputStream = sContext.openFileOutput(String.valueOf(name), Context.MODE_PRIVATE);</div><div class="line">            outputStream.write(result);</div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125; <span class="keyword">finally</span> &#123;</div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                <span class="keyword">if</span> (outputStream != <span class="keyword">null</span>) &#123;</div><div class="line">                    outputStream.close();</div><div class="line">                &#125;</div><div class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">                e.printStackTrace();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<h4 id="5、getBitmapFromNative-int-name"><a href="#5、getBitmapFromNative-int-name" class="headerlink" title="5、getBitmapFromNative(int name)"></a>5、getBitmapFromNative(int name)</h4><p>从本地获取bitmap<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/***</span></div><div class="line">     * 从本地取得图片</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> name 文件名</div><div class="line">     * <span class="doctag">@return</span> bitmap</div><div class="line">     */</div><div class="line">    <span class="meta">@Nullable</span></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> Bitmap <span class="title">getBitmapFromNative</span><span class="params">(<span class="keyword">int</span> name)</span> </span>&#123;</div><div class="line">        FileInputStream in = <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            in = sContext.openFileInput(String.valueOf(name));</div><div class="line">            <span class="keyword">return</span> BitmapFactory.decodeStream(in);</div><div class="line">        &#125; <span class="keyword">catch</span> (Exception ignored) &#123;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="keyword">if</span> (in != <span class="keyword">null</span>) &#123;</div><div class="line">                in.close();</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<h4 id="6、initLruCache"><a href="#6、initLruCache" class="headerlink" title="6、initLruCache()"></a>6、initLruCache()</h4><p>这个方法不需要解释,初始化Lru。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * 初始化LRU</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">initLruCache</span><span class="params">()</span> </span>&#123;</div><div class="line"> <span class="comment">//运行时最大的缓存的兆数</span></div><div class="line">    <span class="keyword">int</span> maxMemory = (<span class="keyword">int</span>) (Runtime.getRuntime().maxMemory() / <span class="number">1024</span>);</div><div class="line">    <span class="keyword">int</span> cacheSize = maxMemory / <span class="number">8</span>;</div><div class="line">    mMemoryCache = <span class="keyword">new</span> LruCache&lt;String, Bitmap&gt;(cacheSize) &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">protected</span> <span class="keyword">int</span> <span class="title">sizeOf</span><span class="params">(String key, Bitmap value)</span> </span>&#123;</div><div class="line">            <span class="keyword">return</span> value.getRowBytes() * value.getHeight() / <span class="number">1024</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line">    setDefaultLRU();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="7、reLoad-final-ImageView-iv-final-String-url"><a href="#7、reLoad-final-ImageView-iv-final-String-url" class="headerlink" title="7、reLoad(final ImageView iv, final String url)"></a>7、reLoad(final ImageView iv, final String url)</h4><p>加载失败后重新加载<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">    * 失败后的重新加载</div><div class="line">    *</div><div class="line">    * <span class="doctag">@param</span> iv  ImageView</div><div class="line">    * <span class="doctag">@param</span> url 网址</div><div class="line">    */</div><div class="line">   <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">reLoad</span><span class="params">(<span class="keyword">final</span> ImageView iv, <span class="keyword">final</span> String url)</span> </span>&#123;</div><div class="line">       <span class="keyword">new</span> Handler(Looper.getMainLooper()).post(<span class="keyword">new</span> Runnable() &#123;</div><div class="line">           <span class="meta">@Override</span></div><div class="line">           <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">               setFail(iv);</div><div class="line">           &#125;</div><div class="line">       &#125;);</div><div class="line">       iv.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</div><div class="line">           <span class="meta">@Override</span></div><div class="line">           <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</div><div class="line">               <span class="keyword">new</span> Handler(Looper.getMainLooper()).post(<span class="keyword">new</span> Runnable() &#123;</div><div class="line">                   <span class="meta">@Override</span></div><div class="line">                   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">                       Toast.makeText(sContext, <span class="string">"重新加载中"</span>, Toast.LENGTH_SHORT).show();</div><div class="line">                       loadAgain();</div><div class="line">                   &#125;</div><div class="line"></div><div class="line">                   <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">loadAgain</span><span class="params">()</span> </span>&#123;</div><div class="line">                       <span class="keyword">if</span> (sIsFailTouchToReload) &#123;</div><div class="line">                           iv.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</div><div class="line">                               <span class="meta">@Override</span></div><div class="line">                               <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</div><div class="line">                                   open(url, iv);</div><div class="line">                               &#125;</div><div class="line">                           &#125;);</div><div class="line">                       &#125;</div><div class="line">                   &#125;</div><div class="line">               &#125;);</div><div class="line">           &#125;</div><div class="line">       &#125;);</div><div class="line">   &#125;</div></pre></td></tr></table></figure></p>
+<p>这里有个open()方法没有写，所以我们马上就要看看这个方法了。</p>
+<h4 id="8、open-final-String-url-final-ImageView-iv-final-DrawableCallbackListener-listener"><a href="#8、open-final-String-url-final-ImageView-iv-final-DrawableCallbackListener-listener" class="headerlink" title="8、open(final String url, final ImageView iv, final DrawableCallbackListener listener)"></a>8、open(final String url, final ImageView iv, final DrawableCallbackListener listener)</h4><p>/<em>*</em></p>
+<pre><code> * 有回调的打开
+ *
+ * @param url      网址
+ * @param iv       ImageView
+ * @param listener 回调接口
+ */
+public static void open(final String url, final ImageView iv, final DrawableCallbackListener listener) {
+    new Thread(new Runnable() {
+        @Override
+        public void run() {
+            getHttpBitmap(url, iv, new DrawableCallbackListener() {
+                        //获取成功就调用这个方法
+                        @Override
+                        public void onBitmapFinish(final Bitmap response) {
+                            //主线程里面更新UI
+                            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    // 如果tag对应上了
+                                    if (iv.getTag() == url) {
+                                        iv.setImageBitmap(response);
+                                        // 让外面也可以自己添加额外的操作
+                                        if (listener != null) listener.onBitmapFinish(response);
+                                    }
+                                }
+                            });
+                        }
+                        //获取失败重新加载
+                        @Override
+                        public void onError(final Exception e) {
+                            e.printStackTrace();
+                            reLoad(iv, url);
+                        }
+                    }
+            );
+        }
+    }).start();
+}
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">好了，主要的方法就解释到这里了，我们看一下完整的代码。</div></pre></td></tr></table></figure>
+<p>package com.grantsome.imageloader;</p>
+<p>import android.content.Context;<br>import android.graphics.Bitmap;<br>import android.graphics.BitmapFactory;<br>import android.os.Handler;<br>import android.os.Looper;<br>import android.support.annotation.Nullable;<br>import android.util.LruCache;<br>import android.view.View;<br>import android.widget.ImageView;<br>import android.widget.Toast;</p>
+<p>import java.io.ByteArrayOutputStream;<br>import java.io.FileInputStream;<br>import java.io.FileOutputStream;<br>import java.io.InputStream;<br>import java.net.HttpURLConnection;<br>import java.net.URL;</p>
+<p>/**</p>
+<ul>
+<li>Created by Simonla on 2016/3/28.<br>*/</li>
+</ul>
+<p>public class PhotoLoader {</p>
+<pre><code>private static boolean sIsFailTouchToReload = false;
+public static final String LOADING = &quot;loading&quot;;
+public static final String FAIL = &quot;fail&quot;;
+private static Context sContext;
+private static int sResLoad;
+private static int sResFail;
+private static int sCompressionRatio = 100;
+private static int sResamplingRate = 1;
+private static LruCache&lt;String, Bitmap&gt; mMemoryCache;
+
+/***
+ * 设置采样率。默认为1，不压缩。如果数字不是2的指数，那么会向下取小
+ *
+ * @param resamplingRate 采样率
+ */
+public static void setResamplingRate(int resamplingRate) {
+    sResamplingRate = resamplingRate;
+}
+
+/***
+ * 设置加载失败是否重新加载。默认为否
+ *
+ * @param isFailTouchToReload 是否重新加载
+ */
+public static void setIsFailTouchToReload(boolean isFailTouchToReload) {
+    sIsFailTouchToReload = isFailTouchToReload;
+}
+
+/***
+ * 方便的得到上下文
+ *
+ * @return Context
+ */
+public static Context getContext() {
+    return sContext;
+}
+
+/***
+ * 初始化
+ *
+ * @param context 上下文
+ */
+public static void init(Context context) {
+    sContext = context;
+    initLruCache();
+}
+
+/***
+ * 必选项，设置默认加载
+ *
+ * @param res 资源ID
+ */
+public static void setLoadDefault(int res) {
+    sResLoad = res;
+}
+
+/***
+ * 必选项，设置默认失败图
+ *
+ * @param res 资源ID
+ */
+public static void setFailDefault(int res) {
+    sResFail = res;
+}
+
+/**
+ * 设置压缩率，0-100，默认100
+ *
+ * @param compressionRatio 压缩率
+ */
+public static void setCompressionRatio(int compressionRatio) {
+    sCompressionRatio = compressionRatio;
+}
+
+/***
+ * 没有回调的打开
+ *
+ * @param url 网址
+ * @param iv  ImageView
+ */
+public static void open(String url, ImageView iv) {
+    open(url, iv, null);
+}
+
+/***
+ * 有回调的打开
+ *
+ * @param url      网址
+ * @param iv       ImageView
+ * @param listener 回调接口
+ */
+public static void open(final String url, final ImageView iv, final DrawableCallbackListener listener) {
+    new Thread(new Runnable() {
+        @Override
+        public void run() {
+            getHttpBitmap(url, iv, new DrawableCallbackListener() {
+                        @Override
+                        public void onBitmapFinish(final Bitmap response) {
+                            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    // 如果tag对应上了
+                                    if (iv.getTag() == url) {
+                                        iv.setImageBitmap(response);
+                                        // 让外面也可以自己添加额外的操作
+                                        if (listener != null) listener.onBitmapFinish(response);
+                                    }
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onError(final Exception e) {
+                            e.printStackTrace();
+                            reLoad(iv, url);
+                        }
+                    }
+            );
+        }
+    }).start();
+}
+
+/***
+ * 缓存判断。以及网络取得
+ *
+ * @param address  网址
+ * @param iv       ImageView
+ * @param listener 回调方法
+ */
+private static void getHttpBitmap(final String address, final ImageView iv, final DrawableCallbackListener listener) {
+    if (address == null) {
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                setFail(iv);
+            }
+        });
+    } else {
+        final int hashName = address.hashCode();
+        Bitmap inCache = mMemoryCache.get(hashName + &quot;&quot;);
+        if (inCache != null) {
+            if (listener != null) {
+                listener.onBitmapFinish(inCache);
+            }
+        } else {
+            Bitmap inSD = getBitmapFromNative(hashName);
+            if (inSD != null) {
+                if (listener != null) {
+                    mMemoryCache.put(hashName + &quot;&quot;, inSD);
+                    listener.onBitmapFinish(inSD);
+                }
+            } else {
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        setLoading(iv);
+                    }
+                });
+                HttpURLConnection connection = null;
+                try {
+                    URL url = new URL(address);
+                    connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod(&quot;GET&quot;);
+                    connection.setUseCaches(true);
+                    connection.setConnectTimeout(10000);
+                    connection.setReadTimeout(10000);
+                    InputStream in = connection.getInputStream();
+                    final BitmapFactory.Options options = new BitmapFactory.Options();
+                    options.inSampleSize = sResamplingRate;
+                    Bitmap response = BitmapFactory.decodeStream(in, null, options);
+                    in.close();
+                    saveFile(hashName, response);
+                    if (listener != null) {
+                        mMemoryCache.put(hashName + &quot;&quot;, response);
+                        listener.onBitmapFinish(response);
+                    }
+                } catch (Exception e) {
+                    if (listener != null) {
+                        listener.onError(e);
+                    }
+                } finally {
+                    if (connection != null) {
+                        connection.disconnect();
+                    }
+                }
+            }
+        }
+    }
+}
+
+/***
+ * 初始化LRU
+ */
+private static void initLruCache() {
+    int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
+    int cacheSize = maxMemory / 8;
+    mMemoryCache = new LruCache&lt;String, Bitmap&gt;(cacheSize) {
+        @Override
+        protected int sizeOf(String key, Bitmap value) {
+            return value.getRowBytes() * value.getHeight() / 1024;
+        }
+    };
+    setDefaultLRU();
+}
+
+/**
+ * 设置默认图
+ *
+ * @param iv ImageView
+ */
+private static void setLoading(ImageView iv) {
+    if (mMemoryCache.get(LOADING) != null) {
+        iv.setImageBitmap(mMemoryCache.get(LOADING));
+    } else {
+        iv.setImageResource(sResLoad);
+    }
+}
+
+/**
+ * 设置默认图
+ *
+ * @param iv ImageView
+ */
+private static void setFail(ImageView iv) {
+    if (mMemoryCache.get(FAIL) != null) {
+        iv.setImageBitmap(mMemoryCache.get(FAIL));
+    } else {
+        iv.setImageResource(sResFail);
+    }
+}
+
+/***
+ * 设置默认图进到LRU
+ */
+private static void setDefaultLRU() {
+    if (sResFail != 0 &amp;&amp; sResLoad != 0) {
+        Bitmap loading = BitmapFactory.decodeResource(sContext.getResources(), sResLoad);
+        Bitmap fail = BitmapFactory.decodeResource(sContext.getResources(), sResFail);
+        mMemoryCache.put(LOADING, loading);
+        mMemoryCache.put(FAIL, fail);
+    }
+}
+
+/***
+ * 保存到SD卡
+ *
+ * @param name   文件名字
+ * @param bitmap bitmap
+ */
+private static void saveFile(int name, Bitmap bitmap) {
+    FileOutputStream outputStream = null;
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    if (bitmap != null) {
+        bitmap.compress(Bitmap.CompressFormat.JPEG, sCompressionRatio, out);
+    }
+    byte[] result = out.toByteArray();
+    try {
+        out.close();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    try {
+        outputStream = sContext.openFileOutput(String.valueOf(name), Context.MODE_PRIVATE);
+        outputStream.write(result);
+    } catch (Exception e) {
+        e.printStackTrace();
+    } finally {
+        try {
+            if (outputStream != null) {
+                outputStream.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+/***
+ * 从本地取得图片
+ *
+ * @param name 文件名
+ * @return bitmap
+ */
+@Nullable
+private static Bitmap getBitmapFromNative(int name) {
+    FileInputStream in = null;
+    try {
+        in = sContext.openFileInput(String.valueOf(name));
+        return BitmapFactory.decodeStream(in);
+    } catch (Exception ignored) {
+    }
+    try {
+        if (in != null) {
+            in.close();
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return null;
+}
+
+/**
+ * 失败后的重新加载
+ *
+ * @param iv  ImageView
+ * @param url 网址
+ */
+private static void reLoad(final ImageView iv, final String url) {
+    new Handler(Looper.getMainLooper()).post(new Runnable() {
+        @Override
+        public void run() {
+            setFail(iv);
+        }
+    });
+    iv.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(sContext, &quot;重新加载中&quot;, Toast.LENGTH_SHORT).show();
+                    loadAgain();
+                }
+
+                private void loadAgain() {
+                    if (sIsFailTouchToReload) {
+                        iv.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                open(url, iv);
+                            }
+                        });
+                    }
+                }
+            });
+        }
+    });
+}
+
+/**
+ * 回调接口
+ */
+public interface DrawableCallbackListener {
+    void onBitmapFinish(Bitmap response);
+
+    void onError(Exception e);
+}
+</code></pre><p>}<br>```</p>
+<h3 id="3、《Android开发艺术探索》里面的ImageLoader"><a href="#3、《Android开发艺术探索》里面的ImageLoader" class="headerlink" title="3、《Android开发艺术探索》里面的ImageLoader"></a>3、《Android开发艺术探索》里面的ImageLoader</h3><p>高级工程师写的东西,总是很有逼格。这个也不例外,虽然感觉思路不是很难理解。但是函数多了,调用过来调用过去很容易让人犯迷糊,不过不要着急,慢慢消化,把别人的东西变成自己的东西,写代码就是这样子,感觉上也不是很难,但是自己就是写不出来。<br>电脑太卡了,AS已经崩溃，晚上还有课,下次再写。</p>
+<h3 id="4、GitHub上面的Android-Universal-Image-Loader"><a href="#4、GitHub上面的Android-Universal-Image-Loader" class="headerlink" title="4、GitHub上面的Android-Universal-Image-Loader"></a>4、GitHub上面的Android-Universal-Image-Loader</h3><p>这个可是大佬级别的代码,让我们去仰慕一下,仰慕的同时学点东西,看看人家是怎样构建自己的代码的, 记得代码家曾经有一篇文章就写到说少看别人的文字描述,多看别人的代码，这样才有利于提高。<br>不要害怕看别人很复杂的代码,慢慢梳理自己的思路,有时候记得画个思维导图什么的,有助于自己理解。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;加载图片在Android开发过程中经常会用到，当加载的图片的数量不是很多的时候还好，但是如果图片数量一旦很多的话，就很有可能出现OOM异常和卡顿的现象。当然，这个是不能忍的，所以我们必须要想办法解决它。&lt;br&gt;如何解决呢？我们知道，现在GitHub上面的开源库还是不少的，比
+    
+    </summary>
+    
+    
+      <category term="Android" scheme="http://yoursite.com/tags/Android/"/>
+    
+  </entry>
   
   <entry>
     <title>AsyncTask和HandlerThread完全解析--入门级</title>
