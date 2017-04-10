@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-04-10T01:11:17.961Z</updated>
+  <updated>2017-04-10T01:25:50.496Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -16,406 +16,53 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title></title>
-    <link href="http://yoursite.com/2017/04/08/AsyncTask%E5%92%8CHandlerThread%E5%AE%8C%E5%85%A8%E8%A7%A3%E6%9E%90--%E5%85%A5%E9%97%A8%E7%BA%A7/"/>
-    <id>http://yoursite.com/2017/04/08/AsyncTask和HandlerThread完全解析--入门级/</id>
-    <published>2017-04-08T08:25:31.418Z</published>
-    <updated>2017-04-10T01:11:17.961Z</updated>
+    <title>AsyncTask和HandlerThread完全解析--入门级</title>
+    <link href="http://yoursite.com/2017/04/09/AsyncTask%E5%92%8CHandlerThread%E5%AE%8C%E5%85%A8%E8%A7%A3%E6%9E%90-%E5%85%A5%E9%97%A8%E7%BA%A7/"/>
+    <id>http://yoursite.com/2017/04/09/AsyncTask和HandlerThread完全解析-入门级/</id>
+    <published>2017-04-09T13:49:13.000Z</published>
+    <updated>2017-04-10T01:25:50.496Z</updated>
     
-    <content type="html"><![CDATA[<hr>
-<p>title: AsyncTask和HandlerThread完全解析–入门级<br>date: 2017-03-26 21:49:13<br>tags: Android RecyclerView</p>
-<hr>
-<p>本来打算每周写一篇博客的，但是上一周没有写，原因很简单：放清明三天去玩了，缓了好几天回过神来。所以这一周打算写两篇，就当做是自己对自己的一个交代吧。话不多说，进入正题。</p>
+    <content type="html"><![CDATA[<p>本来打算每周写一篇博客的，但是上一周没有写，原因很简单：放清明三天去玩了，缓了好几天回过神来。所以这一周打算写两篇，就当做是自己对自己的一个交代吧。话不多说，进入正题。</p>
 <p>AsyncTask，翻译过来的字面意思是异步任务,我们习惯上说异步操作(换句话说，也就是在主线程中新开线程进行的操作)。简单比喻：假设你饿了，你肯定会去饭店地方吃东西，但是饭店为你准备食物需要一定的时间，所以你饿了必须要到了饭店等一会儿才能吃饭，这就是异步操作，你不能马上做下一件事情，因为它需要当前事情完成之后才能做下一件事情。至于为什么需要异步操作，Android主线程里面不能进行耗时操作，也就是只能在子线程里进行耗时操作比如网络请求，并且只能在主线程里面更新UI。简单例子，从网上加载图片数据并显示图片，现在你要通过网络请求获取一段数据给你，其中有图片的url，得到url转化成bitmap或者drawable，然后在回到主线程里面给imageview设置图片。</p>
 <p>现在我们来看看AsyncTask，它就是一个封装过的抽象的后台任务类，一个使用后台线程的工具类，使用的时候直接继承AsyncTask类就行了</p>
 <h3 id="1、参数"><a href="#1、参数" class="headerlink" title="1、参数"></a>1、参数</h3><p>AsyncTask<params,progress,result>里面有三个泛型参数，分别表示：<br>Params: 启动任务时执行的输入参数<br>Progress: 任务执行的进度<br>Result: 返回执行的结果<br>当不需要设置这三个参数的时候，设置Void类型，表示没有。</params,progress,result></p>
-<h3 id="2、重写的方法"><a href="#2、重写的方法" class="headerlink" title="2、重写的方法"></a>2、重写的方法</h3><h4 id="1-、必须要重写的方法"><a href="#1-、必须要重写的方法" class="headerlink" title="(1)、必须要重写的方法"></a>(1)、必须要重写的方法</h4><pre><code class="java"><span class="function"><span class="keyword">protected</span> Result <span class="title">doInBackground</span><span class="params">(Params...param)</span></span>{
-   <span class="comment">/* your code here*/</span>
-}
-</code></pre>
+<h3 id="2、重写的方法"><a href="#2、重写的方法" class="headerlink" title="2、重写的方法"></a>2、重写的方法</h3><h4 id="1-、必须要重写的方法"><a href="#1-、必须要重写的方法" class="headerlink" title="(1)、必须要重写的方法"></a>(1)、必须要重写的方法</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> Result <span class="title">doInBackground</span><span class="params">(Params...param)</span></span>&#123;</div><div class="line">   <span class="comment">/* your code here*/</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>在这个方法里面执行需要耗时的操作（一般执行网络请求等操作），它的参数是一个Params类型的数组，返回一个Result类型的结果。这个方法里面也可以调用publish Progress(Progress … values)用于执行网络请求的时候更新进度。</p>
-<h4 id="2-、不用重写-但会自动调用的方法"><a href="#2-、不用重写-但会自动调用的方法" class="headerlink" title="(2)、不用重写(但会自动调用的方法)"></a>(2)、不用重写(但会自动调用的方法)</h4><pre><code class="java"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onPostExecute</span><span class="params">(Result result)</span></span>{
-   <span class="comment">/*your code here*/</span>
-}
-</code></pre>
+<h4 id="2-、不用重写-但会自动调用的方法"><a href="#2-、不用重写-但会自动调用的方法" class="headerlink" title="(2)、不用重写(但会自动调用的方法)"></a>(2)、不用重写(但会自动调用的方法)</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onPostExecute</span><span class="params">(Result result)</span></span>&#123;</div><div class="line">   <span class="comment">/*your code here*/</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>这个方法在doInBackground()方法完成之后被执行的，根据doIBackground的返回结果进行后面的更新UI的操作,所以该方法是在主线程里面工作的。</p>
-<pre><code class="java"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onPreExecute</span><span class="params">()</span></span>{
-   <span class="comment">/*your code here*/</span>
-}
-</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onPreExecute</span><span class="params">()</span></span>&#123;</div><div class="line">   <span class="comment">/*your code here*/</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>当调用AsyncTask.excute();方法之后,第一个执行的方法就是这个方法。执行在主线程中。 用于初始化一些UI控件。</p>
-<pre><code class="java"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onProgressUpdate</span><span class="params">(Progress ... values)</span></span>{
-   <span class="comment">/*your code here*/</span>
-}
-</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onProgressUpdate</span><span class="params">(Progress ... values)</span></span>&#123;</div><div class="line">   <span class="comment">/*your code here*/</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>如果在doInBackground()方法里面执行了publishProgress()方法，那么这个方法就会得到执行, 根据进度调整对应value的值，也是在主线程中执行的。</p>
 <p>当然，如果你英语够好，可以去官方文档<br><a href="https://developer.android.com/reference/android/os/AsyncTask.html" target="_blank" rel="external">https://developer.android.com/reference/android/os/AsyncTask.html</a></p>
-<p>好了，有了这个介绍，我们下面来看一个简单的例子。</p>
-<pre><code class="java">
-<span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">FetchItemsTask</span> <span class="keyword">extends</span> <span class="title">AsyncTask</span>&lt;<span class="title">Void</span>,<span class="title">Void</span>,<span class="title">Void</span>&gt;</span>{
-
-    <span class="meta">@Override</span>    
-    <span class="function"><span class="keyword">protected</span> Void <span class="title">doInBackground</span><span class="params">(Void... params)</span> </span>{
-        <span class="comment">//网络请求</span>
-        <span class="keyword">new</span> HttpUtil().fetchItems();
-        <span class="keyword">return</span> <span class="keyword">null</span>;
-    }
-}
-</code></pre>
+<p>好了，有了这个介绍，我们下面来看一个简单的例子。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">FetchItemsTask</span> <span class="keyword">extends</span> <span class="title">AsyncTask</span>&lt;<span class="title">Void</span>,<span class="title">Void</span>,<span class="title">Void</span>&gt;</span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span>    </div><div class="line">	<span class="function"><span class="keyword">protected</span> Void <span class="title">doInBackground</span><span class="params">(Void... params)</span> </span>&#123;</div><div class="line">        <span class="comment">//网络请求</span></div><div class="line">        <span class="keyword">new</span> HttpUtil().fetchItems();</div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>这个是工具类</p>
-<pre><code class="java"><span class="keyword">package</span> com.grantsome.photogallery;
-
-<span class="keyword">import</span> android.content.Context;
-<span class="keyword">import</span> android.net.ConnectivityManager;
-<span class="keyword">import</span> android.net.NetworkInfo;
-<span class="keyword">import</span> android.net.Uri;
-<span class="keyword">import</span> android.util.Log;
-
-<span class="keyword">import</span> org.json.JSONArray;
-<span class="keyword">import</span> org.json.JSONObject;
-
-<span class="keyword">import</span> java.io.ByteArrayOutputStream;
-<span class="keyword">import</span> java.io.IOException;
-<span class="keyword">import</span> java.io.InputStream;
-<span class="keyword">import</span> java.net.HttpURLConnection;
-<span class="keyword">import</span> java.net.URL;
-<span class="keyword">import</span> java.security.KeyManagementException;
-<span class="keyword">import</span> java.security.NoSuchAlgorithmException;
-<span class="keyword">import</span> java.util.ArrayList;
-<span class="keyword">import</span> java.util.List;
-
-<span class="keyword">import</span> javax.net.ssl.HttpsURLConnection;
-
-<span class="comment">/**
- * Created by tom on 2017/4/8.
- */</span>
-
-<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HttpUtil</span> </span>{
-
-    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String TAG = <span class="string">"HttpUtil"</span>;
-
-    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String API_KEY = <span class="string">"89b13c41adafc85b80edbadc4a655b60"</span>;
-
-    <span class="keyword">public</span> <span class="keyword">byte</span>[] getUrlBytes(String urlSpec) <span class="keyword">throws</span> IOException, NoSuchAlgorithmException, KeyManagementException {
-        URL url = <span class="keyword">new</span> URL(urlSpec);
-        HttpsURLConnection connection = (HttpsURLConnection)url.openConnection();
-        <span class="keyword">try</span> {
-            ByteArrayOutputStream out = <span class="keyword">new</span> ByteArrayOutputStream();
-            InputStream in = connection.getInputStream();
-            <span class="keyword">if</span> (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-                <span class="keyword">throw</span> <span class="keyword">new</span> IOException(connection.getResponseMessage() +<span class="string">": with "</span> +urlSpec);
-            }
-            <span class="keyword">int</span> bytesRead = <span class="number">0</span>;
-            <span class="keyword">byte</span>[] buffer = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];
-            <span class="keyword">while</span> ((bytesRead = in.read(buffer)) &gt; <span class="number">0</span>) {
-                out.write(buffer, <span class="number">0</span>, bytesRead);
-            }
-            out.close();
-            <span class="keyword">return</span> out.toByteArray();
-        } <span class="keyword">finally</span> {
-            connection.disconnect();
-        }
-    }
-
-    <span class="function"><span class="keyword">public</span> String <span class="title">getUrlString</span><span class="params">(String urlSpec)</span> <span class="keyword">throws</span> IOException, KeyManagementException, NoSuchAlgorithmException </span>{
-        <span class="keyword">return</span> <span class="keyword">new</span> String(getUrlBytes(urlSpec));
-    }
-
-    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">fetchItems</span><span class="params">()</span></span>{
-
-        List&lt;GalleryItem&gt; galleryItemList = <span class="keyword">new</span> ArrayList&lt;&gt;();
-
-        <span class="keyword">try</span> {
-            String url = Uri.parse(<span class="string">"https://api.flickr.com/services/rest/"</span>).buildUpon().appendQueryParameter(<span class="string">"method"</span>, <span class="string">"flickr.photos.getRecent"</span>).appendQueryParameter(<span class="string">"api_key"</span>, API_KEY).appendQueryParameter(<span class="string">"format"</span>, <span class="string">"json"</span>).appendQueryParameter(<span class="string">"nojsoncallback"</span>, <span class="string">"1"</span>).appendQueryParameter(<span class="string">"extras"</span>, <span class="string">"url_s"</span>).build().toString();
-            Log.i(TAG, <span class="string">"HttpUrl: "</span> + url);
-            String jsonString = getUrlString(url);
-            PreUtil.putStringToDefault(AppContext.getInstance(), TAG, jsonString);
-               Log.i(TAG, <span class="string">"Receive Json From Internet "</span> + jsonString);
-        }<span class="keyword">catch</span> (Exception e){
-            e.printStackTrace();
-        }
-
-    }
-
-
-}
-</code></pre>
-<p>这里例子很简单吧？得到的json:</p>
-<pre><code class="xml">
-{
-&quot;photos&quot;:
-   {
-   &quot;page&quot;:1,&quot;pages&quot;:10,&quot;perpage&quot;:100,&quot;total&quot;:1000,&quot;photo&quot;:
-   [
-      {
-      &quot;id&quot;:&quot;33079594864&quot;,&quot;owner&quot;:&quot;135557505@N08&quot;,&quot;secret&quot;:&quot;4aa208ddb9&quot;,&quot;server&quot;:&quot;3841&quot;,&quot;farm&quot;:4,&quot;title&quot;:&quot;upload&quot;,&quot;ispublic&quot;:1,&quot;isfriend&quot;:0,&quot;isfamily&quot;:0,&quot;url_s&quot;:&quot;https:\/\/farm4.staticflickr.com\/3841\/33079594864_4aa208ddb9_m.jpg&quot;,&quot;height_s&quot;:&quot;240&quot;,&quot;width_s&quot;:&quot;194&quot;
-      },
-      {
-      &quot;id&quot;:&quot;33079595044&quot;,&quot;owner&quot;:&quot;33255825@N07&quot;,&quot;secret&quot;:&quot;e7cc46dc7c&quot;,&quot;server&quot;:&quot;2902&quot;,&quot;farm&quot;:3,&quot;title&quot;:&quot;2017-04-09_09-54-25&quot;,&quot;ispublic&quot;:1,&quot;isfriend&quot;:0,&quot;isfamily&quot;:0,&quot;url_s&quot;:&quot;https:\/\/farm3.staticflickr.com\/2902\/33079595044_e7cc46dc7c_m.jpg&quot;,&quot;height_s&quot;:&quot;240&quot;,&quot;width_s&quot;:&quot;240&quot;
-      },
-      {
-      &quot;id&quot;:&quot;33079596844&quot;,&quot;owner&quot;:&quot;153628499@N08&quot;,&quot;secret&quot;:&quot;c51b00fcfb&quot;,&quot;server&quot;:&quot;679&quot;,&quot;farm&quot;:1,&quot;title&quot;:&quot;Dako Island, Siargao #throwback #summerfeels #sheenamariephotography&quot;,&quot;ispublic&quot;:1,&quot;isfriend&quot;:0,&quot;isfamily&quot;:0,&quot;url_s&quot;:&quot;https:\/\/farm1.staticflickr.com\/679\/33079596844_c51b00fcfb_m.jpg&quot;,&quot;height_s&quot;:&quot;240&quot;,&quot;width_s&quot;:&quot;240&quot;
-      },
-      {
-      &quot;id&quot;:&quot;33079598224&quot;,&quot;owner&quot;:&quot;142581045@N07&quot;,&quot;secret&quot;:&quot;94ed8ea590&quot;,&quot;server&quot;:&quot;581&quot;,&quot;farm&quot;:1,&quot;title&quot;:&quot;B.M.W Entertainment presents Urban Spalsh 6 Music Fest to kick off the Summer Splash Pool Series at  BLK Live  in Scottsdale AZ is going to  be  an insane summer. Artist and celebrity host every week for the sexiest day party in the state. better reserve&quot;,&quot;ispublic&quot;:1,&quot;isfriend&quot;:0,&quot;isfamily&quot;:0,&quot;url_s&quot;:&quot;https:\/\/farm1.staticflickr.com\/581\/33079598224_94ed8ea590_m.jpg&quot;,&quot;height_s&quot;:&quot;240&quot;,&quot;width_s&quot;:&quot;240&quot;
-      },
-      {&quot;id&quot;:&quot;33079598584&quot;,&quot;owner&quot;:&quot;75860432@N02&quot;,&quot;secret&quot;:&quot;59211f9a1a&quot;,&quot;server&quot;:&quot;3943&quot;,&quot;farm&quot;:4,&quot;title&quot;:&quot;Cr\u00e9met d&#39;Anjou&quot;,&quot;ispublic&quot;:1,&quot;isfriend&quot;:0,&quot;isfamily&quot;:0,&quot;url_s&quot;:&quot;https:\/\/farm4.staticflickr.com\/3943\/33079598584_59211f9a1a_m.jpg&quot;,&quot;height_s&quot;:&quot;180&quot;,&quot;width_s&quot;:&quot;240&quot;
-      }
-    ]},
-     &quot;stat&quot;:&quot;ok&quot;}
-</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.grantsome.photogallery;</div><div class="line"></div><div class="line"><span class="keyword">import</span> android.content.Context;</div><div class="line"><span class="keyword">import</span> android.net.ConnectivityManager;</div><div class="line"><span class="keyword">import</span> android.net.NetworkInfo;</div><div class="line"><span class="keyword">import</span> android.net.Uri;</div><div class="line"><span class="keyword">import</span> android.util.Log;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.json.JSONArray;</div><div class="line"><span class="keyword">import</span> org.json.JSONObject;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.ByteArrayOutputStream;</div><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"><span class="keyword">import</span> java.io.InputStream;</div><div class="line"><span class="keyword">import</span> java.net.HttpURLConnection;</div><div class="line"><span class="keyword">import</span> java.net.URL;</div><div class="line"><span class="keyword">import</span> java.security.KeyManagementException;</div><div class="line"><span class="keyword">import</span> java.security.NoSuchAlgorithmException;</div><div class="line"><span class="keyword">import</span> java.util.ArrayList;</div><div class="line"><span class="keyword">import</span> java.util.List;</div><div class="line"></div><div class="line"><span class="keyword">import</span> javax.net.ssl.HttpsURLConnection;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Created by tom on 2017/4/8.</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HttpUtil</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String TAG = <span class="string">"HttpUtil"</span>;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String API_KEY = <span class="string">"89b13c41adafc85b80edbadc4a655b60"</span>;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">byte</span>[] getUrlBytes(String urlSpec) <span class="keyword">throws</span> IOException, NoSuchAlgorithmException, KeyManagementException &#123;</div><div class="line">        URL url = <span class="keyword">new</span> URL(urlSpec);</div><div class="line">        HttpsURLConnection connection = (HttpsURLConnection)url.openConnection();</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            ByteArrayOutputStream out = <span class="keyword">new</span> ByteArrayOutputStream();</div><div class="line">            InputStream in = connection.getInputStream();</div><div class="line">            <span class="keyword">if</span> (connection.getResponseCode() != HttpURLConnection.HTTP_OK) &#123;</div><div class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> IOException(connection.getResponseMessage() +<span class="string">": with "</span> +urlSpec);</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">int</span> bytesRead = <span class="number">0</span>;</div><div class="line">            <span class="keyword">byte</span>[] buffer = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</div><div class="line">            <span class="keyword">while</span> ((bytesRead = in.read(buffer)) &gt; <span class="number">0</span>) &#123;</div><div class="line">                out.write(buffer, <span class="number">0</span>, bytesRead);</div><div class="line">            &#125;</div><div class="line">            out.close();</div><div class="line">            <span class="keyword">return</span> out.toByteArray();</div><div class="line">        &#125; <span class="keyword">finally</span> &#123;</div><div class="line">            connection.disconnect();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getUrlString</span><span class="params">(String urlSpec)</span> <span class="keyword">throws</span> IOException, KeyManagementException, NoSuchAlgorithmException </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> String(getUrlBytes(urlSpec));</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">fetchItems</span><span class="params">()</span></span>&#123;</div><div class="line"></div><div class="line">        List&lt;GalleryItem&gt; galleryItemList = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line"></div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            String url = Uri.parse(<span class="string">"https://api.flickr.com/services/rest/"</span>).buildUpon().appendQueryParameter(<span class="string">"method"</span>, <span class="string">"flickr.photos.getRecent"</span>).appendQueryParameter(<span class="string">"api_key"</span>, API_KEY).appendQueryParameter(<span class="string">"format"</span>, <span class="string">"json"</span>).appendQueryParameter(<span class="string">"nojsoncallback"</span>, <span class="string">"1"</span>).appendQueryParameter(<span class="string">"extras"</span>, <span class="string">"url_s"</span>).build().toString();</div><div class="line">			Log.i(TAG, <span class="string">"HttpUrl: "</span> + url);</div><div class="line">            String jsonString = getUrlString(url);</div><div class="line">            PreUtil.putStringToDefault(AppContext.getInstance(), TAG, jsonString);</div><div class="line">       		Log.i(TAG, <span class="string">"Receive Json From Internet "</span> + jsonString);</div><div class="line">        &#125;<span class="keyword">catch</span> (Exception e)&#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">    &#125;</div><div class="line"></div><div class="line">   </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这里例子很简单吧？得到的json:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">&#123;</div><div class="line">"photos":</div><div class="line">   &#123;</div><div class="line">   "page":1,"pages":10,"perpage":100,"total":1000,"photo":</div><div class="line">   [</div><div class="line">      &#123;</div><div class="line">	  "id":"33079594864","owner":"135557505@N08","secret":"4aa208ddb9","server":"3841","farm":4,"title":"upload","ispublic":1,"isfriend":0,"isfamily":0,"url_s":"https:\/\/farm4.staticflickr.com\/3841\/33079594864_4aa208ddb9_m.jpg","height_s":"240","width_s":"194"</div><div class="line">      &#125;,</div><div class="line">      &#123;</div><div class="line">	  "id":"33079595044","owner":"33255825@N07","secret":"e7cc46dc7c","server":"2902","farm":3,"title":"2017-04-09_09-54-25","ispublic":1,"isfriend":0,"isfamily":0,"url_s":"https:\/\/farm3.staticflickr.com\/2902\/33079595044_e7cc46dc7c_m.jpg","height_s":"240","width_s":"240"</div><div class="line">	  &#125;,</div><div class="line">      &#123;</div><div class="line">	  "id":"33079596844","owner":"153628499@N08","secret":"c51b00fcfb","server":"679","farm":1,"title":"Dako Island, Siargao #throwback #summerfeels #sheenamariephotography","ispublic":1,"isfriend":0,"isfamily":0,"url_s":"https:\/\/farm1.staticflickr.com\/679\/33079596844_c51b00fcfb_m.jpg","height_s":"240","width_s":"240"</div><div class="line">	  &#125;,</div><div class="line">      &#123;</div><div class="line">	  "id":"33079598224","owner":"142581045@N07","secret":"94ed8ea590","server":"581","farm":1,"title":"B.M.W Entertainment presents Urban Spalsh 6 Music Fest to kick off the Summer Splash Pool Series at  BLK Live  in Scottsdale AZ is going to  be  an insane summer. Artist and celebrity host every week for the sexiest day party in the state. better reserve","ispublic":1,"isfriend":0,"isfamily":0,"url_s":"https:\/\/farm1.staticflickr.com\/581\/33079598224_94ed8ea590_m.jpg","height_s":"240","width_s":"240"</div><div class="line">	  &#125;,</div><div class="line">      &#123;"id":"33079598584","owner":"75860432@N02","secret":"59211f9a1a","server":"3943","farm":4,"title":"Cr\u00e9met d'Anjou","ispublic":1,"isfriend":0,"isfamily":0,"url_s":"https:\/\/farm4.staticflickr.com\/3943\/33079598584_59211f9a1a_m.jpg","height_s":"180","width_s":"240"</div><div class="line">	  &#125;</div><div class="line">    ]&#125;,</div><div class="line">     "stat":"ok"&#125;</div></pre></td></tr></table></figure></p>
 <p>没有写完json。这个不重要。没关系。简单理解一下它的用法就可以了。</p>
-<p>下面再来看一个比较全面一点的例子</p>
-<pre><code class="java"><span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">FetchItemsTask</span> <span class="keyword">extends</span> <span class="title">AsyncTask</span>&lt;<span class="title">Void</span>,<span class="title">Void</span>,<span class="title">List</span>&lt;<span class="title">GalleryItem</span>&gt;&gt;</span>{
-
-      <span class="meta">@Override</span>
-      <span class="function"><span class="keyword">protected</span> List&lt;GalleryItem&gt; <span class="title">doInBackground</span><span class="params">(Void... params)</span> </span>{
-          <span class="keyword">return</span> <span class="keyword">new</span> HttpUtil().fetchItems();
-      }
-
-      <span class="meta">@Override</span>
-      <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onPostExecute</span><span class="params">(List&lt;GalleryItem&gt; items)</span></span>{
-          mItems = items;
-          setupAdapter();
-      }
-   }
-</code></pre>
+<p>下面再来看一个比较全面一点的例子<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">FetchItemsTask</span> <span class="keyword">extends</span> <span class="title">AsyncTask</span>&lt;<span class="title">Void</span>,<span class="title">Void</span>,<span class="title">List</span>&lt;<span class="title">GalleryItem</span>&gt;&gt;</span>&#123;</div><div class="line"></div><div class="line">      <span class="meta">@Override</span></div><div class="line">      <span class="function"><span class="keyword">protected</span> List&lt;GalleryItem&gt; <span class="title">doInBackground</span><span class="params">(Void... params)</span> </span>&#123;</div><div class="line">          <span class="keyword">return</span> <span class="keyword">new</span> HttpUtil().fetchItems();</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      <span class="meta">@Override</span></div><div class="line">      <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onPostExecute</span><span class="params">(List&lt;GalleryItem&gt; items)</span></span>&#123;</div><div class="line">          mItems = items;</div><div class="line">          setupAdapter();</div><div class="line">      &#125;</div><div class="line">   &#125;</div></pre></td></tr></table></figure></p>
 <p>说完了AysncTask我们再来讨论一下它的优缺点，这个抽象的工具类虽然好用，但是它也只是一种轻量级的工具而已，只适合只有几秒的短时间的异步操作而已，并且有可能导致内存泄漏的问题。我们当然要要去寻找其他的替代的东西以写出更好的程序。</p>
 <p>这时候Looper、Handler、HandlerThread就闪亮登场了。<br>Message:汉语翻译过来是消息的意思，顾名思义，就是在线程之间传递的消息，可以携带message.what的int类型,也可以携带一个object类型的obj.<br>Handler:处理者,主要用于发送和处理消息，发送是handler.sendMessage()，最终传递到handler.handlerMessage();说简单一点就是异步更新UI，并且更新UI的时候，是主线程与子线程之间的通信。<br>这里讲的最清楚不过了<a href="https://developer.android.com/reference/android/os/Handler.html" target="_blank" rel="external">https://developer.android.com/reference/android/os/Handler.html</a><br>MessageQueue:消息队列，主要用于存放所有通过handler.sendMessage();的所有消息，这部分会一直存储着MessageQueue()里面，等待被处理，每一个线程只会有一个MessageQueue对象。<br>Looper:消息的循环者，也就是MessageQueue的管家,每发现MessageQueue里面有一个message的时候,就会将它取出，并传递给handler.handlerMessage();每一个线程也只会有一个looper<br>HandlerThread:HandlerThread继承与Thread，但是又有不同，唯一的不同之处在于，建立了一个单独的线程以及创立了一个消息队列,有自己单独的looper。前面有说过Handler用于主线程和子线程之间的通信。而假如你现在需要子线程与子线程之间的通信和传递数据呢？我们要在子线程中调用Looper.prepare() 为一个线程开启一个消息循环，默认情况下Android中新诞生的线程是没有开启消息循环的。（主线程除外，主线程系统会自动为其创建Looper对象，开启消息循环。） Looper对象通过MessageQueue来存放消息和事件。一个线程只能有一个Looper，对应一个MessageQueue。 然后通过Looper.loop() 让Looper开始工作，从消息队列里取消息，处理消息。比如这样子</p>
-<pre><code class="java">Handler mHandler;
-
-<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">createManualThreadWithHandler</span><span class="params">()</span> </span>{
-    <span class="keyword">new</span> Thread() {
-       <span class="meta">@Override</span>
-       <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>{
-       <span class="keyword">super</span>.run();
-       <span class="comment">//调用Looper.prepare 创建与当前线程绑定的Looper实例</span>
-       Looper.prepare();            
-       <span class="comment">//使用上面创建的Looper生成Handler实例</span>
-       mHandler = <span class="keyword">new</span> Handler(Looper.myLooper());
-       <span class="comment">//调用Looper.loop()实现消息循环</span>
-       Looper.loop();        
-       }    
-    }.start();
-}
-</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">Handler mHandler;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">createManualThreadWithHandler</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">new</span> Thread() &#123;</div><div class="line">	   <span class="meta">@Override</span></div><div class="line">	   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">	   <span class="keyword">super</span>.run();</div><div class="line">	   <span class="comment">//调用Looper.prepare 创建与当前线程绑定的Looper实例</span></div><div class="line">	   Looper.prepare();            </div><div class="line">	   <span class="comment">//使用上面创建的Looper生成Handler实例</span></div><div class="line">	   mHandler = <span class="keyword">new</span> Handler(Looper.myLooper());</div><div class="line">	   <span class="comment">//调用Looper.loop()实现消息循环</span></div><div class="line">	   Looper.loop();        </div><div class="line">	   &#125;    </div><div class="line">    &#125;.start();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>如果每次使用都这样写的话 感觉也不是太方便。<br>这时候Google就很贴心的早就为我们封装好了一个类，就是HandlerThread。<br>Google大门常打开，开怀容纳天地：<a href="https://developer.android.com/reference/android/os/HandlerThread.html" target="_blank" rel="external">https://developer.android.com/reference/android/os/HandlerThread.html</a></p>
-<p>让我们来看看它最简单的使用</p>
-<pre><code class="java"><span class="keyword">private</span> Handler mHandler;
-<span class="function"><span class="keyword">private</span> <span class="title">UseHandlerThread</span><span class="params">()</span> </span>{
-    <span class="comment">//创建实例化对象,参数的作用仅仅是一个标记作用。</span>
-    HandlerThread workerThread = <span class="keyword">new</span> HandlerThread(<span class="string">"LightTaskThread"</span>);
-    <span class="comment">//启动线程</span>
-    workerThread.start();
-    <span class="comment">//创建Handler,时任务投放到该先线程中,</span>
-
-    <span class="comment">//复写Handler的CallBack接口类当中的的handlerMessger,调用getLooper()得到looper对象</span>
-    mHandler = <span class="keyword">new</span> Handler(workerThread.getLooper(),<span class="keyword">new</span> Handler.Callback() {
-         <span class="meta">@Override</span>
-        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">handleMessage</span><span class="params">(Message msg)</span> </span>{
-        <span class="comment">//实现自己的消息处理</span>
-        <span class="keyword">return</span> <span class="keyword">true</span>;
-        }
-    });
-}
-</code></pre>
+<p>让我们来看看它最简单的使用<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> Handler mHandler;</div><div class="line"><span class="function"><span class="keyword">private</span> <span class="title">UseHandlerThread</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="comment">//创建实例化对象,参数的作用仅仅是一个标记作用。</span></div><div class="line">    HandlerThread workerThread = <span class="keyword">new</span> HandlerThread(<span class="string">"LightTaskThread"</span>);</div><div class="line">	<span class="comment">//启动线程</span></div><div class="line">    workerThread.start();</div><div class="line">    <span class="comment">//创建Handler,时任务投放到该先线程中,</span></div><div class="line"></div><div class="line">    <span class="comment">//复写Handler的CallBack接口类当中的的handlerMessger,调用getLooper()得到looper对象</span></div><div class="line">    mHandler = <span class="keyword">new</span> Handler(workerThread.getLooper(),<span class="keyword">new</span> Handler.Callback() &#123;</div><div class="line">     	<span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">handleMessage</span><span class="params">(Message msg)</span> </span>&#123;</div><div class="line">		<span class="comment">//实现自己的消息处理</span></div><div class="line">		<span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">		&#125;</div><div class="line">	&#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>是的,你没看错，就是这么简单。</p>
 <p>下面我们来看一个稍微复杂一点点的例子</p>
-<pre><code class="java"><span class="keyword">package</span> com.grantsome.photogallery;
-
-<span class="keyword">import</span> android.graphics.Bitmap;
-<span class="keyword">import</span> android.graphics.BitmapFactory;
-<span class="keyword">import</span> android.os.Handler;
-<span class="keyword">import</span> android.os.HandlerThread;
-<span class="keyword">import</span> android.os.Message;
-<span class="keyword">import</span> android.util.Log;
-
-<span class="keyword">import</span> java.util.concurrent.ConcurrentHashMap;
-<span class="keyword">import</span> java.util.concurrent.ConcurrentMap;
-
-<span class="comment">/**
- * Created by tom on 2017/4/9.
- */</span>
-
-<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThumbnailDownloader</span>&lt;<span class="title">T</span>&gt; <span class="keyword">extends</span> <span class="title">HandlerThread</span> </span>{
-
-    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String TAG = <span class="string">"ThumbnailDownloader"</span>;
-
-    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> MESSAGE_DOWNLOAD = <span class="number">0</span>;
-
-    <span class="keyword">private</span> Handler mRequestHandler;
-
-    <span class="keyword">private</span> Handler mResponseHandler;
-
-    <span class="keyword">private</span> ConcurrentMap&lt;T,String&gt; mRequestMap = <span class="keyword">new</span> ConcurrentHashMap&lt;&gt;();
-
-    <span class="keyword">private</span> <span class="keyword">boolean</span> mHashQuit = <span class="keyword">false</span>;
-
-    <span class="keyword">private</span> ThumbnailDownloaderListener&lt;T&gt; mThumbnailDownloader;
-
-    <span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ThumbnailDownloaderListener</span>&lt;<span class="title">T</span>&gt;</span>{
-        <span class="function"><span class="keyword">void</span> <span class="title">onThumbnailDownloaded</span><span class="params">(T target,Bitmap thumbnail)</span></span>;
-    }
-
-    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setThumbnailDownloadListener</span><span class="params">(ThumbnailDownloaderListener&lt;T&gt; listener)</span></span>{
-        mThumbnailDownloader = listener;
-    }
-
-    <span class="function"><span class="keyword">public</span> <span class="title">ThumbnailDownloader</span><span class="params">(Handler responseHandler)</span> </span>{
-        <span class="keyword">super</span>(TAG);
-        mResponseHandler = responseHandler;
-    }
-
-    <span class="meta">@Override</span>
-    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onLooperPrepared</span><span class="params">()</span></span>{
-        mRequestHandler = <span class="keyword">new</span> Handler(){
-           <span class="meta">@Override</span>
-            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleMessage</span><span class="params">(Message msg)</span></span>{
-               <span class="keyword">if</span>(msg.what == MESSAGE_DOWNLOAD){
-                   T target = (T) msg.obj;
-                   Log.i(TAG,<span class="string">"Got a request for URL: "</span> + mRequestMap.get(target));
-                   handleRequest(target);
-               }
-           }
-        };
-    }
-
-    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">handleRequest</span><span class="params">(<span class="keyword">final</span> T target)</span></span>{
-        <span class="keyword">try</span>{
-            <span class="keyword">final</span> String url = mRequestMap.get(target);
-            <span class="keyword">if</span>(url==<span class="keyword">null</span>){
-                <span class="keyword">return</span>;
-            }
-            <span class="keyword">byte</span>[] bitmapBytes = <span class="keyword">new</span> HttpUtil().getUrlBytes(url);
-
-            <span class="keyword">final</span> Bitmap bitmap = BitmapFactory.decodeByteArray(bitmapBytes,<span class="number">0</span>,bitmapBytes.length);
-            Log.i(TAG,<span class="string">"Bitmap created"</span>);
-
-            mResponseHandler.post(<span class="keyword">new</span> Runnable() {
-                <span class="meta">@Override</span>
-                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>{
-                    <span class="keyword">if</span>(mRequestMap.get(target)!=url||mHashQuit){
-                        <span class="keyword">return</span>;
-                    }
-                    mRequestMap.remove(target);
-                    mThumbnailDownloader.onThumbnailDownloaded(target,bitmap);
-                }
-            });
-        }<span class="keyword">catch</span> (Exception e){
-            e.printStackTrace();
-        }
-    }
-
-    <span class="meta">@Override</span>
-    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">quit</span><span class="params">()</span></span>{
-        mHashQuit = <span class="keyword">true</span>;
-        <span class="keyword">return</span> <span class="keyword">super</span>.quit();
-    }
-
-    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">queueThumbnail</span><span class="params">(T target,String url)</span></span>{
-        Log.i(TAG,<span class="string">"Got a URL "</span> + url);
-        <span class="keyword">if</span>(url == <span class="keyword">null</span>){
-            mRequestMap.remove(target,url);
-        }<span class="keyword">else</span> {
-            mRequestMap.put(target,url);
-            mRequestHandler.obtainMessage(MESSAGE_DOWNLOAD,target).sendToTarget();
-        }
-    }
-
-    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">clearQueue</span><span class="params">()</span></span>{
-        mRequestHandler.removeMessages(MESSAGE_DOWNLOAD);
-    }
-
-
-
-}
-</code></pre>
-<pre><code class="java">
-<span class="keyword">package</span> com.grantsome.photogallery;
-<span class="keyword">import</span> android.graphics.Bitmap;
-<span class="keyword">import</span> android.graphics.drawable.BitmapDrawable;
-<span class="keyword">import</span> android.graphics.drawable.Drawable;
-<span class="keyword">import</span> android.os.AsyncTask;
-<span class="keyword">import</span> android.os.Bundle;
-<span class="keyword">import</span> android.os.Handler;
-<span class="keyword">import</span> android.support.v4.app.Fragment;
-<span class="keyword">import</span> android.support.v4.content.ContextCompat;
-<span class="keyword">import</span> android.support.v7.widget.GridLayoutManager;
-<span class="keyword">import</span> android.support.v7.widget.RecyclerView;
-<span class="keyword">import</span> android.util.Log;
-<span class="keyword">import</span> android.view.LayoutInflater;
-port android.view.View;
-<span class="keyword">import</span> android.view.ViewGroup;
-<span class="keyword">import</span> android.widget.ImageView;
-<span class="keyword">import</span> java.util.ArrayList;
-<span class="keyword">import</span> java.util.List;
-<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PhotoGalleryFragment</span> <span class="keyword">extends</span> <span class="title">Fragment</span> </span>{    
-    <span class="keyword">private</span> ThumbnailDownloader&lt;PhotoHolder&gt; mThumbnailDownloader;
-
-    <span class="meta">@Override</span>
-    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>{
-        <span class="keyword">super</span>.onCreate(savedInstanceState);
-        setRetainInstance(<span class="keyword">true</span>);
-        <span class="keyword">new</span> FetchItemsTask().execute();
-        Handler handler = <span class="keyword">new</span> Handler();
-        <span class="comment">//传入参数以切换到主线程</span>
-        mThumbnailDownloader = <span class="keyword">new</span> ThumbnailDownloader&lt;&gt;(handler);
-        <span class="comment">//设置ThumbnailDownloadListener</span>
-        mThumbnailDownloader.setThumbnailDownloadListener(<span class="keyword">new</span> ThumbnailDownloader.ThumbnailDownloaderListener&lt;PhotoHolder&gt;() {
-            <span class="meta">@Override</span>
-            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onThumbnailDownloaded</span><span class="params">(PhotoHolder target, Bitmap thumbnail)</span> </span>{
-            Drawable drawable = <span class="keyword">new</span> BitmapDrawable(getResources(),thumbnail);
-            target.bindDrawable(drawable);
-            }
-        });
-        <span class="comment">//执行start</span>
-        mThumbnailDownloader.start();
-        <span class="comment">//执行getLooper</span>
-        mThumbnailDownloader.getLooper();
-        Log.i(TAG,<span class="string">"Background thread started "</span>);
-    }    
-
-    <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">PhotoAdapter</span> <span class="keyword">extends</span> <span class="title">RecyclerView</span>.<span class="title">Adapter</span>&lt;<span class="title">PhotoHolder</span>&gt;</span>{
-         <span class="meta">@Override</span>
-        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onBindViewHolder</span><span class="params">(PhotoHolder holder, <span class="keyword">int</span> position)</span> </span>{
-             GalleryItem galleryItem = mGalleryItemList.get(position);
-            mThumbnailDownloader.queueThumbnail(holder,galleryItem.getUrl());
-        }
-
-        <span class="meta">@Override</span>
-        <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getItemCount</span><span class="params">()</span> </span>{
-            <span class="keyword">return</span> mGalleryItemList.size();
-        }    
-
-    }    
-
-    <span class="meta">@Override</span>    
-    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span></span>{
-         <span class="keyword">super</span>.onDestroy();
-        mThumbnailDownloader.quit();
-        Log.i(TAG,<span class="string">"Background thread destroyed"</span>);
-    }
-
-    <span class="meta">@Override</span>
-    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDestroyView</span><span class="params">()</span></span>{
-        <span class="keyword">super</span>.onDestroyView();
-        mThumbnailDownloader.clearQueue();
-    }
-}
-</code></pre>
-<p>为此我特地为你准备了一张思维导图，请看<br><img src="/image/think_first.PNG" alt="思维导图"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.grantsome.photogallery;</div><div class="line"></div><div class="line"><span class="keyword">import</span> android.graphics.Bitmap;</div><div class="line"><span class="keyword">import</span> android.graphics.BitmapFactory;</div><div class="line"><span class="keyword">import</span> android.os.Handler;</div><div class="line"><span class="keyword">import</span> android.os.HandlerThread;</div><div class="line"><span class="keyword">import</span> android.os.Message;</div><div class="line"><span class="keyword">import</span> android.util.Log;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.concurrent.ConcurrentHashMap;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.ConcurrentMap;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Created by tom on 2017/4/9.</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThumbnailDownloader</span>&lt;<span class="title">T</span>&gt; <span class="keyword">extends</span> <span class="title">HandlerThread</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String TAG = <span class="string">"ThumbnailDownloader"</span>;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> MESSAGE_DOWNLOAD = <span class="number">0</span>;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> Handler mRequestHandler;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> Handler mResponseHandler;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> ConcurrentMap&lt;T,String&gt; mRequestMap = <span class="keyword">new</span> ConcurrentHashMap&lt;&gt;();</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> mHashQuit = <span class="keyword">false</span>;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> ThumbnailDownloaderListener&lt;T&gt; mThumbnailDownloader;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ThumbnailDownloaderListener</span>&lt;<span class="title">T</span>&gt;</span>&#123;</div><div class="line">        <span class="function"><span class="keyword">void</span> <span class="title">onThumbnailDownloaded</span><span class="params">(T target,Bitmap thumbnail)</span></span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setThumbnailDownloadListener</span><span class="params">(ThumbnailDownloaderListener&lt;T&gt; listener)</span></span>&#123;</div><div class="line">        mThumbnailDownloader = listener;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ThumbnailDownloader</span><span class="params">(Handler responseHandler)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>(TAG);</div><div class="line">        mResponseHandler = responseHandler;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onLooperPrepared</span><span class="params">()</span></span>&#123;</div><div class="line">        mRequestHandler = <span class="keyword">new</span> Handler()&#123;</div><div class="line">           <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleMessage</span><span class="params">(Message msg)</span></span>&#123;</div><div class="line">               <span class="keyword">if</span>(msg.what == MESSAGE_DOWNLOAD)&#123;</div><div class="line">                   T target = (T) msg.obj;</div><div class="line">                   Log.i(TAG,<span class="string">"Got a request for URL: "</span> + mRequestMap.get(target));</div><div class="line">                   handleRequest(target);</div><div class="line">               &#125;</div><div class="line">           &#125;</div><div class="line">        &#125;;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">handleRequest</span><span class="params">(<span class="keyword">final</span> T target)</span></span>&#123;</div><div class="line">        <span class="keyword">try</span>&#123;</div><div class="line">            <span class="keyword">final</span> String url = mRequestMap.get(target);</div><div class="line">            <span class="keyword">if</span>(url==<span class="keyword">null</span>)&#123;</div><div class="line">                <span class="keyword">return</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">byte</span>[] bitmapBytes = <span class="keyword">new</span> HttpUtil().getUrlBytes(url);</div><div class="line"></div><div class="line">            <span class="keyword">final</span> Bitmap bitmap = BitmapFactory.decodeByteArray(bitmapBytes,<span class="number">0</span>,bitmapBytes.length);</div><div class="line">            Log.i(TAG,<span class="string">"Bitmap created"</span>);</div><div class="line"></div><div class="line">            mResponseHandler.post(<span class="keyword">new</span> Runnable() &#123;</div><div class="line">                <span class="meta">@Override</span></div><div class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">                    <span class="keyword">if</span>(mRequestMap.get(target)!=url||mHashQuit)&#123;</div><div class="line">                        <span class="keyword">return</span>;</div><div class="line">                    &#125;</div><div class="line">                    mRequestMap.remove(target);</div><div class="line">                    mThumbnailDownloader.onThumbnailDownloaded(target,bitmap);</div><div class="line">                &#125;</div><div class="line">            &#125;);</div><div class="line">        &#125;<span class="keyword">catch</span> (Exception e)&#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">quit</span><span class="params">()</span></span>&#123;</div><div class="line">        mHashQuit = <span class="keyword">true</span>;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.quit();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">queueThumbnail</span><span class="params">(T target,String url)</span></span>&#123;</div><div class="line">        Log.i(TAG,<span class="string">"Got a URL "</span> + url);</div><div class="line">        <span class="keyword">if</span>(url == <span class="keyword">null</span>)&#123;</div><div class="line">            mRequestMap.remove(target,url);</div><div class="line">        &#125;<span class="keyword">else</span> &#123;</div><div class="line">            mRequestMap.put(target,url);</div><div class="line">            mRequestHandler.obtainMessage(MESSAGE_DOWNLOAD,target).sendToTarget();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">clearQueue</span><span class="params">()</span></span>&#123;</div><div class="line">        mRequestHandler.removeMessages(MESSAGE_DOWNLOAD);</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">package</span> com.grantsome.photogallery;</div><div class="line"><span class="keyword">import</span> android.graphics.Bitmap;</div><div class="line"><span class="keyword">import</span> android.graphics.drawable.BitmapDrawable;</div><div class="line"><span class="keyword">import</span> android.graphics.drawable.Drawable;</div><div class="line"><span class="keyword">import</span> android.os.AsyncTask;</div><div class="line"><span class="keyword">import</span> android.os.Bundle;</div><div class="line"><span class="keyword">import</span> android.os.Handler;</div><div class="line"><span class="keyword">import</span> android.support.v4.app.Fragment;</div><div class="line"><span class="keyword">import</span> android.support.v4.content.ContextCompat;</div><div class="line"><span class="keyword">import</span> android.support.v7.widget.GridLayoutManager;</div><div class="line"><span class="keyword">import</span> android.support.v7.widget.RecyclerView;</div><div class="line"><span class="keyword">import</span> android.util.Log;</div><div class="line"><span class="keyword">import</span> android.view.LayoutInflater;</div><div class="line">port android.view.View;</div><div class="line"><span class="keyword">import</span> android.view.ViewGroup;</div><div class="line"><span class="keyword">import</span> android.widget.ImageView;</div><div class="line"><span class="keyword">import</span> java.util.ArrayList;</div><div class="line"><span class="keyword">import</span> java.util.List;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PhotoGalleryFragment</span> <span class="keyword">extends</span> <span class="title">Fragment</span> </span>&#123;    </div><div class="line">    <span class="keyword">private</span> ThumbnailDownloader&lt;PhotoHolder&gt; mThumbnailDownloader;</div><div class="line"></div><div class="line">	<span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">	    <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setRetainInstance(<span class="keyword">true</span>);</div><div class="line">        <span class="keyword">new</span> FetchItemsTask().execute();</div><div class="line">        Handler handler = <span class="keyword">new</span> Handler();</div><div class="line">        <span class="comment">//传入参数以切换到主线程</span></div><div class="line">		mThumbnailDownloader = <span class="keyword">new</span> ThumbnailDownloader&lt;&gt;(handler);</div><div class="line">        <span class="comment">//设置ThumbnailDownloadListener</span></div><div class="line">		mThumbnailDownloader.setThumbnailDownloadListener(<span class="keyword">new</span> ThumbnailDownloader.ThumbnailDownloaderListener&lt;PhotoHolder&gt;() &#123;</div><div class="line">        	<span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onThumbnailDownloaded</span><span class="params">(PhotoHolder target, Bitmap thumbnail)</span> </span>&#123;</div><div class="line">			Drawable drawable = <span class="keyword">new</span> BitmapDrawable(getResources(),thumbnail);</div><div class="line">			target.bindDrawable(drawable);</div><div class="line">			&#125;</div><div class="line">		&#125;);</div><div class="line">        <span class="comment">//执行start</span></div><div class="line">        mThumbnailDownloader.start();</div><div class="line">        <span class="comment">//执行getLooper</span></div><div class="line">        mThumbnailDownloader.getLooper();</div><div class="line">        Log.i(TAG,<span class="string">"Background thread started "</span>);</div><div class="line">	&#125;    </div><div class="line">	</div><div class="line">	<span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">PhotoAdapter</span> <span class="keyword">extends</span> <span class="title">RecyclerView</span>.<span class="title">Adapter</span>&lt;<span class="title">PhotoHolder</span>&gt;</span>&#123;</div><div class="line">     	<span class="meta">@Override</span></div><div class="line">	    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onBindViewHolder</span><span class="params">(PhotoHolder holder, <span class="keyword">int</span> position)</span> </span>&#123;</div><div class="line">     		GalleryItem galleryItem = mGalleryItemList.get(position);</div><div class="line">			mThumbnailDownloader.queueThumbnail(holder,galleryItem.getUrl());</div><div class="line">		&#125;</div><div class="line">			</div><div class="line">		<span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getItemCount</span><span class="params">()</span> </span>&#123;</div><div class="line">		    <span class="keyword">return</span> mGalleryItemList.size();</div><div class="line">        &#125;    </div><div class="line">		</div><div class="line">	&#125;    </div><div class="line">	</div><div class="line">	<span class="meta">@Override</span>    </div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span></span>&#123;</div><div class="line">     	<span class="keyword">super</span>.onDestroy();</div><div class="line">        mThumbnailDownloader.quit();</div><div class="line">		Log.i(TAG,<span class="string">"Background thread destroyed"</span>);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDestroyView</span><span class="params">()</span></span>&#123;</div><div class="line">    	<span class="keyword">super</span>.onDestroyView();</div><div class="line">		mThumbnailDownloader.clearQueue();</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>为此我特地为你准备了一张思维导图，请看<br><img src="/image/thinking_first.PNG" alt=""></p>
 <p>代码没有粘贴完整，有兴趣看源码吧，这里：<br><a href="https://github.com/Grantsome/PhotoGallery" target="_blank" rel="external">https://github.com/Grantsome/PhotoGallery</a></p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;hr&gt;
-&lt;p&gt;title: AsyncTask和HandlerThread完全解析–入门级&lt;br&gt;date: 2017-03-26 21:49:13&lt;br&gt;tags: Android RecyclerView&lt;/p&gt;
-&lt;hr&gt;
-&lt;p&gt;本来打算每周写一篇博客的，但是上一周没有写，
+      &lt;p&gt;本来打算每周写一篇博客的，但是上一周没有写，原因很简单：放清明三天去玩了，缓了好几天回过神来。所以这一周打算写两篇，就当做是自己对自己的一个交代吧。话不多说，进入正题。&lt;/p&gt;
+&lt;p&gt;AsyncTask，翻译过来的字面意思是异步任务,我们习惯上说异步操作(换句话说，也就是在
     
     </summary>
     
+    
+      <category term="Android" scheme="http://yoursite.com/tags/Android/"/>
     
   </entry>
   
@@ -447,16 +94,13 @@ port android.view.View;
   </entry>
   
   <entry>
-    <title></title>
-    <link href="http://yoursite.com/2017/03/26/SVM%E5%AE%8C%E5%85%A8%E8%A7%A3%E6%9E%90-%E5%85%A5%E9%97%A8%E7%BA%A7/"/>
-    <id>http://yoursite.com/2017/03/26/SVM完全解析-入门级/</id>
-    <published>2017-03-26T13:46:10.321Z</published>
-    <updated>2017-03-30T10:59:43.569Z</updated>
+    <title>支持向量机SVM完全解析--入门级</title>
+    <link href="http://yoursite.com/2017/03/26/%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BASVM%E5%AE%8C%E5%85%A8%E8%A7%A3%E6%9E%90-%E5%85%A5%E9%97%A8%E7%BA%A7/"/>
+    <id>http://yoursite.com/2017/03/26/支持向量机SVM完全解析-入门级/</id>
+    <published>2017-03-26T13:46:10.000Z</published>
+    <updated>2017-04-10T01:23:21.220Z</updated>
     
-    <content type="html"><![CDATA[<hr>
-<p>title: SVM完全解析–入门级<br>date: 2017-03-26 21:46:10<br>tags:  数学模型 SVM 基础<br>mathjax:  true</p>
-<hr>
-<p>支持向量机（SVM：Support Vector Machine）是新一代基于统计理论基础的学习系统</p>
+    <content type="html"><![CDATA[<p>支持向量机（SVM：Support Vector Machine）是新一代基于统计理论基础的学习系统</p>
 <h4 id="Grantsome（管山林）编写，转载请注明出处：http-http-www-grantsome-com-2017-03-26-SVM-E5-AE-8C-E5-85-A8-E8-A7-A3-E6-9E-90-E5-85-A5-E9-97-A8-E7-BA-A7"><a href="#Grantsome（管山林）编写，转载请注明出处：http-http-www-grantsome-com-2017-03-26-SVM-E5-AE-8C-E5-85-A8-E8-A7-A3-E6-9E-90-E5-85-A5-E9-97-A8-E7-BA-A7" class="headerlink" title="Grantsome（管山林）编写，转载请注明出处：http:http://www.grantsome.com/2017/03/26/SVM%E5%AE%8C%E5%85%A8%E8%A7%A3%E6%9E%90-%E5%85%A5%E9%97%A8%E7%BA%A7/"></a>Grantsome（管山林）编写，转载请注明出处：http:<a href="http://www.grantsome.com/2017/03/26/SVM%E5%AE%8C%E5%85%A8%E8%A7%A3%E6%9E%90-%E5%85%A5%E9%97%A8%E7%BA%A7/" target="_blank" rel="external">http://www.grantsome.com/2017/03/26/SVM%E5%AE%8C%E5%85%A8%E8%A7%A3%E6%9E%90-%E5%85%A5%E9%97%A8%E7%BA%A7/</a></h4><h3 id="1、概念："><a href="#1、概念：" class="headerlink" title="1、概念："></a>1、概念：</h3><p>支持向量机是新一代基于统计理论基础的学习系统。支持向量机方法是建立在统计学习理论的VC维理论和结构风险最小原理基础上的，根据有限的样本信息在模型的复杂性（即对特定训练样本的学习精度）和学习能力（即无错误地识别任意样本的能力）之间寻求最佳折中，以求获得最好的推广能力 。<br>可能看到这里大家就有疑惑了，什么是VC理论？什么又是结构风险最小呢？<br>什么是VC理论？简单易理解的解释是：VC是统计学理论用来衡量函数集性能的一种指标。准确的定义：对于一个指示函数集，如果存在h个数据样本能够被函数集中的函数按所有可能的2^h种形式分开 ，则称函数集能够把h个数据样本打散（shatter）。函数集的VC维就是能打散的最大数据样本数目h。若对任意数目的数据样本都有函数能将它们shatter，则函数集的VC维为无穷大。<br>还是不懂对吧?没关系，下面举一个例子，你就大概能够明白什么是VC维了。<br>（1）平面内只能找到3个点能被直线打散：直线只能把一堆点分成两堆，对于3个点，要分成两堆加上顺序就有2^3种。其中A、B、C表示3个点，+1，-1表示堆的类别， {A→-1,BC→+1}表示A分在标号为-1的那堆，B和C分在标号为+1的那堆。这就是一种分发。以此类推。则有如下8种分法：<br>{A→-1,BC→+1}，{A→+1,BC→-1}<br>{B→-1,AC→+1}，{B→+1,BC→-1}<br>{C→-1,AB→+1}，{C→+1,BC→-1}<br>{ABC→-1}，{ABC→+1}<br>函数集的VC维就是能打散的最大数据样本数目，这里VC维就是8。<br>（2）找不到4个点。假设有，则应该有2^4=16分法，但是把四个点分成两堆有：一堆一个点另一对三个点（1，3）；两两均分（2，2）；一堆四个另一堆没有（0，4）三种情况。对于第一种情况，4个点可分别做一次一个一堆的，加上顺序就有8种：<br>{A→-1,BCD→+1}，{A→+1,BCD→-1}<br>{B→-1,ACD→+1}，{B→+1,ACD→-1}<br>{C→-1,ABD→+1}，{C→+1,ABD→-1}<br>{D→-1,ABC→+1}，{D→+1,ABC→-1}<br>对于第二种情况有4种：<br>{AB→-1,CD→+1}，{AB→+1,CD→-1}<br>{AC→-1,BD→+1}，{AC→+1,BD→-1}<br>没有一条直线能使AD在一堆，BC在一堆，因为A、D处在对角线位置，B、C处在对角线位置。（这是我直观在图上找出来的）<br>对于第三种情况有2种；<br>{ABCD→-1}<br>{ABCD→+1}<br>所以总共加起来只有8+4+2=14种分法，不满足2^4=16分法，所以平面找不到4个点能被直线打散。<br>你可能又想问了，那么到底怎么计算VC维呢？不好意思，遗憾的是，目前尚没有通用的关于如何计算任意函数集的VC维的理论，只有对一些特殊的函数集的VC维可以准确知道。<br>第一个概念，我想我大概也只能解释到这里了,如果还有什么不明白的，欢迎留言，觉得我写得哪里有问题的，请指出。<br>下面我们来看看第二个概念，结构风险最小原理。<br>结构化风险 = 经验风险 + 置信风险<br>经验风险 =  分类器在给定样本上的误差<br>置信风险 = 分类器在未知文本上分类的结果的误差<br>对于给定的样本数量越大，学习结果越有可能正确，此时置信风险越小。<br>分类函数的VC维，显然VC维越大，推广能力越差，置信风险会变大。<br>提高样本数量，降低VC维，降低置信风险。这就是SVM的基础和目标，也是使用SVM的优势所在（优势和具体应用将在下面进行说明）。<br>概念就大概说到这里，下面进入正题。</p>
 <h3 id="2、基本思想"><a href="#2、基本思想" class="headerlink" title="2、基本思想"></a>2、基本思想</h3><p>SVM，可以说它是一种算法，因为在机器学习的领域当中，常常把算法看做是一个机器，这种算法被称为学习机器或者学习系统。<br>SVM属于有导师监督的学习算法(利用一组已知类别的样本调整分类器的参数，使其达到所要求性能的过程)，即已知训练及其所对应的类别，求训练点和类别之间的关系，以便将训练集按照类别分开，或者是预测新的训练点所对应的类别。<br>首先讲解一个概念。超平面：数学中超平面是n维欧氏空间中余维度等于一的线性子空间。这是平面中的直线、空间中的平面之推广。超平面H是从n维空间到n-1维空间的一个映射子空间，它有一个n维向量和一个实数定义。设d是n维欧式空间R中的一个非零向量，a是实数，则R中满足条件dX=a的点X所组成的集合称为R中的一张超平面。<br>这个概念有点抽象，直观一点的理解是这样子：实3维空间中，满足三元一次方程ax+by+cz=d的点(x,y,z)的全体在几何上是空间的一张平面。推而广之，n维空间中, 满足n元一次方程a1x1+a2x2+…+anxn=b的点(x1,x2,…,xn)的全体就叫空间的一张超平面（即广义平面）。由于3维以上的线性空间是比较抽象的概念，无法用现实世界中的具象物来比拟，所以唯有定义才能刻画它。<br>SVM构建了一个分割两类的超平面，在构建的过程中试图实现使两类之间的分割达到最大化。有人可能又不明白了，为什么要使得两类之间的分割达到最大化呢？有什么好处吗？<br>当然有好处，分割最大化（以一个很大的边缘分割）可以使得期望的泛误差化最小。泛误差最小的含义是：当对于新的样本（数据未知的数据点）进行分类时，基于学习系统或者学习机器所得到的分类器（超平面）,使得我们对其分类的预测错误的几率被最小化。直观来讲，这样的分类器（超平面）实现了两个类别之间的分离边缘最大化。<br>来上图片，请看下图。问如何画两条直线使得平面上的两种点能够得到最好的区分？先想一下，马上揭晓答案。<img src="/image/empty.png" alt="图1-1"><br>来看下面这张图片的划分，你觉得怎么样？<img src="/image/right_line.png" alt="图1-2"><br>这一张图片的划分呢?<img src="/image/wrong_line.png" alt="图1-3"><br>哪一个更准确？划分的误差更小？我们要的就是让它误差最小（图中所画的不一定是最小的）。当然第二张图片的划分比第三张误差更小（因为第二张图片有3个误差点，第三张图片不止4个误差点）。所以分割最大化这个概念应该能够理解了吧。<br>和分类器平面平行，分别穿过平面数据集中的一个或者多个点的两个平面就是边界平面。这些边界平面称为边缘，而SVM学习就是为了找到这个最大化的边缘超平面。落在边界平面上面的点称为支持向量。<br>如图所示<img src="/image/support.PNG" alt="图1-4"><br>现在明白了吧?<br>简单总结一下，支持向量机就是与分类器平行的两个超平面，这两个超平面能够很好的分开两类不同的数据，且穿越两类数据区域中集中的点，现预找到最佳超几何分布平面使之与两个超平面之间的距离最大，如此便能实现分类的总误差变小。</p>
 <h3 id="3、理论基础"><a href="#3、理论基础" class="headerlink" title="3、理论基础"></a>3、理论基础</h3><p>支持向量机最初是在研究线性可分问题的过程中提出来的。所以先来介绍线性SVM的基本原理，过程有点小复杂，还请各位耐心看完。一般使用X表示输入空间，Y表示输出域。通常X∈Rn，对于两类问题，Y = {-1, 1};对于多类问题，Y = {1,2,…,m}; 训练集是训练数据（样本）的集合，通常S=((x1,y1),..(xn, yn)) ∈（X×Y）n，其中n是样本数目，xi是样本(向量)，yi是它们的标记。假设样本容量为n的训练样本点集{(x<em>{i},y</em>{i}),i=1,2,3,4…n}，由两个类别组成。若x<em>{i}属于第一类，则记为y</em>{i}=1；同样的道理,若x<em>{i}属于第二类，则记为y</em>{i}=-1。<br>若存在超平面：<br>       w^{T}x+b=0<br>其中 x_{i}、x、w、b表示的是向量,而不是一个值。 为什么呢？为什么b也是一个向量呢？<br>还记得线性代数或者常微分方程吗？ 不记得了的话请看这里<br><img src="/image/image_3.PNG" alt=""><br>这个是不是我们的超平面方程很像？是的，没错。你把b移到右边来就是这个方程组。所以，b可以是一个向量。现在理解了吗？<br>能够将样本正确的划分成两类,即相同的类别落在超平面的同一侧，则称样本点集是线性可分的，即满足<br>      w^{T}x+b ≥1  yi=1<br>      w^{T}x+b≤-1  yi=-1<br>此处,可知平面w^T<em>xi+b=1;w^T</em>xi+b=-1该问题的超平面。<br>但或许大家又想问了：为何用y取1 或者 -1来表示两个不同的类别呢？其实，这个1或-1的分类标准起源于logistic回归，我们就先来看看这个logistic回归，这里只是简单介绍一下logistic回归。<br>Logistic回归为概率型非线性回归模型，是研究二分类观察结果与一些影响因素之间关系的一种多<br>变量分析方法。通常的问题是，研究某些因素条件下某个结果是否发生，比如医学中根据病人的一些症状来判断它是<br>否患有某种病。</p>
@@ -523,13 +167,13 @@ end
     
     <summary type="html">
     
-      &lt;hr&gt;
-&lt;p&gt;title: SVM完全解析–入门级&lt;br&gt;date: 2017-03-26 21:46:10&lt;br&gt;tags:  数学模型 SVM 基础&lt;br&gt;mathjax:  true&lt;/p&gt;
-&lt;hr&gt;
-&lt;p&gt;支持向量机（SVM：Support Vector Machine
+      &lt;p&gt;支持向量机（SVM：Support Vector Machine）是新一代基于统计理论基础的学习系统&lt;/p&gt;
+&lt;h4 id=&quot;Grantsome（管山林）编写，转载请注明出处：http-http-www-grantsome-com-2017-03-26-SVM-E5-AE-
     
     </summary>
     
+    
+      <category term="数学模型 SVM 基础" scheme="http://yoursite.com/tags/%E6%95%B0%E5%AD%A6%E6%A8%A1%E5%9E%8B-SVM-%E5%9F%BA%E7%A1%80/"/>
     
   </entry>
   
