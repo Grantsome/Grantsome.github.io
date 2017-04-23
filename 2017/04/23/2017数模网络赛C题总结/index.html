@@ -10,7 +10,7 @@
     
     <title>
         
-            RecyclerView完全解析--入门级 | 
+            2017数模网络赛C题总结 | 
         
         Grantsome
     </title>
@@ -27,7 +27,7 @@
     <meta name="theme-color" content="#0097A7">
     <meta name="author" content="Grantsome">
     <meta name="description" content="书写是思考的一种方式">
-    <meta name="keywords" content="null,Android RecyclerView">
+    <meta name="keywords" content="null,数学建模">
 
     <!--iOS -->
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
@@ -48,9 +48,9 @@
     <!-- The Open Graph protocol -->
     <meta property="og:url" content="http://yoursite.com">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="RecyclerView完全解析--入门级 | Grantsome">
+    <meta property="og:title" content="2017数模网络赛C题总结 | Grantsome">
     <meta property="og:description" content="书写是思考的一种方式">
-    <meta property="og:article:tag" content="Android RecyclerView"> 
+    <meta property="og:article:tag" content="数学建模"> 
 
     <!--[if lte IE 9]>
         <link rel="stylesheet" href="/css/ie-blocker.css">
@@ -244,7 +244,7 @@
     </button>
 
     <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn">
-        <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#第一步首先继承RecyclerView-ViewHolder"><span class="post-toc-number">1.</span> <span class="post-toc-text">第一步首先继承RecyclerView.ViewHolder</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#下面写一下如何在其他地方使用ViewHolder"><span class="post-toc-number">2.</span> <span class="post-toc-text">下面写一下如何在其他地方使用ViewHolder;</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#当然这里少不了RecyclerView-Adapter"><span class="post-toc-number">3.</span> <span class="post-toc-text">当然这里少不了RecyclerView.Adapter</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#下面写一下如何在其他地方调用-使用MyAdapter"><span class="post-toc-number">4.</span> <span class="post-toc-text">下面写一下如何在其他地方调用/使用MyAdapter</span></a></li></ol>
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#思路："><span class="post-toc-number">1.</span> <span class="post-toc-text">思路：</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#要点："><span class="post-toc-number">2.</span> <span class="post-toc-text">要点：</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#论文就不在这里献丑了，需要MATLAB代码的发我邮箱，我就不在这里贴MATLAB代码了。"><span class="post-toc-number">3.</span> <span class="post-toc-text">论文就不在这里献丑了，需要MATLAB代码的发我邮箱，我就不在这里贴MATLAB代码了。</span></a></li></ol>
 
         <!--
         <li class="mdl-menu__item">
@@ -280,7 +280,7 @@
         
     
             <p class="article-headline-p">
-                RecyclerView完全解析--入门级
+                2017数模网络赛C题总结
             </p>
         </div>
 
@@ -299,7 +299,7 @@
     <!-- Author Name & Date -->
     <div>
         <strong>Grantsome</strong>
-        <span>3月 26, 2017</span>
+        <span>4月 23, 2017</span>
     </div>
 
     <div class="section-spacer"></div>
@@ -323,7 +323,7 @@
     </button>
     <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
         <li class="mdl-menu__item">
-        <a class="post_tag-link" href="/tags/Android-RecyclerView/">Android RecyclerView</a>
+        <a class="post_tag-link" href="/tags/数学建模/">数学建模</a>
     </ul>
     
 
@@ -337,7 +337,7 @@
     <!-- Leancloud Views -->
         <a class="post_share-link" href="#">
             <li class="mdl-menu__item">
-                <span id="/2017/03/26/RecyclerView完全解析-入门级/" class="leancloud-views_num" data-flag-title="RecyclerView完全解析--入门级">
+                <span id="/2017/04/23/2017数模网络赛C题总结/" class="leancloud-views_num" data-flag-title="2017数模网络赛C题总结">
      &nbsp;浏览量
 </span>
 
@@ -349,7 +349,7 @@
 
     <!-- Share Weibo -->
     
-        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=RecyclerView完全解析--入门级&url=http://yoursite.com//2017/03/26/RecyclerView完全解析-入门级/index.html&pic=&searchPic=false&style=simple" target="_blank">
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=2017数模网络赛C题总结&url=http://yoursite.com//2017/04/23/2017数模网络赛C题总结/index.html&pic=&searchPic=false&style=simple" target="_blank">
             <li class="mdl-menu__item">
                 分享到微博
             </li>
@@ -358,7 +358,7 @@
 
     <!-- Share Twitter -->
     
-        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=RecyclerView完全解析--入门级&url=http://yoursite.com//2017/03/26/RecyclerView完全解析-入门级/index.html&via=Grantsome" target="_blank">
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=2017数模网络赛C题总结&url=http://yoursite.com//2017/04/23/2017数模网络赛C题总结/index.html&via=Grantsome" target="_blank">
             <li class="mdl-menu__item">
                 分享到 Twitter
             </li>
@@ -367,7 +367,7 @@
 
     <!-- Share Facebook -->
     
-        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com//2017/03/26/RecyclerView完全解析-入门级/index.html" target="_blank">
+        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com//2017/04/23/2017数模网络赛C题总结/index.html" target="_blank">
             <li class="mdl-menu__item">
                 分享到 Facebook
             </li>
@@ -376,7 +376,7 @@
 
     <!-- Share Google+ -->
     
-        <a class="post_share-link" href="https://plus.google.com/share?url=http://yoursite.com//2017/03/26/RecyclerView完全解析-入门级/index.html" target="_blank">
+        <a class="post_share-link" href="https://plus.google.com/share?url=http://yoursite.com//2017/04/23/2017数模网络赛C题总结/index.html" target="_blank">
             <li class="mdl-menu__item">
                 分享到 Google+
             </li>
@@ -388,7 +388,7 @@
 
     <!-- Share QQ -->
     
-        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=Grantsome&title=RecyclerView完全解析--入门级&summary=书写是思考的一种方式&pics=http://yoursite.com/img/favicon.png&url=http://yoursite.com/2017/03/26/RecyclerView完全解析-入门级/index.html" target="_blank">
+        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=Grantsome&title=2017数模网络赛C题总结&summary=书写是思考的一种方式&pics=http://yoursite.com/img/favicon.png&url=http://yoursite.com/2017/04/23/2017数模网络赛C题总结/index.html" target="_blank">
             <li class="mdl-menu__item">
                 分享到 QQ
             </li>
@@ -406,13 +406,10 @@
                 <!-- Post Content -->
                 <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
     
-        <p>第一篇博客,里面并没有什么特别的东西,只是为了测试一下。复制粘贴我之前已经写好一些文章。<br>关于RecyclerView.ViewHolder的第一次总结，由于本人水平有限,比较垃圾,总结一下希望自己能够理解</p>
-<h3 id="第一步首先继承RecyclerView-ViewHolder"><a href="#第一步首先继承RecyclerView-ViewHolder" class="headerlink" title="第一步首先继承RecyclerView.ViewHolder"></a>第一步首先继承RecyclerView.ViewHolder</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ViewHolder</span> <span class="keyword">extends</span> <span class="title">RecyclerView</span>.<span class="title">ViewHolder</span></span>&#123;</div><div class="line"></div><div class="line">	<span class="comment">//首先把需要的控件简单声明一下,暂时不用实例化</span></div><div class="line">	<span class="keyword">public</span> TextView textView;</div><div class="line">	</div><div class="line">	<span class="keyword">public</span> ImageView imageView;</div><div class="line">	</div><div class="line">	<span class="comment">//调用父类的构造方法,实现实例化功能</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">ViewHolder</span><span class="params">(View itemView)</span></span>&#123;</div><div class="line">		</div><div class="line">		<span class="comment">//必须写的super方法</span></div><div class="line">		<span class="keyword">super</span>(itemView);</div><div class="line">		</div><div class="line">		<span class="comment">//初始化需要的控件,注意必须是itemView.findViewById();</span></div><div class="line">	    textView = (TextView) itemView.findViewById(R.id.);</div><div class="line">	    imageView = (TextView) itemView.findViewByIf(R.id.);</div><div class="line">	</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="下面写一下如何在其他地方使用ViewHolder"><a href="#下面写一下如何在其他地方使用ViewHolder" class="headerlink" title="下面写一下如何在其他地方使用ViewHolder;"></a>下面写一下如何在其他地方使用ViewHolder;</h3><p>一般在public ViewHolder onCreateViewHolder(ViewGroup parent,int viewType)里面写这个方法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">  <span class="function"><span class="keyword">public</span> ViewHolder <span class="title">onCreateViewHolder</span><span class="params">(ViewGroup parent,<span class="keyword">int</span> viewType)</span></span>&#123;</div><div class="line">  LayoutInflater layoutInflater = LayoutInflater.from(context);</div><div class="line">  View viewItem = layoutInflater.inflate(R.layout. ,parent,<span class="keyword">false</span>);</div><div class="line">  ViewHolder viewHolder = <span class="keyword">new</span> ViewHolder(viewItem);</div><div class="line">  <span class="keyword">return</span> viewHolder;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h3 id="当然这里少不了RecyclerView-Adapter"><a href="#当然这里少不了RecyclerView-Adapter" class="headerlink" title="当然这里少不了RecyclerView.Adapter"></a>当然这里少不了RecyclerView.Adapter</h3><p>首先继承RecyclerView.Adapter</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyAdapter</span> <span class="keyword">extends</span> <span class="title">RecyclerView</span>.<span class="title">Adapter</span></span>&#123;</div><div class="line"></div><div class="line">	<span class="comment">//把需要的数据简单声明一下,暂时不用实例化</span></div><div class="line">	<span class="keyword">private</span> List&lt;Crime&gt; crimes;</div><div class="line">	</div><div class="line">	<span class="keyword">private</span> Context context;</div><div class="line">	</div><div class="line">	<span class="comment">//然后调用父类的构造器,实现实例化功能</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">MyAdapter</span><span class="params">(Context context,List&lt;Crime&gt; crimes)</span></span>&#123;</div><div class="line">		<span class="keyword">this</span>.context = context;</div><div class="line">		<span class="keyword">this</span>.crimes = crimes;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">//复写的第一个方法</span></div><div class="line">	<span class="comment">//主要的作用是实例化ViewHolder,一般格式都是这样子</span></div><div class="line">	<span class="function"><span class="keyword">public</span> ViewHolder <span class="title">onCreateViewHolder</span><span class="params">(ViewGroup parent,<span class="keyword">int</span> viewType)</span></span>&#123;</div><div class="line">		LayoutInflater layoutInflater = LayoutInflater.from(context);</div><div class="line">		View itemView = layoutInflater.inflate(R.layout. ,parent,<span class="keyword">false</span>);</div><div class="line">		ViewHolder viewHolder = <span class="keyword">new</span> ViewHolder(itemView);</div><div class="line">		<span class="keyword">return</span> viewHolder;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">//主要作用是将viewHolder和position绑定,并给ViewHolder里面的元素/属性赋值</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onBindViewHolder</span><span class="params">(ViewHolder viewHolder,<span class="keyword">int</span> position)</span></span>&#123;</div><div class="line">		<span class="comment">//通过position的位置实例化crime类</span></div><div class="line">		Crime crime = crimes.get(position);</div><div class="line">		<span class="comment">//向ViewHolder中的textView赋值</span></div><div class="line">		viewHolder.textView.setText(crime.getTitle());</div><div class="line">		</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">//首先调用的就是这个方法,返回数值/列表中有多少个对象</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getItemCount</span><span class="params">()</span></span>&#123;</div><div class="line">	   <span class="keyword">return</span> crimes.size();</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="下面写一下如何在其他地方调用-使用MyAdapter"><a href="#下面写一下如何在其他地方调用-使用MyAdapter" class="headerlink" title="下面写一下如何在其他地方调用/使用MyAdapter"></a>下面写一下如何在其他地方调用/使用MyAdapter</h3><p>  如果是继承的FragmentActivity,一般就在public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState)方法里面<br>  如果是继承的AppCompatActivity,一般就在protected void onCreate(Bundle savedInstanceState)方法里面<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> View <span class="title">onCreateView</span><span class="params">(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState)</span></span>&#123;</div><div class="line">   <span class="comment">//声明一个RecyclerView的组件</span></div><div class="line">   <span class="keyword">private</span> RecyclerView recyclerView;</div><div class="line">   <span class="comment">//实例化RecyclerView</span></div><div class="line">   recyclerView = (RecyclerView) findViewById(R.id.);</div><div class="line">   <span class="comment">//实例化MyAdapter</span></div><div class="line">   MyAdapter myAdapter = <span class="keyword">new</span> MyAdapter(context,crimes);</div><div class="line">   <span class="comment">//给RecyclerView设置adapter</span></div><div class="line">   recyclerView.setAdapter();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-
+        <p>上周做了数模的网络挑战赛（认证杯第一阶段）的C题，由于自我感觉还不错，就是论文感觉没有写清楚。不能说怪队友吧，怪我喽（不当喷子）。<br>先看看题目，C题题目。<br><img src="/image/C_question.PNG" alt=""><br>拿到这道题的时候，感觉还好做，于是乎就选择了这道题。</p>
+<h4 id="思路："><a href="#思路：" class="headerlink" title="思路："></a>思路：</h4><p>对于第一问，我首先想到的是先把模糊的调查数据转化为数值，然后在对数据进行回归分析、主成分分析、相关性分析等东西。最后做题的时候是用的灰色关联度矩阵完成的第一问。<br>对于第二问，价格区间，我们采用的是把调查数据里面的一些有用的东西转化为VIP会员率（也就是忠实用户的比例）。然后通过网上查询的数据，结合实际的移动端开发过程，模拟了从生产到成熟盈利的整个过程的收益和支出。并比较了大规模和小规模的产品。最终确定了价格区间和建议定价。市场占有率很明显是一个预测模型，我们首先会想到时间序列分析、灰色模型、神经网络、马尔科夫链等模型。最后我们是通过马尔科夫链以及通过正态分布改进的马尔科夫链得到市场占有率。<br>对于第三问，我们采用的是模糊综合评价的方式对产品进行一个“打分”，最后通过考虑经济社会技术等多方面得出移动端考研产品的可行性。</p>
+<h4 id="要点："><a href="#要点：" class="headerlink" title="要点："></a>要点：</h4><p>对于第一问，我们通过对调查数据进行筛选，最后找出问题19（花费在移动端考研产品上的时间），问题20（倾向选择的移动端考研产品内容），问题21（是否认同移动端考研产品人数使用会增长），问题22（移动端考研产品优势）和问题23（对移动端考研产品期待）对移动端考研产品的发展具有影响。首先，我们将调查问卷的文字表达转化为数值矩阵，对于我们所需研究问题的相关选项，我们先对其按照重要程度进行评分（数值为0~10），对于多选项，我们按照其每项内容分值进行累加，再利用matlab进行数据处理，得出相关数据数列。再决定以问题20（倾向选择的移动端考研产品内容）,问题23（对移动端考研产品期待）和问题22（移动端考研产品优势）作为灰色关联度矩阵的待比较数列，以问题21（是否认同移动端考研产品人数使用会增长）和问题19（花费在移动端考研产品上的时间）作为灰色关联度矩阵的参考数列。<br>对于第二问，要找到该产品合理的价格区间，首先要对该产品的各项成本以及维护费用进行评估。我们以2017年的数据为例，根据调查问卷，得到报考研究生的总人数为201万人，而愿意选择移动端考研类产品学习的比例为53.63%。我们通过上网数据查找，将移动端产品的开发成本分为两类，利用三个不同的模型进行探讨：A．    假设用户人数稳定且不随时间变化并且盈利模式只有VIP会员收费 B、logistic模型模拟用户的变化情况。C、有第三方广告费和考虑推广时的价格比成熟的时候低的情况下。并考虑到大学生的消费能力，进行综合的考虑，得到定价区间。移动端在整个市场占有率不妨近似为移动端在填问卷调查的人中的占有率。首先将数据进行处理，假设PC端和移动端的市场占有率与它的使用时间成正比，利用附件二里在PC端和移动端的使用时间，为了方便取最下值处理，即0~1小时转换为0小时，1~2小时转换为1小时。我们可以得到PC端的使用总时间为7592小时，移动端的使用总时间为8038小时，我们就可以得到起始市场占有率，PC端为0.4857，移动端为0.5143。再统计出既不使用PC端也不使用移动端的人数，为3256人。从而我们可以把使用既PC端也使用移动端的人按照市场占有率分开，将仅使用PC端的人数为近似为（10000-3256）*0.4857=3275.6人，同理将仅使用移动端的人看作3468.4人，就可以得到初始状态。根据查找数据以及调查得到，在一个月内使用PC端的用户转移到移动端的概率为16%，转移到都不使用的概率为3%，使用移动端的用户转移到PC端的概率为8%，转移到都不使用的概率为6%，都不使用的人转移到PC端的概率是8%，转移到使用移动端的概率是14%。我们可以得到一个马尔可夫链。求解之后改进该模型：考虑到每个月转移的概率不是固定的，而转移的概率又大致服从正态分布，所以对马尔可夫模型进行改进，矩阵A的每个转移的概率都满足期望为 ，方差为0.05 的正态分布。除此之外又因为现在互联网时代的到来假设PC端和移动端都不使用的人转移概率随着月份的增加而增加，即是不转移的概率减小。<br>对于第三问，分析移动端产品在条件比较好的城市投放的可行性，而且主要的三个因素是经济可行性，社会可行性，技术可行性。比较适合这个模型。产品可行性 A.市场分析B、技术可行性分析(支出)C、时间和资源可行性分析D、推广可行性分析(支出)E、经济可行性(收益)F、社会可行性：按照这个思路进行模糊综合评价。</p>
+<h4 id="论文就不在这里献丑了，需要MATLAB代码的发我邮箱，我就不在这里贴MATLAB代码了。"><a href="#论文就不在这里献丑了，需要MATLAB代码的发我邮箱，我就不在这里贴MATLAB代码了。" class="headerlink" title="论文就不在这里献丑了，需要MATLAB代码的发我邮箱，我就不在这里贴MATLAB代码了。"></a>论文就不在这里献丑了，需要MATLAB代码的发我邮箱，我就不在这里贴MATLAB代码了。</h4>
     
 
     
@@ -435,19 +432,19 @@
             <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
     <!-- Prev Nav -->
     
-        <a href="/2017/03/29/Android拍照并显示Demo/" id="post_nav-newer" class="prev-content">
-            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
-                <i class="material-icons">arrow_back</i>
-            </button>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            新篇
-        </a>
-    
 
     <!-- Section Spacer -->
     <div class="section-spacer"></div>
 
     <!-- Next Nav -->
+    
+        <a href="/2017/04/23/读书的认知/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
     
 </nav>
 
