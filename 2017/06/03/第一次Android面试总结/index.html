@@ -1,412 +1,397 @@
-<!DOCTYPE html>
-<html lang="zh">
-    <head>
-    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- 
-        © Material Theme
-        https://github.com/viosey/hexo-theme-material
-        Version: 1.3.0 -->
+<!doctype html>
 
-    <!-- Title -->
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
     
-    <title>
-        
-            第一次Android面试总结 | 
-        
-        Grantsome
-    </title>
-
-    <!-- Favicons -->
-    <link rel="icon shortcut" type="image/ico" href="/img/favicon.png">
-    <link rel="icon" sizes="192x192" href="/img/favicon.png">
-    <link rel="apple-touch-icon" href="/img/favicon.png">
-
-    <!-- Meta & Info -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Grantsome">
-    <meta name="description" content="书写是思考的一种方式">
-    <meta name="keywords" content="null,Android 面试">
-
-    <!--iOS -->
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <meta name="apple-mobile-web-app-title" content="Title">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="HandheldFriendly" content="True">
-    <meta name="MobileOptimized" content="480">
-
-    <!-- Add to homescreen for Chrome on Android -->
-    <meta name="mobile-web-app-capable" content="yes">
-
-    <!-- Add to homescreen for Safari on iOS -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="Grantsome">
-
-    <!-- The Open Graph protocol -->
-    <meta property="og:url" content="http://yoursite.com">
-    <meta property="og:type" content="blog">
-    <meta property="og:title" content="第一次Android面试总结 | Grantsome">
-    <meta property="og:description" content="书写是思考的一种方式">
-    <meta property="og:article:tag" content="Android 面试"> 
-
-    <!--[if lte IE 9]>
-        <link rel="stylesheet" href="/css/ie-blocker.css">
-
-        
-            <script src="/js/ie-blocker.zhCN.js"></script>
-        
-    <![endif]-->
-
-    <!-- Import CSS -->
-    <link rel="stylesheet" href="/css/material.min.css">
-    <link rel="stylesheet" href="/css/style.min.css">
-    <!-- Config CSS -->
-
-
-<!-- Other Styles -->
-<style>
-  body, html {
-    font-family: Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
-  }
-
-  a {
-    color: #00838F;
-  }
-
-  .mdl-card__media,
-  #search-label,
-  #search-form-label:after,
-  #scheme-Paradox .hot_tags-count,
-  #scheme-Paradox .sidebar_archives-count,
-  #scheme-Paradox .sidebar-colored .sidebar-header,
-  #scheme-Paradox .sidebar-colored .sidebar-badge{
-    background-color: #0097A7 !important;
-  }
-
-  /* Sidebar User Drop Down Menu Text Color */
-  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:hover,
-  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:focus {
-    color: #0097A7 !important;
-  }
-
-  #post_entry-right-info,
-  .sidebar-colored .sidebar-nav li:hover > a,
-  .sidebar-colored .sidebar-nav li:hover > a i,
-  .sidebar-colored .sidebar-nav li > a:hover,
-  .sidebar-colored .sidebar-nav li > a:hover i,
-  .sidebar-colored .sidebar-nav li > a:focus i,
-  .sidebar-colored .sidebar-nav > .open > a,
-  .sidebar-colored .sidebar-nav > .open > a:hover,
-  .sidebar-colored .sidebar-nav > .open > a:focus,
-  #ds-reset #ds-ctx .ds-ctx-entry .ds-ctx-head a {
-    color: #0097A7 !important;
-  }
-
-  .toTop {
-    background: #757575 !important;
-  }
-
-  .material-layout .material-post>.material-nav,
-  .material-layout .material-index>.material-nav,
-  .material-nav a {
-    color: #757575;
-  }
-
-  #scheme-Paradox .MD-burger-layer {
-    background-color: #757575;
-  }
-
-  #scheme-Paradox #post-toc-trigger-btn {
-    color: #757575;
-  }
-
-  .post-toc a:hover {
-    color: #00838F;
-    text-decoration: underline;
-  }
-</style>
-
-
-<!-- Theme Background Related-->
-
-    <style>
-      body{
-        background-color: #F5F5F5;
-      }
-
-      /* blog_info bottom background */
-      #scheme-Paradox .material-layout .something-else .mdl-card__supporting-text{
-        background-color: #fff;
-      }
-    </style>
-
-
-
-
-<!-- Fade Effect -->
-
-    <style>
-      .fade {
-        transition: all 800ms linear;
-        -webkit-transform: translate3d(0,0,0);
-        -moz-transform: translate3d(0,0,0);
-        -ms-transform: translate3d(0,0,0);
-        -o-transform: translate3d(0,0,0);
-        transform: translate3d(0,0,0);
-        opacity: 1;
-      }
-
-      .fade.out{
-        opacity: 0;
-      }
-    </style>
-
-
-
-    <script src="/js/jquery.min.js"></script>
-    <script src="/js/queue.js"></script>
-
-    <!-- UC Browser Compatible -->
-    <script>
-        var agent = navigator.userAgent.toLowerCase();
-        if(agent.indexOf('ucbrowser')>0) {
-            document.write("<link rel=\"stylesheet\" href=\"/css/uc.css\">");
-            alert('由于 UC 浏览器使用极旧的内核，而本网站使用了一些新的特性。\n为了您能更好的浏览，推荐使用 Chrome 或 Firefox 浏览器。');
-        }
-    </script>
-
     
-    <!-- Baidu Analytics -->
-    <script>
-        var _hmt = _hmt || [];
-        (function() {var hm = document.createElement('script');
-        hm.src = 'https://hm.baidu.com/hm.js?f4067590954f61e17bcf5f2e372e8556';
-        var s = document.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(hm, s);
-        })();
-    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
     
-
     
-
-    <!-- Bing Background -->
-    
-
-    <!-- Custom Head --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
-    
-</head>
-
-
-    
-        <body id="scheme-Paradox" class="lazy">
-            <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="material-layout  mdl-js-layout has-drawer is-upgraded">
-                
-
-                <!-- Main Container -->
-                <main class="material-layout__content" id="main">
-
-                    <!-- Top Anchor -->
-                    <div id="top"></div>
-
-                    
-                        <!-- Hamburger Button -->
-                        <button class="MD-burger-icon sidebar-toggle">
-                            <span class="MD-burger-layer"></span>
-                        </button>
-                    
-
-                    <!-- Post TOC -->
-
-    
-    <!-- Back Button -->
-    <!--
-    <div class="material-back" id="backhome-div" tabindex="0">
-        <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"
-           href="#" onclick="window.history.back();return false;"
-           target="_self"
-           role="button"
-           data-upgraded=",MaterialButton,MaterialRipple">
-            <i class="material-icons" role="presentation">arrow_back</i>
-            <span class="mdl-button__ripple-container">
-                <span class="mdl-ripple"></span>
-            </span>
-        </a>
-    </div>
-    -->
-
-    <!-- Left aligned menu below button -->
-    <button id="post-toc-trigger-btn"
-        class="mdl-button mdl-js-button mdl-button--icon">
-        <i class="material-icons">format_list_numbered</i>
-    </button>
-
-    <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn">
-        <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Java篇"><span class="post-toc-number">1.</span> <span class="post-toc-text">Java篇</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#面向对象与面向过程的概念-区别和好处"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">面向对象与面向过程的概念(区别和好处)</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#说明一下static和final关键字的用法和特点"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">说明一下static和final关键字的用法和特点</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#简要说一下继承与多态这两种特性。"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">简要说一下继承与多态这两种特性。</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#抽象类和接口的区别"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">抽象类和接口的区别</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#“-”和equals-的区别"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">“==”和equals()的区别</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#set和list的区别"><span class="post-toc-number">1.6.</span> <span class="post-toc-text">set和list的区别</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#反射的原理"><span class="post-toc-number">1.7.</span> <span class="post-toc-text">反射的原理</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Android篇"><span class="post-toc-number">2.</span> <span class="post-toc-text">Android篇</span></a></li></ol>
-
-        <!--
-        <li class="mdl-menu__item">
-            Some Action
-        </li>
-        -->
-    </ul>
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
 
 
 
 
-<!-- Layouts -->
 
-    <!-- Post Module -->
-    <div class="material-post_container">
 
-        <div class="material-post mdl-grid">
-            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
 
-                <!-- Post Header(Thumbnail & Title) -->
-                
-    <!-- Paradox Post Header -->
-    
-        
-            <!-- Random Thumbnail -->
-            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-            <script>
-    var randomNum = Math.floor(Math.random() * 19 + 1);
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
-    $('.post_thumbnail-random').css('background-image', 'url(' + '/img/random/material-' + randomNum + '.png' + ')');
+
+  <meta name="keywords" content="面试," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Grantsome" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="学习Java&amp;amp;Android已经有8个月的时间了，最近蠢蠢欲动，去面试了学校的某一高大上的组织。咳咳，发现自己很多东西都不太清楚，学得似是而非，Java的基础真的还需要加强，虽然我面试之前没有复习Java。那么就开始解决问题和疑惑吧，一个问题一个问题的解决，希望下次能够长点记性。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第一次Android面试总结">
+<meta property="og:url" content="http://yoursite.com/2017/06/03/第一次Android面试总结/index.html">
+<meta property="og:site_name" content="Grantsome">
+<meta property="og:description" content="学习Java&amp;amp;Android已经有8个月的时间了，最近蠢蠢欲动，去面试了学校的某一高大上的组织。咳咳，发现自己很多东西都不太清楚，学得似是而非，Java的基础真的还需要加强，虽然我面试之前没有复习Java。那么就开始解决问题和疑惑吧，一个问题一个问题的解决，希望下次能够长点记性。">
+<meta property="og:image" content="http://yoursite.com/image/static_first.PNG">
+<meta property="og:image" content="http://yoursite.com/image/static_second.PNG">
+<meta property="og:image" content="http://yoursite.com/image/static_third.PNG">
+<meta property="og:image" content="http://yoursite.com/image/static_fourth.PNG">
+<meta property="og:image" content="http://yoursite.com/image/static_fifth.PNG">
+<meta property="og:image" content="http://yoursite.com/image/static_sixth.PNG">
+<meta property="og:image" content="http://yoursite.com/image/final_first.PNG">
+<meta property="og:image" content="http://yoursite.com/image/final_second.PNG">
+<meta property="og:image" content="http://yoursite.com/image/final_third.PNG">
+<meta property="og:image" content="http://yoursite.com/image/equals_second.PNG">
+<meta property="og:image" content="http://yoursite.com/image/equals_third.PNG">
+<meta property="og:image" content="http://yoursite.com/image/reflect_first.PNG">
+<meta property="og:updated_time" content="2017-09-09T08:11:26.579Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="第一次Android面试总结">
+<meta name="twitter:description" content="学习Java&amp;amp;Android已经有8个月的时间了，最近蠢蠢欲动，去面试了学校的某一高大上的组织。咳咳，发现自己很多东西都不太清楚，学得似是而非，Java的基础真的还需要加强，虽然我面试之前没有复习Java。那么就开始解决问题和疑惑吧，一个问题一个问题的解决，希望下次能够长点记性。">
+<meta name="twitter:image" content="http://yoursite.com/image/static_first.PNG">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
 </script>
 
-        
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/06/03/第一次Android面试总结/"/>
+
+
+
+
+
+  <title> 第一次Android面试总结 | Grantsome </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?f4067590954f61e17bcf5f2e372e8556";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
     
-            <p class="article-headline-p">
-                第一次Android面试总结
-            </p>
-        </div>
+  
 
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
 
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
 
-
-
-                
-                    <!-- Paradox Post Info -->
-                    <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
-
-    <!-- Author Avatar -->
-    <div id="author-avatar">
-        <img src="/image/my_photo.jpg" width="44px" height="44px" alt="Author Avatar"/>
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Grantsome</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
     </div>
-    <!-- Author Name & Date -->
-    <div>
-        <strong>Grantsome</strong>
-        <span>6月 03, 2017</span>
-    </div>
+      
+        <p class="site-subtitle">以接受自己的态度接受一切</p>
+      
+  </div>
 
-    <div class="section-spacer"></div>
-
-    <!-- Favorite -->
-    <!--
-        <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
-            <i class="material-icons" role="presentation">favorite</i>
-            <span class="visuallyhidden">favorites</span>
-        </button>
-    -->
-
-    <!-- Qrcode -->
-    
-
-    <!-- Tags (bookmark) -->
-    
-    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
-        <i class="material-icons" role="presentation">bookmark</i>
-        <span class="visuallyhidden">bookmark</span>
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
     </button>
-    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
-        <li class="mdl-menu__item">
-        <a class="post_tag-link" href="/tags/Android-面试/">Android 面试</a>
-    </ul>
-    
-
-    <!-- Share -->
-    <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
-    <i class="material-icons" role="presentation">share</i>
-    <span class="visuallyhidden">share</span>
-</button>
-<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
-    
-    <!-- Leancloud Views -->
-        <a class="post_share-link" href="#">
-            <li class="mdl-menu__item">
-                <span id="/2017/06/03/第一次Android面试总结/" class="leancloud-views_num" data-flag-title="第一次Android面试总结">
-     &nbsp;浏览量
-</span>
-
-            </li>
-        </a>
-    
-
-    
-
-    <!-- Share Weibo -->
-    
-        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=第一次Android面试总结&url=http://yoursite.com//2017/06/03/第一次Android面试总结/index.html&pic=&searchPic=false&style=simple" target="_blank">
-            <li class="mdl-menu__item">
-                分享到微博
-            </li>
-        </a>
-    
-
-    <!-- Share Twitter -->
-    
-        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=第一次Android面试总结&url=http://yoursite.com//2017/06/03/第一次Android面试总结/index.html&via=Grantsome" target="_blank">
-            <li class="mdl-menu__item">
-                分享到 Twitter
-            </li>
-        </a>
-    
-
-    <!-- Share Facebook -->
-    
-        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com//2017/06/03/第一次Android面试总结/index.html" target="_blank">
-            <li class="mdl-menu__item">
-                分享到 Facebook
-            </li>
-        </a>
-    
-
-    <!-- Share Google+ -->
-    
-        <a class="post_share-link" href="https://plus.google.com/share?url=http://yoursite.com//2017/06/03/第一次Android面试总结/index.html" target="_blank">
-            <li class="mdl-menu__item">
-                分享到 Google+
-            </li>
-        </a>
-    
-
-    <!-- Share LinkedIn -->
-    
-
-    <!-- Share QQ -->
-    
-        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=Grantsome&title=第一次Android面试总结&summary=书写是思考的一种方式&pics=http://yoursite.com/img/favicon.png&url=http://yoursite.com/2017/06/03/第一次Android面试总结/index.html" target="_blank">
-            <li class="mdl-menu__item">
-                分享到 QQ
-            </li>
-        </a>
-    
-
-    <!-- Share Telegram -->
-    
-</ul>
-
+  </div>
 </div>
 
-                
+<nav class="site-nav">
+  
 
-                <!-- Post Content -->
-                <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
     
-        <p>学习Java&amp;Android已经有8个月的时间了，最近蠢蠢欲动，去面试了学校的某一高大上的组织。咳咳，发现自己很多东西都不太清楚，学得似是而非，Java的基础真的还需要加强，虽然我面试之前没有复习Java。那么就开始解决问题和疑惑吧，一个问题一个问题的解决，希望下次能够长点记性。</p>
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/03/第一次Android面试总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Grantsome">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/image/my_photo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Grantsome">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                第一次Android面试总结
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-03T07:40:12+08:00">
+                2017-06-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/06/03/第一次Android面试总结/" class="leancloud_visitors" data-flag-title="第一次Android面试总结">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>学习Java&amp;Android已经有8个月的时间了，最近蠢蠢欲动，去面试了学校的某一高大上的组织。咳咳，发现自己很多东西都不太清楚，学得似是而非，Java的基础真的还需要加强，虽然我面试之前没有复习Java。那么就开始解决问题和疑惑吧，一个问题一个问题的解决，希望下次能够长点记性。<br><a id="more"></a></p>
 <h3 id="Java篇"><a href="#Java篇" class="headerlink" title="Java篇"></a>Java篇</h3><h4 id="面向对象与面向过程的概念-区别和好处"><a href="#面向对象与面向过程的概念-区别和好处" class="headerlink" title="面向对象与面向过程的概念(区别和好处)"></a>面向对象与面向过程的概念(区别和好处)</h4><p>我承认这个是一个很基础的问题，但还是感觉不好阐述。<br>面向过程：面向过程是一种以事件/问题为中心的编程思想。就是分析一个事件/问题的解决步骤，用函数实现步骤，最后按照顺序调用函数。主要是该怎么做，“怎么”是重点。(程序=算法+数据)<br>面向对象：面向对象是一种以事物为中心的编程思想。就是把事件/问题分解，然后抽象出来各种对象，接着给对象发送“消息”，让对象去完成某些步骤。主要是谁去做，“谁”是重点。(程序=对象+消息)<br>举个栗子：以老师给学生上课为例。<br>面向过程的思路是这样子：1、打铃后开始上课。2、老师开始讲课 3、学生开始听课 4、老师提问 5、学生回答问题 6、老师布置作业 7、学生写作业 8、学生交作业 9、老师给学生打平时成绩 10、打铃后下课<br>而面向对象的思路却是：1、教室广播系统对象，主要行为是播放上下课铃声 2、老师对象，主要行为有讲课、提问和布置作业 3、学生对象，主要行为有听课和回答问题以及写作业等 4、评分规则系统<br>感受到了什么？没错，面向对象是以功能块为划分的。<br>假如现在有一个 老师给学生上课的时候有校领导来检查老师上课的质量<br>如果是面向过程的话，几乎就要全盘改写顺序了，校领导要在打铃之前从后门进来，在老师提问和讲课的时候要认真观察学生的反应，下课之后还要和老师聊一下对老师的评价。<br>假如是面向对象的话，那就不一样了。增加一个校领导对象，然后在增加一个校领导对老师的评价规则就可以了。<br>得出结论，使用面向对象的编程思想更容易适应需求的变化，也就是程序的可扩展性比较好。</p>
 <h4 id="说明一下static和final关键字的用法和特点"><a href="#说明一下static和final关键字的用法和特点" class="headerlink" title="说明一下static和final关键字的用法和特点"></a>说明一下static和final关键字的用法和特点</h4><p>static概述：static直接翻译过来是静态的，就是静态成员修饰符，其修饰的静态变量脱离具体对象独立存在。<br>举个栗子：学生读书的时候都有一个班级，但这个班级不属于任何一个人，这个班的班主任、班费也不属于任何人，班级、班主任、班费属于所有学生的整体，所以可以脱离具体的某个学生而独立存在。我们在定义学生类的时候就可以定义班级为static。<br>由于可以不依附任何对象而独立存在，所以访问这些static成员的时候，可以通过类名加“.”进行直接访问。<br>常见的static的用法有几种，分别是static修饰变量,static修饰方法,static修饰代码块,static修饰类<br>一个一个的来看,首先看看static修饰变量。<br>JVM只为static修饰的变量分配一次内存<br>直接看Demo</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * Created by Grantsome on 2017/06/03</div><div class="line"> * static修饰静态变量Demo</div><div class="line"> */</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StaticVariableDemo</span></span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        <span class="comment">// TODO 自动生成的方法存根</span></div><div class="line">        <span class="comment">//声明一个叫做demo1的StaticVariableDemo的对象并将其实例化</span></div><div class="line">        StaticVariableDemo demo01 = <span class="keyword">new</span> StaticVariableDemo();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">//构造方法</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">StaticVariableDemo</span><span class="params">()</span></span>&#123;</div><div class="line">        StaticStudent studentOne = <span class="keyword">new</span> StaticStudent(<span class="string">"Grantsome"</span>,<span class="number">2015213041</span>,<span class="number">19</span>,<span class="number">84</span>);</div><div class="line">        StaticStudent studentTwo = <span class="keyword">new</span> StaticStudent(<span class="string">"Grantsome"</span>,<span class="number">2015213041</span>,<span class="number">19</span>,<span class="number">84</span>,<span class="number">666666</span>);</div><div class="line">        StaticStudent studentThree = <span class="keyword">new</span> StaticStudent(<span class="string">"Grantsome"</span>,<span class="number">2015213041</span>,<span class="number">19</span>,<span class="number">84</span>);</div><div class="line">        studentOne.getStaticStudent();</div><div class="line">        studentTwo.getStaticStudent();</div><div class="line">        studentThree.getStaticStudent();</div><div class="line">        NormalStudent studentFour = <span class="keyword">new</span> NormalStudent(<span class="string">"Grantsome"</span>,<span class="number">2015213041</span>,<span class="number">19</span>,<span class="number">84</span>,<span class="number">777777</span>);</div><div class="line">        NormalStudent studentFive = <span class="keyword">new</span> NormalStudent(<span class="string">"Grantsome"</span>,<span class="number">2015213041</span>,<span class="number">19</span>,<span class="number">84</span>);</div><div class="line">        studentFour.getNormalStudent();</div><div class="line">        studentFive.getNormalStudent();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line"><span class="comment">//定义有静态变量的学生类</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">StaticStudent</span></span>&#123;</div><div class="line">    String name;<span class="comment">//姓名</span></div><div class="line">    <span class="keyword">int</span> number;<span class="comment">//学号</span></div><div class="line">    <span class="keyword">int</span> age;<span class="comment">//年龄</span></div><div class="line">    <span class="keyword">float</span> score;<span class="comment">//分数</span></div><div class="line">    <span class="keyword">static</span> <span class="keyword">int</span> inClass = <span class="number">11121501</span>;<span class="comment">//所在班级</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">StaticStudent</span><span class="params">(String mName,<span class="keyword">int</span> mNumber,<span class="keyword">int</span> mAge,<span class="keyword">int</span> mScore)</span></span>&#123;</div><div class="line">        <span class="keyword">this</span>.name = mName;</div><div class="line">        <span class="keyword">this</span>.number = mNumber;</div><div class="line">        <span class="keyword">this</span>.age = mAge;</div><div class="line">        <span class="keyword">this</span>.score = mScore;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">//构造方法</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">StaticStudent</span><span class="params">(String mName,<span class="keyword">int</span> mNumber,<span class="keyword">int</span> mAge,<span class="keyword">int</span> mScore,<span class="keyword">int</span> mInClass)</span></span>&#123;</div><div class="line">        <span class="keyword">this</span>.name = mName;</div><div class="line">        <span class="keyword">this</span>.number = mNumber;</div><div class="line">        <span class="keyword">this</span>.age = mAge;</div><div class="line">        <span class="keyword">this</span>.score = mScore;</div><div class="line">        <span class="keyword">this</span>.inClass = mInClass;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getStaticStudent</span><span class="params">()</span></span>&#123;</div><div class="line">        System.out.println(<span class="string">"StaticStudent "</span>+<span class="string">"name="</span>+name+<span class="string">" number="</span>+number+<span class="string">" age="</span>+age+<span class="string">" score="</span>+score+<span class="string">" inClass="</span>+inClass);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//定义有没有变量的学生类</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">NormalStudent</span></span>&#123;</div><div class="line">    String name;<span class="comment">//姓名</span></div><div class="line">    <span class="keyword">int</span> number;<span class="comment">//学号</span></div><div class="line">    <span class="keyword">int</span> age;<span class="comment">//年龄</span></div><div class="line">    <span class="keyword">float</span> score;<span class="comment">//分数</span></div><div class="line">    <span class="keyword">int</span> inClass = <span class="number">11121501</span>;<span class="comment">//所在班级</span></div><div class="line"></div><div class="line">    <span class="comment">//构造方法</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">NormalStudent</span><span class="params">(String mName,<span class="keyword">int</span> mNumber,<span class="keyword">int</span> mAge,<span class="keyword">int</span> mScore)</span></span>&#123;</div><div class="line">        <span class="keyword">this</span>.name = mName;</div><div class="line">        <span class="keyword">this</span>.number = mNumber;</div><div class="line">        <span class="keyword">this</span>.age = mAge;</div><div class="line">        <span class="keyword">this</span>.score = mScore;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">NormalStudent</span><span class="params">(String mName,<span class="keyword">int</span> mNumber,<span class="keyword">int</span> mAge,<span class="keyword">int</span> mScore,<span class="keyword">int</span> mInClass)</span></span>&#123;</div><div class="line">        <span class="keyword">this</span>.name = mName;</div><div class="line">        <span class="keyword">this</span>.number = mNumber;</div><div class="line">        <span class="keyword">this</span>.age = mAge;</div><div class="line">        <span class="keyword">this</span>.score = mScore;</div><div class="line">        <span class="keyword">this</span>.inClass = mInClass;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getNormalStudent</span><span class="params">()</span></span>&#123;</div><div class="line">        System.out.println(<span class="string">"NormalStudent "</span>+<span class="string">"name="</span>+name+<span class="string">" number="</span>+number+<span class="string">" age="</span>+age+<span class="string">" score="</span>+score+<span class="string">" inClass="</span>+inClass);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
@@ -454,462 +439,589 @@
 <p><img src="/image/reflect_first.PNG" alt=""></p>
 <p>先就写这么多吧。</p>
 <h3 id="Android篇"><a href="#Android篇" class="headerlink" title="Android篇"></a>Android篇</h3>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/面试/" rel="tag"># 面试</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/10/浅谈思考--决定命运的上帝之手/" rel="next" title="浅谈思考--决定命运的上帝之手">
+                <i class="fa fa-chevron-left"></i> 浅谈思考--决定命运的上帝之手
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/10/手机的阴谋-信息时代的最大骗局/" rel="prev" title="手机的阴谋--信息时代的最大骗局">
+                手机的阴谋--信息时代的最大骗局 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
     
+  </div>
 
-    
-</div>
-
-
-                
-
-                <!-- Post Comments -->
-                
-                    
-
-
-
-
-                
-            </div>
-
-            <!-- Post Prev & Next Nav -->
-            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
-    <!-- Prev Nav -->
-    
-        <a href="/2017/06/10/手机的阴谋-信息时代的最大骗局/" id="post_nav-newer" class="prev-content">
-            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
-                <i class="material-icons">arrow_back</i>
-            </button>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            新篇
-        </a>
-    
-
-    <!-- Section Spacer -->
-    <div class="section-spacer"></div>
-
-    <!-- Next Nav -->
-    
-        <a href="/2017/05/10/浅谈思考--决定命运的上帝之手/" id="post_nav-older" class="next-content">
-            旧篇
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
-                <i class="material-icons">arrow_forward</i>
-            </button>
-        </a>
-    
-</nav>
 
         </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
     </div>
+  </div>
 
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
 
+      
 
-                    
-                        <!-- Overlay For Active Sidebar -->
-<div class="sidebar-overlay"></div>
-
-<!-- Material sidebar -->
-<aside id="sidebar" class="sidebar sidebar-colored sidebar-fixed-left" role="navigation">
-    <div id="sidebar-main">
-        <!-- Sidebar Header -->
-        <div class="sidebar-header header-cover" style="background-image: url(/img/sidebar_header.png);">
-    <!-- Top bar -->
-    <div class="top-bar"></div>
-
-    <!-- Sidebar toggle button -->
-    <button type="button" class="sidebar-toggle mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" style="display: initial;" data-upgraded=",MaterialButton,MaterialRipple">
-        <i class="material-icons">clear_all</i>
-        <span class="mdl-button__ripple-container">
-            <span class="mdl-ripple">
-            </span>
-        </span>
-    </button>
-
-    <!-- Sidebar Avatar -->
-    <div class="sidebar-image">
-        <img src="/image/my_photo.jpg" alt="Grantsome's avatar">
-    </div>
-
-    <!-- Sidebar Email -->
-    <a data-toggle="dropdown" class="sidebar-brand" href="#settings-dropdown">
-        1278603466@qq.com
-        <b class="caret"></b>
-    </a>
-</div>
-
-
-        <!-- Sidebar Navigation  -->
-        <ul class="nav sidebar-nav">
-    <!-- User dropdown  -->
-    <li class="dropdown">
-        <ul id="settings-dropdown" class="dropdown-menu">
-            
-                <li>
-                    <a href="#" target="_blank" title="Email Me">
-                        
-                            <i class="material-icons sidebar-material-icons sidebar-indent-left1pc-element">email</i>
-                        
-                        Email Me
-                    </a>
-                </li>
-            
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
         </ul>
-    </li>
+      
 
-    <!-- Homepage -->
-    
-        <li id="sidebar-first-li">
-            <a href="/" target="_self">
-                
-                    <i class="material-icons sidebar-material-icons">home</i>
-                
-                主页
-            </a>
-        </li>
-        
-    
-
-    <!-- Archives  -->
-    
-        <li class="dropdown">
-            <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
-                
-                    <i class="material-icons sidebar-material-icons">inbox</i>
-                
-                    归档
-                <b class="caret"></b>
-            </a>
-            <ul class="dropdown-menu">
-            <li>
-                <a class="sidebar_archives-link" href="/archives/2017/09/">九月 2017<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/07/">七月 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/06/">六月 2017<span class="sidebar_archives-count">5</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/05/">五月 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/04/">四月 2017<span class="sidebar_archives-count">5</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/03/">三月 2017<span class="sidebar_archives-count">2</span></a>
-            </ul>
-        </li>
-        
-    
-
-    <!-- Categories  -->
-    
-        <li class="dropdown">
-            <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
-                
-                    <i class="material-icons sidebar-material-icons">chrome_reader_mode</i>
-                
-                分类
-                <b class="caret"></b>
-            </a>
-            <ul class="dropdown-menu">
-                <li>
-                
-            </ul>
-        </li>
-        
-    
-
-    <!-- Pages  -->
-    
-
-    <!-- Article Number  -->
-    
-</ul>
-
-
-        <!-- Sidebar Footer -->
-        <!--
-I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright, I will thank you so much.
-If you still want to delete the copyrights, could you still retain the first one? Which namely "Theme Material"
-It will not impact the appearance and can give developers a lot of support :)
-
-很高兴您使用并喜欢该主题，开发不易 十分谢谢与希望您可以保留一下版权声明。
-如果您仍然想删除的话 能否只保留第一项呢？即 "Theme Material"
-它不会影响美观并可以给开发者很大的支持和动力。 :)
--->
-
-<!-- Sidebar Divider -->
-
-    <div class="sidebar-divider"></div>
-
-
-<!-- Theme Material -->
-
-    <a href="https://github.com/viosey/hexo-theme-material"  class="sidebar-footer-text-a" target="_blank">
-        <div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
-            主题 - Material
-            <span class="sidebar-badge badge-circle">i</span>
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/image/my_photo.jpg"
+               alt="Grantsome" />
+          <p class="site-author-name" itemprop="name">Grantsome</p>
+           
+              <p class="site-description motion-element" itemprop="description">书写是思考的一种方式</p>
+          
         </div>
-    </a>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
 
 
-<!-- Help & Support -->
-<!--
+      </section>
 
--->
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
 
-<!-- Feedback -->
-<!--
+            
+              
+            
 
--->
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Java篇"><span class="nav-number">1.</span> <span class="nav-text">Java篇</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#面向对象与面向过程的概念-区别和好处"><span class="nav-number">1.1.</span> <span class="nav-text">面向对象与面向过程的概念(区别和好处)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#说明一下static和final关键字的用法和特点"><span class="nav-number">1.2.</span> <span class="nav-text">说明一下static和final关键字的用法和特点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#简要说一下继承与多态这两种特性。"><span class="nav-number">1.3.</span> <span class="nav-text">简要说一下继承与多态这两种特性。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#抽象类和接口的区别"><span class="nav-number">1.4.</span> <span class="nav-text">抽象类和接口的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#“-”和equals-的区别"><span class="nav-number">1.5.</span> <span class="nav-text">“==”和equals()的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#set和list的区别"><span class="nav-number">1.6.</span> <span class="nav-text">set和list的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#反射的原理"><span class="nav-number">1.7.</span> <span class="nav-text">反射的原理</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Android篇"><span class="nav-number">2.</span> <span class="nav-text">Android篇</span></a></li></ol></div>
+            
 
-<!-- About Theme -->
-<!--
+          </div>
+        </section>
+      <!--/noindex-->
+      
 
--->
+      
 
     </div>
+  </aside>
 
-    <!-- Sidebar Image -->
-    
 
-</aside>
+        
+      </div>
+    </main>
 
-                    
-
-                    
-                        <!-- Footer Top Button -->
-                        <div class="toTop-wrap">
-    <a href="#top" class="toTop">
-        <i class="material-icons footer_top-i">expand_less</i>
-    </a>
-</div>
-
-                    
-
-                    <!--Footer-->
-<footer class="mdl-mini-footer" id="bottom">
-    
-        <!-- Paradox Footer Left Section -->
-        <div class="mdl-mini-footer--left-section sns-list">
-    <!-- Twitter -->
-    
-        <a href="https://twitter.com/twitter" target="_blank">
-            <button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(/img/footer/footer_ico-twitter.png);">
-                <span class="visuallyhidden">Twitter</span>
-            </button><!--
-     --></a>
-    
-
-    <!-- Facebook -->
-    
-        <a href="https://www.facebook.com/facebook" target="_blank">
-            <button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(/img/footer/footer_ico-facebook.png);">
-                <span class="visuallyhidden">Facebook</span>
-            </button><!--
-     --></a>
-    
-
-    <!-- Google + -->
-    
-        <a href="https://www.google.com/" target="_blank">
-            <button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(/img/footer/footer_ico-gplus.png);">
-                <span class="visuallyhidden">Google Plus</span>
-            </button><!--
-     --></a>
-    
-
-    <!-- Weibo -->
-    
-
-    <!-- Instagram -->
-    
-
-    <!-- Tumblr -->
-    
-
-    <!-- Github -->
-    
-        <a href="https://www.github.com/Grantsome" target="_blank">
-            <button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(/img/footer/footer_ico-github.png);">
-                <span class="visuallyhidden">Github</span>
-            </button><!--
-     --></a>
-    
-
-    <!-- LinkedIn -->
-    
-
-    <!-- Zhihu -->
-    
-
-    <!-- Bilibili -->
-    
-
-    <!-- Telegram -->
-    
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Grantsome</span>
 </div>
 
 
-        <!--Copyright-->
-        <div id="copyright">
-            Copyright&nbsp;©&nbsp;
-            <script type="text/javascript">
-                var fd = new Date();
-                document.write(fd.getFullYear());
-            </script>
-            &nbsp;Grantsome
-        </div>
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
 
-        <!-- Paradox Footer Right Section -->
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
 
-        <!--
-        I am glad you use this theme, the development is no so easy, I hope you can keep the copyright.
-        It will not impact the appearance and can give developers a lot of support :)
 
-        很高兴您使用该主题，开发不易，希望您可以保留一下版权声明。
-        它不会影响美观并可以给开发者很大的支持。 :)
-        -->
+        
 
-        <div class="mdl-mini-footer--right-section">
-            <div>
-                <div class="footer-develop-div">Powered by <a href="https://hexo.io" target="_blank" class="footer-develop-a">Hexo</a></div>
-                <div class="footer-develop-div">Theme - <a href="https://github.com/viosey/hexo-theme-material" target="_blank" class="footer-develop-a">Material</a></div>
-            </div>
-        </div>
+        
+      </div>
+    </footer>
+
     
-</footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
 
+  </div>
 
-                    <!-- Import File -->
-<script src="/js/lazyload.min.js"></script>
-<script src="/js/js.min.js"></script>
-<script src="/js/nprogress.js"></script>
+  
 
 <script type="text/javascript">
-    NProgress.configure({
-        showSpinner: true
-    });
-    NProgress.start();
-    $('#nprogress .bar').css({
-        'background': '#29d'
-    });
-    $('#nprogress .peg').css({
-        'box-shadow': '0 0 10px #29d, 0 0 15px #29d'
-    });
-    $('#nprogress .spinner-icon').css({
-        'border-top-color': '#29d',
-        'border-left-color': '#29d'
-    });
-    setTimeout(function() {
-        NProgress.done();
-        $('.fade').removeClass('out');
-    }, 800);
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
 </script>
 
 
 
 
 
-    <!-- Leancloud -->
-    <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
-    <script>
-        AV.initialize('N4kDW8TfOJ2iUzAX9Dnfh5W4-gzGzoHsz', 'DsKw5kNbtHbP2peJYL5zmUdx');
-    </script>
-    <script>
-    function showTime(Counter) {
-        var query = new AV.Query(Counter);
-        $('.leancloud-views_num').each(function() {
-            var url = $(this).attr('id').trim();
-            query.equalTo('url', url);
-            query.find({
-                success: function(results) {
-                    if (results.length === 0) {
-                        var content = '0 ' + $(document.getElementById(url)).text();
-                        $(document.getElementById(url)).text(content);
-                        return;
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
                     }
-                    for (var i = 0; i < results.length; i++) {
-                        var object = results[i];
-                        var content = object.get('time') + ' ' + $(document.getElementById(url)).text();
-                        $(document.getElementById(url)).text(content);
-                    }
-                },
-                error: function(object, error) {
-                    console.log('Error: ' + error.code + ' ' + error.message);
+
+                  });
                 }
-            });
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("N4kDW8TfOJ2iUzAX9Dnfh5W4-gzGzoHsz", "DsKw5kNbtHbP2peJYL5zmUdx");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
         });
     }
 
     function addCount(Counter) {
-      var Counter = AV.Object.extend('Counter');
-      url = $('.leancloud-views_num').attr('id').trim();
-      title = $('.leancloud-views_num').attr('data-flag-title').trim();
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
       var query = new AV.Query(Counter);
-      query.equalTo('url', url);
+
+      query.equalTo("url", url);
       query.find({
-          success: function(results) {
-            if (results.length > 0) {
-                var counter = results[0];
-                counter.fetchWhenSave(true);
-                counter.increment('time');
-                counter.save(null, {
-                    success: function(counter) {
-                        var content =  counter.get('time') + ' ' + $(document.getElementById(url)).text();
-                        $(document.getElementById(url)).text(content);
-                    },
-                    error: function(counter, error) {
-                        console.log('Failed to save Visitor num, with error message: ' + error.message);
-                    }
-                });
-            } else {
-              var newcounter = new Counter();
-              newcounter.set('title', title);
-              newcounter.set('url', url);
-              newcounter.set('time', 1);
-              newcounter.save(null, {
-                  success: function(newcounter) {
-                      console.log('newcounter.get(\'time\')='+newcounter.get('time'));
-                      var content = newcounter.get('time') + ' ' + $(document.getElementById(url)).text();
-                      $(document.getElementById(url)).text(content);
-                  },
-                  error: function(newcounter, error) {
-                      console.log('Failed to create');
-                  }
-              });
-            }
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
         },
         error: function(error) {
-            console.log('Error:' + error.code + ' ' + error.message);
+          console.log('Error:' + error.code + " " + error.message);
         }
       });
     }
+
     $(function() {
-        var Counter = AV.Object.extend('Counter');
-        if ($('.leancloud-views_num').length === 1) {
-            addCount(Counter);
-        } else if ($('.post-title-link').length > 1) {
-            showTime(Counter);
-        }
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
     });
-</script>
-
-
-
-
-
-
-
-
-
-
-<!-- Swiftye -->
-
-
-<!-- Local Search-->
-
-
-<!-- Window Load-->
-<script>
-    $(window).load(function() {
-        // Post_Toc parent position fixed
-        $('.post-toc-wrap').parent('.mdl-menu__container').css('position', 'fixed');
-    });
-</script>
-
-<!-- MathJax Load-->
-
-
-                </main>
-            </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+  </script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
 </script>
@@ -927,6 +1039,16 @@ It will not impact the appearance and can give developers a lot of support :)
 </script>
 <!-- End: Injected MathJax -->
 <!-- hexo-inject:end -->
-        </body>
-    
+
+
+
+  
+
+  
+  
+
+
+  
+
+</body>
 </html>

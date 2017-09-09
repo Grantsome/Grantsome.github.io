@@ -1,412 +1,384 @@
-<!DOCTYPE html>
-<html lang="zh">
-    <head>
-    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- 
-        © Material Theme
-        https://github.com/viosey/hexo-theme-material
-        Version: 1.3.0 -->
+<!doctype html>
 
-    <!-- Title -->
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
     
-    <title>
-        
-            Android常用的工具类 | 
-        
-        Grantsome
-    </title>
-
-    <!-- Favicons -->
-    <link rel="icon shortcut" type="image/ico" href="/img/favicon.png">
-    <link rel="icon" sizes="192x192" href="/img/favicon.png">
-    <link rel="apple-touch-icon" href="/img/favicon.png">
-
-    <!-- Meta & Info -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Grantsome">
-    <meta name="description" content="书写是思考的一种方式">
-    <meta name="keywords" content="null,Android">
-
-    <!--iOS -->
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <meta name="apple-mobile-web-app-title" content="Title">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="HandheldFriendly" content="True">
-    <meta name="MobileOptimized" content="480">
-
-    <!-- Add to homescreen for Chrome on Android -->
-    <meta name="mobile-web-app-capable" content="yes">
-
-    <!-- Add to homescreen for Safari on iOS -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="Grantsome">
-
-    <!-- The Open Graph protocol -->
-    <meta property="og:url" content="http://yoursite.com">
-    <meta property="og:type" content="blog">
-    <meta property="og:title" content="Android常用的工具类 | Grantsome">
-    <meta property="og:description" content="书写是思考的一种方式">
-    <meta property="og:article:tag" content="Android"> 
-
-    <!--[if lte IE 9]>
-        <link rel="stylesheet" href="/css/ie-blocker.css">
-
-        
-            <script src="/js/ie-blocker.zhCN.js"></script>
-        
-    <![endif]-->
-
-    <!-- Import CSS -->
-    <link rel="stylesheet" href="/css/material.min.css">
-    <link rel="stylesheet" href="/css/style.min.css">
-    <!-- Config CSS -->
-
-
-<!-- Other Styles -->
-<style>
-  body, html {
-    font-family: Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
-  }
-
-  a {
-    color: #00838F;
-  }
-
-  .mdl-card__media,
-  #search-label,
-  #search-form-label:after,
-  #scheme-Paradox .hot_tags-count,
-  #scheme-Paradox .sidebar_archives-count,
-  #scheme-Paradox .sidebar-colored .sidebar-header,
-  #scheme-Paradox .sidebar-colored .sidebar-badge{
-    background-color: #0097A7 !important;
-  }
-
-  /* Sidebar User Drop Down Menu Text Color */
-  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:hover,
-  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:focus {
-    color: #0097A7 !important;
-  }
-
-  #post_entry-right-info,
-  .sidebar-colored .sidebar-nav li:hover > a,
-  .sidebar-colored .sidebar-nav li:hover > a i,
-  .sidebar-colored .sidebar-nav li > a:hover,
-  .sidebar-colored .sidebar-nav li > a:hover i,
-  .sidebar-colored .sidebar-nav li > a:focus i,
-  .sidebar-colored .sidebar-nav > .open > a,
-  .sidebar-colored .sidebar-nav > .open > a:hover,
-  .sidebar-colored .sidebar-nav > .open > a:focus,
-  #ds-reset #ds-ctx .ds-ctx-entry .ds-ctx-head a {
-    color: #0097A7 !important;
-  }
-
-  .toTop {
-    background: #757575 !important;
-  }
-
-  .material-layout .material-post>.material-nav,
-  .material-layout .material-index>.material-nav,
-  .material-nav a {
-    color: #757575;
-  }
-
-  #scheme-Paradox .MD-burger-layer {
-    background-color: #757575;
-  }
-
-  #scheme-Paradox #post-toc-trigger-btn {
-    color: #757575;
-  }
-
-  .post-toc a:hover {
-    color: #00838F;
-    text-decoration: underline;
-  }
-</style>
-
-
-<!-- Theme Background Related-->
-
-    <style>
-      body{
-        background-color: #F5F5F5;
-      }
-
-      /* blog_info bottom background */
-      #scheme-Paradox .material-layout .something-else .mdl-card__supporting-text{
-        background-color: #fff;
-      }
-    </style>
-
-
-
-
-<!-- Fade Effect -->
-
-    <style>
-      .fade {
-        transition: all 800ms linear;
-        -webkit-transform: translate3d(0,0,0);
-        -moz-transform: translate3d(0,0,0);
-        -ms-transform: translate3d(0,0,0);
-        -o-transform: translate3d(0,0,0);
-        transform: translate3d(0,0,0);
-        opacity: 1;
-      }
-
-      .fade.out{
-        opacity: 0;
-      }
-    </style>
-
-
-
-    <script src="/js/jquery.min.js"></script>
-    <script src="/js/queue.js"></script>
-
-    <!-- UC Browser Compatible -->
-    <script>
-        var agent = navigator.userAgent.toLowerCase();
-        if(agent.indexOf('ucbrowser')>0) {
-            document.write("<link rel=\"stylesheet\" href=\"/css/uc.css\">");
-            alert('由于 UC 浏览器使用极旧的内核，而本网站使用了一些新的特性。\n为了您能更好的浏览，推荐使用 Chrome 或 Firefox 浏览器。');
-        }
-    </script>
-
     
-    <!-- Baidu Analytics -->
-    <script>
-        var _hmt = _hmt || [];
-        (function() {var hm = document.createElement('script');
-        hm.src = 'https://hm.baidu.com/hm.js?f4067590954f61e17bcf5f2e372e8556';
-        var s = document.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(hm, s);
-        })();
-    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
     
-
     
-
-    <!-- Bing Background -->
-    
-
-    <!-- Custom Head --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
-    
-</head>
-
-
-    
-        <body id="scheme-Paradox" class="lazy">
-            <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="material-layout  mdl-js-layout has-drawer is-upgraded">
-                
-
-                <!-- Main Container -->
-                <main class="material-layout__content" id="main">
-
-                    <!-- Top Anchor -->
-                    <div id="top"></div>
-
-                    
-                        <!-- Hamburger Button -->
-                        <button class="MD-burger-icon sidebar-toggle">
-                            <span class="MD-burger-layer"></span>
-                        </button>
-                    
-
-                    <!-- Post TOC -->
-
-    
-    <!-- Back Button -->
-    <!--
-    <div class="material-back" id="backhome-div" tabindex="0">
-        <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"
-           href="#" onclick="window.history.back();return false;"
-           target="_self"
-           role="button"
-           data-upgraded=",MaterialButton,MaterialRipple">
-            <i class="material-icons" role="presentation">arrow_back</i>
-            <span class="mdl-button__ripple-container">
-                <span class="mdl-ripple"></span>
-            </span>
-        </a>
-    </div>
-    -->
-
-    <!-- Left aligned menu below button -->
-    <button id="post-toc-trigger-btn"
-        class="mdl-button mdl-js-button mdl-button--icon">
-        <i class="material-icons">format_list_numbered</i>
-    </button>
-
-    <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn">
-        <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#SharedPreferences工具类"><span class="post-toc-number">1.</span> <span class="post-toc-text">SharedPreferences工具类</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Log工具类"><span class="post-toc-number">2.</span> <span class="post-toc-text">Log工具类</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#network检查工具"><span class="post-toc-number">3.</span> <span class="post-toc-text">network检查工具</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#CircleImage工具"><span class="post-toc-number">4.</span> <span class="post-toc-text">CircleImage工具</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#ApplicationContext获取工具"><span class="post-toc-number">5.</span> <span class="post-toc-text">ApplicationContext获取工具</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#fragment-commit工具"><span class="post-toc-number">6.</span> <span class="post-toc-text">fragment commit工具</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Toast工具类"><span class="post-toc-number">7.</span> <span class="post-toc-text">Toast工具类</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#动态权限申请"><span class="post-toc-number">8.</span> <span class="post-toc-text">动态权限申请</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#toolbar工具"><span class="post-toc-number">9.</span> <span class="post-toc-text">toolbar工具</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#bitmap工具"><span class="post-toc-number">10.</span> <span class="post-toc-text">bitmap工具</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#网络请求工具"><span class="post-toc-number">11.</span> <span class="post-toc-text">网络请求工具</span></a></li></ol>
-
-        <!--
-        <li class="mdl-menu__item">
-            Some Action
-        </li>
-        -->
-    </ul>
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
 
 
 
 
-<!-- Layouts -->
 
-    <!-- Post Module -->
-    <div class="material-post_container">
 
-        <div class="material-post mdl-grid">
-            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
 
-                <!-- Post Header(Thumbnail & Title) -->
-                
-    <!-- Paradox Post Header -->
-    
-        
-            <!-- Random Thumbnail -->
-            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-            <script>
-    var randomNum = Math.floor(Math.random() * 19 + 1);
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
-    $('.post_thumbnail-random').css('background-image', 'url(' + '/img/random/material-' + randomNum + '.png' + ')');
+
+  <meta name="keywords" content="Android," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Grantsome" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Android开发的时候为了减少重复代码，封装和解耦是必要的。简洁清晰的代码给人如沐春风的感觉。而工具类就可以办到这一点。今天就先简单谈谈我对经常使用的工具类。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android常用的工具类">
+<meta property="og:url" content="http://yoursite.com/2017/05/10/Android常用的工具类/index.html">
+<meta property="og:site_name" content="Grantsome">
+<meta property="og:description" content="Android开发的时候为了减少重复代码，封装和解耦是必要的。简洁清晰的代码给人如沐春风的感觉。而工具类就可以办到这一点。今天就先简单谈谈我对经常使用的工具类。">
+<meta property="og:updated_time" content="2017-09-09T08:12:27.406Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android常用的工具类">
+<meta name="twitter:description" content="Android开发的时候为了减少重复代码，封装和解耦是必要的。简洁清晰的代码给人如沐春风的感觉。而工具类就可以办到这一点。今天就先简单谈谈我对经常使用的工具类。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
 </script>
 
-        
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/05/10/Android常用的工具类/"/>
+
+
+
+
+
+  <title> Android常用的工具类 | Grantsome </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?f4067590954f61e17bcf5f2e372e8556";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
     
-            <p class="article-headline-p">
-                Android常用的工具类
-            </p>
-        </div>
+  
 
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
 
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
 
-
-
-                
-                    <!-- Paradox Post Info -->
-                    <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
-
-    <!-- Author Avatar -->
-    <div id="author-avatar">
-        <img src="/image/my_photo.jpg" width="44px" height="44px" alt="Author Avatar"/>
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Grantsome</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
     </div>
-    <!-- Author Name & Date -->
-    <div>
-        <strong>Grantsome</strong>
-        <span>5月 10, 2017</span>
-    </div>
+      
+        <p class="site-subtitle">以接受自己的态度接受一切</p>
+      
+  </div>
 
-    <div class="section-spacer"></div>
-
-    <!-- Favorite -->
-    <!--
-        <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
-            <i class="material-icons" role="presentation">favorite</i>
-            <span class="visuallyhidden">favorites</span>
-        </button>
-    -->
-
-    <!-- Qrcode -->
-    
-
-    <!-- Tags (bookmark) -->
-    
-    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
-        <i class="material-icons" role="presentation">bookmark</i>
-        <span class="visuallyhidden">bookmark</span>
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
     </button>
-    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
-        <li class="mdl-menu__item">
-        <a class="post_tag-link" href="/tags/Android/">Android</a>
-    </ul>
-    
-
-    <!-- Share -->
-    <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
-    <i class="material-icons" role="presentation">share</i>
-    <span class="visuallyhidden">share</span>
-</button>
-<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
-    
-    <!-- Leancloud Views -->
-        <a class="post_share-link" href="#">
-            <li class="mdl-menu__item">
-                <span id="/2017/05/10/Android常用的工具类/" class="leancloud-views_num" data-flag-title="Android常用的工具类">
-     &nbsp;浏览量
-</span>
-
-            </li>
-        </a>
-    
-
-    
-
-    <!-- Share Weibo -->
-    
-        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=Android常用的工具类&url=http://yoursite.com//2017/05/10/Android常用的工具类/index.html&pic=&searchPic=false&style=simple" target="_blank">
-            <li class="mdl-menu__item">
-                分享到微博
-            </li>
-        </a>
-    
-
-    <!-- Share Twitter -->
-    
-        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=Android常用的工具类&url=http://yoursite.com//2017/05/10/Android常用的工具类/index.html&via=Grantsome" target="_blank">
-            <li class="mdl-menu__item">
-                分享到 Twitter
-            </li>
-        </a>
-    
-
-    <!-- Share Facebook -->
-    
-        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com//2017/05/10/Android常用的工具类/index.html" target="_blank">
-            <li class="mdl-menu__item">
-                分享到 Facebook
-            </li>
-        </a>
-    
-
-    <!-- Share Google+ -->
-    
-        <a class="post_share-link" href="https://plus.google.com/share?url=http://yoursite.com//2017/05/10/Android常用的工具类/index.html" target="_blank">
-            <li class="mdl-menu__item">
-                分享到 Google+
-            </li>
-        </a>
-    
-
-    <!-- Share LinkedIn -->
-    
-
-    <!-- Share QQ -->
-    
-        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=Grantsome&title=Android常用的工具类&summary=书写是思考的一种方式&pics=http://yoursite.com/img/favicon.png&url=http://yoursite.com/2017/05/10/Android常用的工具类/index.html" target="_blank">
-            <li class="mdl-menu__item">
-                分享到 QQ
-            </li>
-        </a>
-    
-
-    <!-- Share Telegram -->
-    
-</ul>
-
+  </div>
 </div>
 
-                
+<nav class="site-nav">
+  
 
-                <!-- Post Content -->
-                <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
     
-        <p>Android开发的时候为了减少重复代码，封装和解耦是必要的。简洁清晰的代码给人如沐春风的感觉。而工具类就可以办到这一点。今天就先简单谈谈我对经常使用的工具类。</p>
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/10/Android常用的工具类/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Grantsome">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/image/my_photo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Grantsome">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Android常用的工具类
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-10T15:00:07+08:00">
+                2017-05-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/05/10/Android常用的工具类/" class="leancloud_visitors" data-flag-title="Android常用的工具类">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Android开发的时候为了减少重复代码，封装和解耦是必要的。简洁清晰的代码给人如沐春风的感觉。而工具类就可以办到这一点。今天就先简单谈谈我对经常使用的工具类。<br><a id="more"></a></p>
 <h4 id="SharedPreferences工具类"><a href="#SharedPreferences工具类" class="headerlink" title="SharedPreferences工具类"></a>SharedPreferences工具类</h4><p>SharedPreferences是我们进行轻量级数据存储的时候经常使用的工具，比如记住密码和账号功能(密码的话，使用这个有点不安全哎)，还有区分已读未读新闻等功能都可以使用SharedPreferences。但如果每次都要创建一个SharedPreferences和editor最后apply的话，也太麻烦了吧，而且重复代码看起来让人很不舒服。那么怎么封装呢？<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">import</span> android.content.Context;</div><div class="line"><span class="keyword">import</span> android.content.SharedPreferences;</div><div class="line"><span class="keyword">import</span> android.preference.PreferenceManager;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Created by Grantsome on 2017/2/15.</div><div class="line"> * 轻量级存储工具类(SharedPreferences)</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PreUtil</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">putStringToDefault</span><span class="params">(Context context,String key,String value)</span></span>&#123;</div><div class="line">        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);</div><div class="line">        sharedPreferences.edit().putString(key,value).commit();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getStringFromDefault</span><span class="params">(Context context,String key,String value)</span></span>&#123;</div><div class="line">        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);</div><div class="line">        <span class="keyword">return</span> sharedPreferences.getString(key,value);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>使用的时候，以阅读新闻并记录新闻的id为例,对于每一个item,点击过后会都记录在SharedPreferences里面<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">listViewNews.setOnItemClickListener(<span class="keyword">new</span> AdapterView.OnItemClickListener() &#123;</div><div class="line">           <span class="meta">@Override</span></div><div class="line">           <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onItemClick</span><span class="params">(AdapterView&lt;?&gt; adapterView, View view, <span class="keyword">int</span> i, <span class="keyword">long</span> l)</span> </span>&#123;</div><div class="line">               <span class="comment">//实例化stories,目的是后面的传值(这里不重要)</span></div><div class="line">               Stories stories = (Stories) adapterView.getAdapter().getItem(i);</div><div class="line">               Intent intent = <span class="keyword">new</span> Intent(activity, LatestContentActivity.class);</div><div class="line">               intent.putExtra(<span class="string">"stories"</span>,stories);</div><div class="line">               intent.putExtra(<span class="string">"isLight"</span>,((MainActivity) activity).isLight());</div><div class="line">               isRead = <span class="keyword">true</span>;</div><div class="line">               intent.putExtra(<span class="string">"isRead"</span>,isRead);</div><div class="line">               <span class="comment">//自己定义的getStringFromDefault方法</span></div><div class="line">               <span class="comment">//主要是利用了SharedPreference实现已读和未读的区分</span></div><div class="line">               <span class="comment">//首先加载以前的读过的新闻的id;</span></div><div class="line">               String readSequence = PreUtil.getStringFromDefault(activity, <span class="string">"read"</span>, <span class="string">""</span>);</div><div class="line">               <span class="comment">//给readSequence里面的id用逗号,隔开</span></div><div class="line">               String[] splits = readSequence.split(<span class="string">","</span>);</div><div class="line">               <span class="comment">//当读过的记录里面没有刚刚点开的id的时候,加入id</span></div><div class="line">               <span class="keyword">if</span> (!readSequence.contains(stories.getId() + <span class="string">""</span>)) &#123;</div><div class="line">                   readSequence = readSequence + stories.getId() + <span class="string">","</span>;</div><div class="line">               &#125;</div><div class="line">			<span class="comment">//把读过的新闻的id重新写入SharedPreference</span></div><div class="line">               PreUtil.putStringToDefault(activity, <span class="string">"read"</span>, readSequence);</div><div class="line">               startActivity(intent);</div><div class="line">               activity.overridePendingTransition(<span class="number">0</span>,<span class="number">0</span>);</div><div class="line">           &#125;</div><div class="line">       &#125;);</div><div class="line">       <span class="keyword">return</span> view;</div><div class="line">   &#125;</div></pre></td></tr></table></figure></p>
 <p>我想写到这里大家都明白了吧？</p>
@@ -435,462 +407,589 @@
 <p>这里的逻辑有点复杂，我们来慢慢看。首先新建了一个handler,然后新开了一个线程处理耗时操作，并且是Thread.start()。线程里面实现了runnable，并在网络请求中设置如果参数为空就用get方法，不为空即post方法。如果返回成功就用handler.post()里面写一个待实现的callback.onResponse(Response response)方法。并且如果方法为get就把文件写入temp赋值给response。仔细看一下<br>看完整代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">package</span> com.grantsome.newbihu.Util;</div><div class="line"></div><div class="line"><span class="keyword">import</span> android.os.Handler;</div><div class="line"></div><div class="line"><span class="keyword">import</span> com.qiniu.android.common.Zone;</div><div class="line"><span class="keyword">import</span> com.qiniu.android.http.ResponseInfo;</div><div class="line"><span class="keyword">import</span> com.qiniu.android.storage.Configuration;</div><div class="line"><span class="keyword">import</span> com.qiniu.android.storage.UpCompletionHandler;</div><div class="line"><span class="keyword">import</span> com.qiniu.android.storage.UploadManager;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.json.JSONObject;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.ByteArrayOutputStream;</div><div class="line"><span class="keyword">import</span> java.io.File;</div><div class="line"><span class="keyword">import</span> java.io.FileInputStream;</div><div class="line"><span class="keyword">import</span> java.io.FileOutputStream;</div><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"><span class="keyword">import</span> java.io.InputStream;</div><div class="line"><span class="keyword">import</span> java.io.OutputStream;</div><div class="line"><span class="keyword">import</span> java.net.HttpURLConnection;</div><div class="line"><span class="keyword">import</span> java.net.URL;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Created by tom on 2017/4/27.</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HttpUtils</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sendHttpRequest</span><span class="params">(String address,String param)</span></span>&#123;</div><div class="line">        sendHttpRequest(address, param, <span class="keyword">new</span> Callback() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onResponse</span><span class="params">(Response response)</span> </span>&#123;</div><div class="line"></div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onFail</span><span class="params">(Exception e)</span> </span>&#123;</div><div class="line">                ToastUtils.showError(e.toString());</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sendHttpRequest</span><span class="params">(<span class="keyword">final</span> String address,<span class="keyword">final</span> String param,<span class="keyword">final</span> Callback callback)</span></span>&#123;</div><div class="line">        <span class="keyword">if</span>(!NetworkUtils.isNetWorkConnected(ApplicationContext.getContext()))&#123;</div><div class="line">            callback.onFail(<span class="keyword">new</span> Exception(<span class="string">"无法连接到网络"</span>));</div><div class="line">            <span class="keyword">return</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">final</span> Handler handler = <span class="keyword">new</span> Handler();</div><div class="line">        <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">                HttpURLConnection connection =<span class="keyword">null</span>;</div><div class="line">                <span class="keyword">try</span>&#123;</div><div class="line">                    URL url = <span class="keyword">new</span> URL(address);</div><div class="line">                    connection = (HttpURLConnection) url.openConnection();</div><div class="line">                    connection.setReadTimeout(<span class="number">5000</span>);</div><div class="line">                    connection.setConnectTimeout(<span class="number">10000</span>);</div><div class="line">                    <span class="keyword">if</span>(param==<span class="keyword">null</span>)&#123;</div><div class="line">                        connection.setRequestMethod(<span class="string">"GET"</span>);</div><div class="line">                    &#125;<span class="keyword">else</span> &#123;</div><div class="line">                        connection.setRequestMethod(<span class="string">"POST"</span>);</div><div class="line">                        connection.setDoInput(<span class="keyword">true</span>);</div><div class="line">                        OutputStream os = connection.getOutputStream();</div><div class="line">                        os.write(param.getBytes());</div><div class="line">                        os.flush();</div><div class="line">                        os.close();</div><div class="line">                    &#125;</div><div class="line">                    <span class="keyword">if</span>(connection.getResponseCode()==<span class="number">200</span>)&#123;</div><div class="line">                        <span class="keyword">final</span> <span class="keyword">byte</span>[] temp = read(connection.getInputStream());</div><div class="line">                        handler.post(<span class="keyword">new</span> Runnable() &#123;</div><div class="line">                            <span class="meta">@Override</span></div><div class="line">                            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">                                callback.onResponse(<span class="keyword">new</span> Response(temp));</div><div class="line">                            &#125;</div><div class="line">                        &#125;);</div><div class="line"></div><div class="line">                        <span class="keyword">if</span>(connection.getRequestMethod().equals(<span class="string">"GET"</span>))&#123;</div><div class="line">                            <span class="comment">//截取的address里面/的部分+1</span></div><div class="line">                            String name = address.substring(address.lastIndexOf(<span class="string">'/'</span>)+<span class="number">1</span>);</div><div class="line">                            <span class="comment">//通过Context.getExternalCacheDir()方法可以获取到 SDCard/Android/data/你的应用包名/cache/目录，一般存放临时缓存数据</span></div><div class="line">                            File file = <span class="keyword">new</span> File(ApplicationContext.getContext().getExternalCacheDir(),name);</div><div class="line">                            FileOutputStream os = <span class="keyword">new</span> FileOutputStream(file);</div><div class="line">                            os.write(temp);</div><div class="line">                            os.close();</div><div class="line">                        &#125;</div><div class="line">                    &#125;<span class="keyword">else</span> &#123;</div><div class="line">                        <span class="keyword">throw</span> <span class="keyword">new</span> Exception(<span class="string">"无法连接到服务器"</span>);</div><div class="line">                    &#125;</div><div class="line"></div><div class="line">                &#125;<span class="keyword">catch</span> (<span class="keyword">final</span> Exception e)&#123;</div><div class="line">                    e.printStackTrace();</div><div class="line">                    handler.post(<span class="keyword">new</span> Runnable() &#123;</div><div class="line">                        <span class="meta">@Override</span></div><div class="line">                        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">                            callback.onFail(e);</div><div class="line">                        &#125;</div><div class="line">                    &#125;);</div><div class="line">                &#125;<span class="keyword">finally</span> &#123;</div><div class="line">                    <span class="keyword">if</span>(connection!=<span class="keyword">null</span>)&#123;</div><div class="line">                        connection.disconnect();</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;).start();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">byte</span>[] read(InputStream is) <span class="keyword">throws</span> IOException &#123;</div><div class="line">        <span class="keyword">final</span> ByteArrayOutputStream outputStream = <span class="keyword">new</span> ByteArrayOutputStream();</div><div class="line">        <span class="keyword">byte</span>[] temp = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</div><div class="line">        <span class="keyword">int</span> len;</div><div class="line">        <span class="keyword">while</span>((len=is.read(temp))!=-<span class="number">1</span>)&#123;</div><div class="line">            outputStream.write(temp,<span class="number">0</span>,len);</div><div class="line">        &#125;</div><div class="line">        is.close();</div><div class="line">        <span class="keyword">return</span> outputStream.toByteArray();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Callback</span> </span>&#123;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">void</span> <span class="title">onResponse</span><span class="params">(Response response)</span></span>;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">void</span> <span class="title">onFail</span><span class="params">(Exception e)</span></span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Response</span></span>&#123;</div><div class="line"></div><div class="line">        <span class="keyword">private</span> <span class="keyword">int</span> mStatus;</div><div class="line"></div><div class="line">        <span class="keyword">private</span> String mInfo;</div><div class="line"></div><div class="line">        <span class="keyword">private</span> <span class="keyword">byte</span>[] mData;</div><div class="line"></div><div class="line">        Response(<span class="keyword">byte</span>[] response)&#123;</div><div class="line">            String rawData = <span class="keyword">new</span> String(response);</div><div class="line">            mInfo = getElement(rawData,<span class="string">"info"</span>);</div><div class="line">            <span class="keyword">if</span>(mInfo==<span class="keyword">null</span>)&#123;</div><div class="line">                mStatus = <span class="number">200</span>;</div><div class="line">                mData = response;</div><div class="line">            &#125;<span class="keyword">else</span> &#123;</div><div class="line">                mStatus = Integer.parseInt(JsonParser.getElement(rawData,<span class="string">"status"</span>));</div><div class="line">                <span class="keyword">if</span>(getElement(rawData,<span class="string">"data"</span>)!=<span class="keyword">null</span>)&#123;</div><div class="line">                    mData = JsonParser.getElement(rawData,<span class="string">"data"</span>).getBytes();</div><div class="line">                &#125;<span class="keyword">else</span> &#123;</div><div class="line">                    mData = <span class="keyword">null</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getStatusCode</span><span class="params">()</span></span>&#123;</div><div class="line">            <span class="keyword">return</span> mStatus;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> String <span class="title">getInfo</span><span class="params">()</span> </span>&#123;</div><div class="line">            <span class="keyword">return</span> mInfo;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isSuccess</span><span class="params">()</span></span>&#123;</div><div class="line">            <span class="keyword">return</span> mStatus == <span class="number">200</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> String <span class="title">message</span><span class="params">()</span></span>&#123;</div><div class="line">            <span class="keyword">return</span> <span class="string">"status:"</span> + mStatus + <span class="string">"\ninfo:"</span> + mInfo;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> String <span class="title">bodyString</span><span class="params">()</span></span>&#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">new</span> String(mData);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">public</span> <span class="keyword">byte</span>[] bodyBytes()&#123;</div><div class="line">            <span class="keyword">return</span> mData;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getElement</span><span class="params">(String data, String name)</span> </span>&#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">new</span> JSONObject(data).getString(name);</div><div class="line">        &#125; <span class="keyword">catch</span> (JSONException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">            Log.w(<span class="string">"tag"</span>, e.toString());</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>暂时就这么多，感觉没有几个。可能是我写的代码不多的结果吧</p>
 
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/04/23/2017数模网络赛C题总结/" rel="next" title="2017数模网络赛C题总结">
+                <i class="fa fa-chevron-left"></i> 2017数模网络赛C题总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/10/浅谈思考--决定命运的上帝之手/" rel="prev" title="浅谈思考--决定命运的上帝之手">
+                浅谈思考--决定命运的上帝之手 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
     
+  </div>
 
-    
-</div>
-
-
-                
-
-                <!-- Post Comments -->
-                
-                    
-
-
-
-
-                
-            </div>
-
-            <!-- Post Prev & Next Nav -->
-            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
-    <!-- Prev Nav -->
-    
-        <a href="/2017/05/10/浅谈思考--决定命运的上帝之手/" id="post_nav-newer" class="prev-content">
-            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
-                <i class="material-icons">arrow_back</i>
-            </button>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            新篇
-        </a>
-    
-
-    <!-- Section Spacer -->
-    <div class="section-spacer"></div>
-
-    <!-- Next Nav -->
-    
-        <a href="/2017/04/23/2017数模网络赛C题总结/" id="post_nav-older" class="next-content">
-            旧篇
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
-                <i class="material-icons">arrow_forward</i>
-            </button>
-        </a>
-    
-</nav>
 
         </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
     </div>
+  </div>
 
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
 
+      
 
-                    
-                        <!-- Overlay For Active Sidebar -->
-<div class="sidebar-overlay"></div>
-
-<!-- Material sidebar -->
-<aside id="sidebar" class="sidebar sidebar-colored sidebar-fixed-left" role="navigation">
-    <div id="sidebar-main">
-        <!-- Sidebar Header -->
-        <div class="sidebar-header header-cover" style="background-image: url(/img/sidebar_header.png);">
-    <!-- Top bar -->
-    <div class="top-bar"></div>
-
-    <!-- Sidebar toggle button -->
-    <button type="button" class="sidebar-toggle mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" style="display: initial;" data-upgraded=",MaterialButton,MaterialRipple">
-        <i class="material-icons">clear_all</i>
-        <span class="mdl-button__ripple-container">
-            <span class="mdl-ripple">
-            </span>
-        </span>
-    </button>
-
-    <!-- Sidebar Avatar -->
-    <div class="sidebar-image">
-        <img src="/image/my_photo.jpg" alt="Grantsome's avatar">
-    </div>
-
-    <!-- Sidebar Email -->
-    <a data-toggle="dropdown" class="sidebar-brand" href="#settings-dropdown">
-        1278603466@qq.com
-        <b class="caret"></b>
-    </a>
-</div>
-
-
-        <!-- Sidebar Navigation  -->
-        <ul class="nav sidebar-nav">
-    <!-- User dropdown  -->
-    <li class="dropdown">
-        <ul id="settings-dropdown" class="dropdown-menu">
-            
-                <li>
-                    <a href="#" target="_blank" title="Email Me">
-                        
-                            <i class="material-icons sidebar-material-icons sidebar-indent-left1pc-element">email</i>
-                        
-                        Email Me
-                    </a>
-                </li>
-            
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
         </ul>
-    </li>
+      
 
-    <!-- Homepage -->
-    
-        <li id="sidebar-first-li">
-            <a href="/" target="_self">
-                
-                    <i class="material-icons sidebar-material-icons">home</i>
-                
-                主页
-            </a>
-        </li>
-        
-    
-
-    <!-- Archives  -->
-    
-        <li class="dropdown">
-            <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
-                
-                    <i class="material-icons sidebar-material-icons">inbox</i>
-                
-                    归档
-                <b class="caret"></b>
-            </a>
-            <ul class="dropdown-menu">
-            <li>
-                <a class="sidebar_archives-link" href="/archives/2017/09/">九月 2017<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/07/">七月 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/06/">六月 2017<span class="sidebar_archives-count">5</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/05/">五月 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/04/">四月 2017<span class="sidebar_archives-count">5</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/03/">三月 2017<span class="sidebar_archives-count">2</span></a>
-            </ul>
-        </li>
-        
-    
-
-    <!-- Categories  -->
-    
-        <li class="dropdown">
-            <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
-                
-                    <i class="material-icons sidebar-material-icons">chrome_reader_mode</i>
-                
-                分类
-                <b class="caret"></b>
-            </a>
-            <ul class="dropdown-menu">
-                <li>
-                
-            </ul>
-        </li>
-        
-    
-
-    <!-- Pages  -->
-    
-
-    <!-- Article Number  -->
-    
-</ul>
-
-
-        <!-- Sidebar Footer -->
-        <!--
-I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright, I will thank you so much.
-If you still want to delete the copyrights, could you still retain the first one? Which namely "Theme Material"
-It will not impact the appearance and can give developers a lot of support :)
-
-很高兴您使用并喜欢该主题，开发不易 十分谢谢与希望您可以保留一下版权声明。
-如果您仍然想删除的话 能否只保留第一项呢？即 "Theme Material"
-它不会影响美观并可以给开发者很大的支持和动力。 :)
--->
-
-<!-- Sidebar Divider -->
-
-    <div class="sidebar-divider"></div>
-
-
-<!-- Theme Material -->
-
-    <a href="https://github.com/viosey/hexo-theme-material"  class="sidebar-footer-text-a" target="_blank">
-        <div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
-            主题 - Material
-            <span class="sidebar-badge badge-circle">i</span>
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/image/my_photo.jpg"
+               alt="Grantsome" />
+          <p class="site-author-name" itemprop="name">Grantsome</p>
+           
+              <p class="site-description motion-element" itemprop="description">书写是思考的一种方式</p>
+          
         </div>
-    </a>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
 
 
-<!-- Help & Support -->
-<!--
+      </section>
 
--->
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
 
-<!-- Feedback -->
-<!--
+            
+              
+            
 
--->
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#SharedPreferences工具类"><span class="nav-number">1.</span> <span class="nav-text">SharedPreferences工具类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Log工具类"><span class="nav-number">2.</span> <span class="nav-text">Log工具类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#network检查工具"><span class="nav-number">3.</span> <span class="nav-text">network检查工具</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CircleImage工具"><span class="nav-number">4.</span> <span class="nav-text">CircleImage工具</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ApplicationContext获取工具"><span class="nav-number">5.</span> <span class="nav-text">ApplicationContext获取工具</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#fragment-commit工具"><span class="nav-number">6.</span> <span class="nav-text">fragment commit工具</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Toast工具类"><span class="nav-number">7.</span> <span class="nav-text">Toast工具类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#动态权限申请"><span class="nav-number">8.</span> <span class="nav-text">动态权限申请</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#toolbar工具"><span class="nav-number">9.</span> <span class="nav-text">toolbar工具</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#bitmap工具"><span class="nav-number">10.</span> <span class="nav-text">bitmap工具</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#网络请求工具"><span class="nav-number">11.</span> <span class="nav-text">网络请求工具</span></a></li></ol></div>
+            
 
-<!-- About Theme -->
-<!--
+          </div>
+        </section>
+      <!--/noindex-->
+      
 
--->
+      
 
     </div>
+  </aside>
 
-    <!-- Sidebar Image -->
-    
 
-</aside>
+        
+      </div>
+    </main>
 
-                    
-
-                    
-                        <!-- Footer Top Button -->
-                        <div class="toTop-wrap">
-    <a href="#top" class="toTop">
-        <i class="material-icons footer_top-i">expand_less</i>
-    </a>
-</div>
-
-                    
-
-                    <!--Footer-->
-<footer class="mdl-mini-footer" id="bottom">
-    
-        <!-- Paradox Footer Left Section -->
-        <div class="mdl-mini-footer--left-section sns-list">
-    <!-- Twitter -->
-    
-        <a href="https://twitter.com/twitter" target="_blank">
-            <button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(/img/footer/footer_ico-twitter.png);">
-                <span class="visuallyhidden">Twitter</span>
-            </button><!--
-     --></a>
-    
-
-    <!-- Facebook -->
-    
-        <a href="https://www.facebook.com/facebook" target="_blank">
-            <button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(/img/footer/footer_ico-facebook.png);">
-                <span class="visuallyhidden">Facebook</span>
-            </button><!--
-     --></a>
-    
-
-    <!-- Google + -->
-    
-        <a href="https://www.google.com/" target="_blank">
-            <button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(/img/footer/footer_ico-gplus.png);">
-                <span class="visuallyhidden">Google Plus</span>
-            </button><!--
-     --></a>
-    
-
-    <!-- Weibo -->
-    
-
-    <!-- Instagram -->
-    
-
-    <!-- Tumblr -->
-    
-
-    <!-- Github -->
-    
-        <a href="https://www.github.com/Grantsome" target="_blank">
-            <button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(/img/footer/footer_ico-github.png);">
-                <span class="visuallyhidden">Github</span>
-            </button><!--
-     --></a>
-    
-
-    <!-- LinkedIn -->
-    
-
-    <!-- Zhihu -->
-    
-
-    <!-- Bilibili -->
-    
-
-    <!-- Telegram -->
-    
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Grantsome</span>
 </div>
 
 
-        <!--Copyright-->
-        <div id="copyright">
-            Copyright&nbsp;©&nbsp;
-            <script type="text/javascript">
-                var fd = new Date();
-                document.write(fd.getFullYear());
-            </script>
-            &nbsp;Grantsome
-        </div>
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
 
-        <!-- Paradox Footer Right Section -->
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
 
-        <!--
-        I am glad you use this theme, the development is no so easy, I hope you can keep the copyright.
-        It will not impact the appearance and can give developers a lot of support :)
 
-        很高兴您使用该主题，开发不易，希望您可以保留一下版权声明。
-        它不会影响美观并可以给开发者很大的支持。 :)
-        -->
+        
 
-        <div class="mdl-mini-footer--right-section">
-            <div>
-                <div class="footer-develop-div">Powered by <a href="https://hexo.io" target="_blank" class="footer-develop-a">Hexo</a></div>
-                <div class="footer-develop-div">Theme - <a href="https://github.com/viosey/hexo-theme-material" target="_blank" class="footer-develop-a">Material</a></div>
-            </div>
-        </div>
+        
+      </div>
+    </footer>
+
     
-</footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
 
+  </div>
 
-                    <!-- Import File -->
-<script src="/js/lazyload.min.js"></script>
-<script src="/js/js.min.js"></script>
-<script src="/js/nprogress.js"></script>
+  
 
 <script type="text/javascript">
-    NProgress.configure({
-        showSpinner: true
-    });
-    NProgress.start();
-    $('#nprogress .bar').css({
-        'background': '#29d'
-    });
-    $('#nprogress .peg').css({
-        'box-shadow': '0 0 10px #29d, 0 0 15px #29d'
-    });
-    $('#nprogress .spinner-icon').css({
-        'border-top-color': '#29d',
-        'border-left-color': '#29d'
-    });
-    setTimeout(function() {
-        NProgress.done();
-        $('.fade').removeClass('out');
-    }, 800);
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
 </script>
 
 
 
 
 
-    <!-- Leancloud -->
-    <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
-    <script>
-        AV.initialize('N4kDW8TfOJ2iUzAX9Dnfh5W4-gzGzoHsz', 'DsKw5kNbtHbP2peJYL5zmUdx');
-    </script>
-    <script>
-    function showTime(Counter) {
-        var query = new AV.Query(Counter);
-        $('.leancloud-views_num').each(function() {
-            var url = $(this).attr('id').trim();
-            query.equalTo('url', url);
-            query.find({
-                success: function(results) {
-                    if (results.length === 0) {
-                        var content = '0 ' + $(document.getElementById(url)).text();
-                        $(document.getElementById(url)).text(content);
-                        return;
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
                     }
-                    for (var i = 0; i < results.length; i++) {
-                        var object = results[i];
-                        var content = object.get('time') + ' ' + $(document.getElementById(url)).text();
-                        $(document.getElementById(url)).text(content);
-                    }
-                },
-                error: function(object, error) {
-                    console.log('Error: ' + error.code + ' ' + error.message);
+
+                  });
                 }
-            });
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("N4kDW8TfOJ2iUzAX9Dnfh5W4-gzGzoHsz", "DsKw5kNbtHbP2peJYL5zmUdx");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
         });
     }
 
     function addCount(Counter) {
-      var Counter = AV.Object.extend('Counter');
-      url = $('.leancloud-views_num').attr('id').trim();
-      title = $('.leancloud-views_num').attr('data-flag-title').trim();
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
       var query = new AV.Query(Counter);
-      query.equalTo('url', url);
+
+      query.equalTo("url", url);
       query.find({
-          success: function(results) {
-            if (results.length > 0) {
-                var counter = results[0];
-                counter.fetchWhenSave(true);
-                counter.increment('time');
-                counter.save(null, {
-                    success: function(counter) {
-                        var content =  counter.get('time') + ' ' + $(document.getElementById(url)).text();
-                        $(document.getElementById(url)).text(content);
-                    },
-                    error: function(counter, error) {
-                        console.log('Failed to save Visitor num, with error message: ' + error.message);
-                    }
-                });
-            } else {
-              var newcounter = new Counter();
-              newcounter.set('title', title);
-              newcounter.set('url', url);
-              newcounter.set('time', 1);
-              newcounter.save(null, {
-                  success: function(newcounter) {
-                      console.log('newcounter.get(\'time\')='+newcounter.get('time'));
-                      var content = newcounter.get('time') + ' ' + $(document.getElementById(url)).text();
-                      $(document.getElementById(url)).text(content);
-                  },
-                  error: function(newcounter, error) {
-                      console.log('Failed to create');
-                  }
-              });
-            }
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
         },
         error: function(error) {
-            console.log('Error:' + error.code + ' ' + error.message);
+          console.log('Error:' + error.code + " " + error.message);
         }
       });
     }
+
     $(function() {
-        var Counter = AV.Object.extend('Counter');
-        if ($('.leancloud-views_num').length === 1) {
-            addCount(Counter);
-        } else if ($('.post-title-link').length > 1) {
-            showTime(Counter);
-        }
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
     });
-</script>
-
-
-
-
-
-
-
-
-
-
-<!-- Swiftye -->
-
-
-<!-- Local Search-->
-
-
-<!-- Window Load-->
-<script>
-    $(window).load(function() {
-        // Post_Toc parent position fixed
-        $('.post-toc-wrap').parent('.mdl-menu__container').css('position', 'fixed');
-    });
-</script>
-
-<!-- MathJax Load-->
-
-
-                </main>
-            </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+  </script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
 </script>
@@ -908,6 +1007,16 @@ It will not impact the appearance and can give developers a lot of support :)
 </script>
 <!-- End: Injected MathJax -->
 <!-- hexo-inject:end -->
-        </body>
-    
+
+
+
+  
+
+  
+  
+
+
+  
+
+</body>
 </html>
