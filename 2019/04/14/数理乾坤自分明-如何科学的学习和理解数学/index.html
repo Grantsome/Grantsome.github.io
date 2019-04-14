@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Android," />
+  <meta name="keywords" content="数学," />
 
 
 
@@ -89,16 +89,16 @@
 
 
 
-<meta name="description" content="第一篇博客,里面并没有什么特别的东西,只是为了测试一下。复制粘贴我之前已经写好一些文章。关于RecyclerView.ViewHolder的第一次总结，由于本人水平有限,比较垃圾,总结一下希望自己能够理解">
+<meta name="description" content="学习、理解和思考数学的精髓，探索之途，早已蕴含于所有生命的本身。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="RecyclerView完全解析--入门级">
-<meta property="og:url" content="http://yoursite.com/2017/03/26/RecyclerView完全解析-入门级/index.html">
+<meta property="og:title" content="数理乾坤自分明--如何科学的学习和理解数学">
+<meta property="og:url" content="http://yoursite.com/2019/04/14/数理乾坤自分明-如何科学的学习和理解数学/index.html">
 <meta property="og:site_name" content="Grantsome">
-<meta property="og:description" content="第一篇博客,里面并没有什么特别的东西,只是为了测试一下。复制粘贴我之前已经写好一些文章。关于RecyclerView.ViewHolder的第一次总结，由于本人水平有限,比较垃圾,总结一下希望自己能够理解">
-<meta property="og:updated_time" content="2017-09-09T08:12:16.000Z">
+<meta property="og:description" content="学习、理解和思考数学的精髓，探索之途，早已蕴含于所有生命的本身。">
+<meta property="og:updated_time" content="2019-04-14T09:47:34.668Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="RecyclerView完全解析--入门级">
-<meta name="twitter:description" content="第一篇博客,里面并没有什么特别的东西,只是为了测试一下。复制粘贴我之前已经写好一些文章。关于RecyclerView.ViewHolder的第一次总结，由于本人水平有限,比较垃圾,总结一下希望自己能够理解">
+<meta name="twitter:title" content="数理乾坤自分明--如何科学的学习和理解数学">
+<meta name="twitter:description" content="学习、理解和思考数学的精髓，探索之途，早已蕴含于所有生命的本身。">
 
 
 
@@ -126,13 +126,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/03/26/RecyclerView完全解析-入门级/"/>
+  <link rel="canonical" href="http://yoursite.com/2019/04/14/数理乾坤自分明-如何科学的学习和理解数学/"/>
 
 
 
 
 
-  <title> RecyclerView完全解析--入门级 | Grantsome </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> 数理乾坤自分明--如何科学的学习和理解数学 | Grantsome </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -295,7 +295,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/26/RecyclerView完全解析-入门级/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/14/数理乾坤自分明-如何科学的学习和理解数学/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Grantsome">
@@ -316,7 +316,7 @@
             
             
               
-                RecyclerView完全解析--入门级
+                数理乾坤自分明--如何科学的学习和理解数学
               
             
           </h1>
@@ -331,8 +331,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-26T21:49:13+08:00">
-                2017-03-26
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-14T16:32:41+08:00">
+                2019-04-14
               </time>
             
 
@@ -349,7 +349,7 @@
 
           
           
-             <span id="/2017/03/26/RecyclerView完全解析-入门级/" class="leancloud_visitors" data-flag-title="RecyclerView完全解析--入门级">
+             <span id="/2019/04/14/数理乾坤自分明-如何科学的学习和理解数学/" class="leancloud_visitors" data-flag-title="数理乾坤自分明--如何科学的学习和理解数学">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -378,12 +378,7 @@
       
 
       
-        <p>第一篇博客,里面并没有什么特别的东西,只是为了测试一下。复制粘贴我之前已经写好一些文章。<br>关于RecyclerView.ViewHolder的第一次总结，由于本人水平有限,比较垃圾,总结一下希望自己能够理解<br><a id="more"></a></p>
-<h3 id="第一步首先继承RecyclerView-ViewHolder"><a href="#第一步首先继承RecyclerView-ViewHolder" class="headerlink" title="第一步首先继承RecyclerView.ViewHolder"></a>第一步首先继承RecyclerView.ViewHolder</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ViewHolder</span> <span class="keyword">extends</span> <span class="title">RecyclerView</span>.<span class="title">ViewHolder</span></span>&#123;</div><div class="line"></div><div class="line">	<span class="comment">//首先把需要的控件简单声明一下,暂时不用实例化</span></div><div class="line">	<span class="keyword">public</span> TextView textView;</div><div class="line">	</div><div class="line">	<span class="keyword">public</span> ImageView imageView;</div><div class="line">	</div><div class="line">	<span class="comment">//调用父类的构造方法,实现实例化功能</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">ViewHolder</span><span class="params">(View itemView)</span></span>&#123;</div><div class="line">		</div><div class="line">		<span class="comment">//必须写的super方法</span></div><div class="line">		<span class="keyword">super</span>(itemView);</div><div class="line">		</div><div class="line">		<span class="comment">//初始化需要的控件,注意必须是itemView.findViewById();</span></div><div class="line">	    textView = (TextView) itemView.findViewById(R.id.);</div><div class="line">	    imageView = (TextView) itemView.findViewByIf(R.id.);</div><div class="line">	</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="下面写一下如何在其他地方使用ViewHolder"><a href="#下面写一下如何在其他地方使用ViewHolder" class="headerlink" title="下面写一下如何在其他地方使用ViewHolder;"></a>下面写一下如何在其他地方使用ViewHolder;</h3><p>一般在public ViewHolder onCreateViewHolder(ViewGroup parent,int viewType)里面写这个方法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">  <span class="function"><span class="keyword">public</span> ViewHolder <span class="title">onCreateViewHolder</span><span class="params">(ViewGroup parent,<span class="keyword">int</span> viewType)</span></span>&#123;</div><div class="line">  LayoutInflater layoutInflater = LayoutInflater.from(context);</div><div class="line">  View viewItem = layoutInflater.inflate(R.layout. ,parent,<span class="keyword">false</span>);</div><div class="line">  ViewHolder viewHolder = <span class="keyword">new</span> ViewHolder(viewItem);</div><div class="line">  <span class="keyword">return</span> viewHolder;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h3 id="当然这里少不了RecyclerView-Adapter"><a href="#当然这里少不了RecyclerView-Adapter" class="headerlink" title="当然这里少不了RecyclerView.Adapter"></a>当然这里少不了RecyclerView.Adapter</h3><p>首先继承RecyclerView.Adapter</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyAdapter</span> <span class="keyword">extends</span> <span class="title">RecyclerView</span>.<span class="title">Adapter</span></span>&#123;</div><div class="line"></div><div class="line">	<span class="comment">//把需要的数据简单声明一下,暂时不用实例化</span></div><div class="line">	<span class="keyword">private</span> List&lt;Crime&gt; crimes;</div><div class="line">	</div><div class="line">	<span class="keyword">private</span> Context context;</div><div class="line">	</div><div class="line">	<span class="comment">//然后调用父类的构造器,实现实例化功能</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">MyAdapter</span><span class="params">(Context context,List&lt;Crime&gt; crimes)</span></span>&#123;</div><div class="line">		<span class="keyword">this</span>.context = context;</div><div class="line">		<span class="keyword">this</span>.crimes = crimes;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">//复写的第一个方法</span></div><div class="line">	<span class="comment">//主要的作用是实例化ViewHolder,一般格式都是这样子</span></div><div class="line">	<span class="function"><span class="keyword">public</span> ViewHolder <span class="title">onCreateViewHolder</span><span class="params">(ViewGroup parent,<span class="keyword">int</span> viewType)</span></span>&#123;</div><div class="line">		LayoutInflater layoutInflater = LayoutInflater.from(context);</div><div class="line">		View itemView = layoutInflater.inflate(R.layout. ,parent,<span class="keyword">false</span>);</div><div class="line">		ViewHolder viewHolder = <span class="keyword">new</span> ViewHolder(itemView);</div><div class="line">		<span class="keyword">return</span> viewHolder;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">//主要作用是将viewHolder和position绑定,并给ViewHolder里面的元素/属性赋值</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onBindViewHolder</span><span class="params">(ViewHolder viewHolder,<span class="keyword">int</span> position)</span></span>&#123;</div><div class="line">		<span class="comment">//通过position的位置实例化crime类</span></div><div class="line">		Crime crime = crimes.get(position);</div><div class="line">		<span class="comment">//向ViewHolder中的textView赋值</span></div><div class="line">		viewHolder.textView.setText(crime.getTitle());</div><div class="line">		</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">//首先调用的就是这个方法,返回数值/列表中有多少个对象</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getItemCount</span><span class="params">()</span></span>&#123;</div><div class="line">	   <span class="keyword">return</span> crimes.size();</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="下面写一下如何在其他地方调用-使用MyAdapter"><a href="#下面写一下如何在其他地方调用-使用MyAdapter" class="headerlink" title="下面写一下如何在其他地方调用/使用MyAdapter"></a>下面写一下如何在其他地方调用/使用MyAdapter</h3><p>  如果是继承的FragmentActivity,一般就在public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState)方法里面<br>  如果是继承的AppCompatActivity,一般就在protected void onCreate(Bundle savedInstanceState)方法里面<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> View <span class="title">onCreateView</span><span class="params">(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState)</span></span>&#123;</div><div class="line">   <span class="comment">//声明一个RecyclerView的组件</span></div><div class="line">   <span class="keyword">private</span> RecyclerView recyclerView;</div><div class="line">   <span class="comment">//实例化RecyclerView</span></div><div class="line">   recyclerView = (RecyclerView) findViewById(R.id.);</div><div class="line">   <span class="comment">//实例化MyAdapter</span></div><div class="line">   MyAdapter myAdapter = <span class="keyword">new</span> MyAdapter(context,crimes);</div><div class="line">   <span class="comment">//给RecyclerView设置adapter</span></div><div class="line">   recyclerView.setAdapter();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+        <p>学习、理解和思考数学的精髓，探索之途，早已蕴含于所有生命的本身。<br><a id="more"></a></p>
 
       
     </div>
@@ -413,7 +408,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Android/" rel="tag"># Android</a>
+            <a href="/tags/数学/" rel="tag"># 数学</a>
           
         </div>
       
@@ -426,15 +421,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2019/04/07/且偷浮生半日闲-如何科学的在休闲中获得幸福与满足/" rel="next" title="且偷浮生半日闲--如何科学的在休闲中获得幸福与满足">
+                <i class="fa fa-chevron-left"></i> 且偷浮生半日闲--如何科学的在休闲中获得幸福与满足
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/03/29/Android拍照并显示Demo/" rel="prev" title="Android拍照并显示Demo">
-                Android拍照并显示Demo <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -481,17 +476,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/image/my_photo.jpg"
@@ -551,22 +537,6 @@
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一步首先继承RecyclerView-ViewHolder"><span class="nav-number">1.</span> <span class="nav-text">第一步首先继承RecyclerView.ViewHolder</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下面写一下如何在其他地方使用ViewHolder"><span class="nav-number">2.</span> <span class="nav-text">下面写一下如何在其他地方使用ViewHolder;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#当然这里少不了RecyclerView-Adapter"><span class="nav-number">3.</span> <span class="nav-text">当然这里少不了RecyclerView.Adapter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下面写一下如何在其他地方调用-使用MyAdapter"><span class="nav-number">4.</span> <span class="nav-text">下面写一下如何在其他地方调用/使用MyAdapter</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
