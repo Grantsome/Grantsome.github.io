@@ -1,0 +1,1025 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Grantsome" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="本来打算每周写一篇博客的，但是上一周没有写，原因很简单：放清明三天去玩了，缓了好几天回过神来。所以这一周打算写两篇，就当做是自己对自己的一个交代吧。话不多说，进入正题。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AsyncTask和HandlerThread完全解析--入门级">
+<meta property="og:url" content="http://yoursite.com/2017/04/09/AsyncTask和HandlerThread完全解析-入门级/index.html">
+<meta property="og:site_name" content="Grantsome">
+<meta property="og:description" content="本来打算每周写一篇博客的，但是上一周没有写，原因很简单：放清明三天去玩了，缓了好几天回过神来。所以这一周打算写两篇，就当做是自己对自己的一个交代吧。话不多说，进入正题。">
+<meta property="og:image" content="http://yoursite.com/image/thinking_first.PNG">
+<meta property="og:updated_time" content="2017-09-09T08:12:34.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AsyncTask和HandlerThread完全解析--入门级">
+<meta name="twitter:description" content="本来打算每周写一篇博客的，但是上一周没有写，原因很简单：放清明三天去玩了，缓了好几天回过神来。所以这一周打算写两篇，就当做是自己对自己的一个交代吧。话不多说，进入正题。">
+<meta name="twitter:image" content="http://yoursite.com/image/thinking_first.PNG">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/04/09/AsyncTask和HandlerThread完全解析-入门级/"/>
+
+
+
+
+
+  <title> AsyncTask和HandlerThread完全解析--入门级 | Grantsome </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?f4067590954f61e17bcf5f2e372e8556";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Grantsome</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">以一无所有的心境承载着这世间的一切</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/09/AsyncTask和HandlerThread完全解析-入门级/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Grantsome">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/image/my_photo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Grantsome">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                AsyncTask和HandlerThread完全解析--入门级
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-09T21:49:13+08:00">
+                2017-04-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/04/09/AsyncTask和HandlerThread完全解析-入门级/" class="leancloud_visitors" data-flag-title="AsyncTask和HandlerThread完全解析--入门级">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本来打算每周写一篇博客的，但是上一周没有写，原因很简单：放清明三天去玩了，缓了好几天回过神来。所以这一周打算写两篇，就当做是自己对自己的一个交代吧。话不多说，进入正题。<br><a id="more"></a><br>AsyncTask，翻译过来的字面意思是异步任务,我们习惯上说异步操作(换句话说，也就是在主线程中新开线程进行的操作)。简单比喻：假设你饿了，你肯定会去饭店地方吃东西，但是饭店为你准备食物需要一定的时间，所以你饿了必须要到了饭店等一会儿才能吃饭，这就是异步操作，你不能马上做下一件事情，因为它需要当前事情完成之后才能做下一件事情。至于为什么需要异步操作，Android主线程里面不能进行耗时操作，也就是只能在子线程里进行耗时操作比如网络请求，并且只能在主线程里面更新UI。简单例子，从网上加载图片数据并显示图片，现在你要通过网络请求获取一段数据给你，其中有图片的url，得到url转化成bitmap或者drawable，然后在回到主线程里面给imageview设置图片。</p>
+<p>现在我们来看看AsyncTask，它就是一个封装过的抽象的后台任务类，一个使用后台线程的工具类，使用的时候直接继承AsyncTask类就行了</p>
+<h3 id="1、参数"><a href="#1、参数" class="headerlink" title="1、参数"></a>1、参数</h3><p>AsyncTask<params,progress,result>里面有三个泛型参数，分别表示：<br>Params: 启动任务时执行的输入参数<br>Progress: 任务执行的进度<br>Result: 返回执行的结果<br>当不需要设置这三个参数的时候，设置Void类型，表示没有。</params,progress,result></p>
+<h3 id="2、重写的方法"><a href="#2、重写的方法" class="headerlink" title="2、重写的方法"></a>2、重写的方法</h3><h4 id="1-、必须要重写的方法"><a href="#1-、必须要重写的方法" class="headerlink" title="(1)、必须要重写的方法"></a>(1)、必须要重写的方法</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> Result <span class="title">doInBackground</span><span class="params">(Params...param)</span></span>&#123;</div><div class="line">   <span class="comment">/* your code here*/</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在这个方法里面执行需要耗时的操作（一般执行网络请求等操作），它的参数是一个Params类型的数组，返回一个Result类型的结果。这个方法里面也可以调用publish Progress(Progress … values)用于执行网络请求的时候更新进度。</p>
+<h4 id="2-、不用重写-但会自动调用的方法"><a href="#2-、不用重写-但会自动调用的方法" class="headerlink" title="(2)、不用重写(但会自动调用的方法)"></a>(2)、不用重写(但会自动调用的方法)</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onPostExecute</span><span class="params">(Result result)</span></span>&#123;</div><div class="line">   <span class="comment">/*your code here*/</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这个方法在doInBackground()方法完成之后被执行的，根据doIBackground的返回结果进行后面的更新UI的操作,所以该方法是在主线程里面工作的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onPreExecute</span><span class="params">()</span></span>&#123;</div><div class="line">   <span class="comment">/*your code here*/</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>当调用AsyncTask.excute();方法之后,第一个执行的方法就是这个方法。执行在主线程中。 用于初始化一些UI控件。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onProgressUpdate</span><span class="params">(Progress ... values)</span></span>&#123;</div><div class="line">   <span class="comment">/*your code here*/</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如果在doInBackground()方法里面执行了publishProgress()方法，那么这个方法就会得到执行, 根据进度调整对应value的值，也是在主线程中执行的。</p>
+<p>当然，如果你英语够好，可以去官方文档<br><a href="https://developer.android.com/reference/android/os/AsyncTask.html" target="_blank" rel="external">https://developer.android.com/reference/android/os/AsyncTask.html</a></p>
+<p>好了，有了这个介绍，我们下面来看一个简单的例子。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">FetchItemsTask</span> <span class="keyword">extends</span> <span class="title">AsyncTask</span>&lt;<span class="title">Void</span>,<span class="title">Void</span>,<span class="title">Void</span>&gt;</span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span>    </div><div class="line">	<span class="function"><span class="keyword">protected</span> Void <span class="title">doInBackground</span><span class="params">(Void... params)</span> </span>&#123;</div><div class="line">        <span class="comment">//网络请求</span></div><div class="line">        <span class="keyword">new</span> HttpUtil().fetchItems();</div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这个是工具类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.grantsome.photogallery;</div><div class="line"></div><div class="line"><span class="keyword">import</span> android.content.Context;</div><div class="line"><span class="keyword">import</span> android.net.ConnectivityManager;</div><div class="line"><span class="keyword">import</span> android.net.NetworkInfo;</div><div class="line"><span class="keyword">import</span> android.net.Uri;</div><div class="line"><span class="keyword">import</span> android.util.Log;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.json.JSONArray;</div><div class="line"><span class="keyword">import</span> org.json.JSONObject;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.ByteArrayOutputStream;</div><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"><span class="keyword">import</span> java.io.InputStream;</div><div class="line"><span class="keyword">import</span> java.net.HttpURLConnection;</div><div class="line"><span class="keyword">import</span> java.net.URL;</div><div class="line"><span class="keyword">import</span> java.security.KeyManagementException;</div><div class="line"><span class="keyword">import</span> java.security.NoSuchAlgorithmException;</div><div class="line"><span class="keyword">import</span> java.util.ArrayList;</div><div class="line"><span class="keyword">import</span> java.util.List;</div><div class="line"></div><div class="line"><span class="keyword">import</span> javax.net.ssl.HttpsURLConnection;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Created by tom on 2017/4/8.</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HttpUtil</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String TAG = <span class="string">"HttpUtil"</span>;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String API_KEY = <span class="string">"89b13c41adafc85b80edbadc4a655b60"</span>;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">byte</span>[] getUrlBytes(String urlSpec) <span class="keyword">throws</span> IOException, NoSuchAlgorithmException, KeyManagementException &#123;</div><div class="line">        URL url = <span class="keyword">new</span> URL(urlSpec);</div><div class="line">        HttpsURLConnection connection = (HttpsURLConnection)url.openConnection();</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            ByteArrayOutputStream out = <span class="keyword">new</span> ByteArrayOutputStream();</div><div class="line">            InputStream in = connection.getInputStream();</div><div class="line">            <span class="keyword">if</span> (connection.getResponseCode() != HttpURLConnection.HTTP_OK) &#123;</div><div class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> IOException(connection.getResponseMessage() +<span class="string">": with "</span> +urlSpec);</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">int</span> bytesRead = <span class="number">0</span>;</div><div class="line">            <span class="keyword">byte</span>[] buffer = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</div><div class="line">            <span class="keyword">while</span> ((bytesRead = in.read(buffer)) &gt; <span class="number">0</span>) &#123;</div><div class="line">                out.write(buffer, <span class="number">0</span>, bytesRead);</div><div class="line">            &#125;</div><div class="line">            out.close();</div><div class="line">            <span class="keyword">return</span> out.toByteArray();</div><div class="line">        &#125; <span class="keyword">finally</span> &#123;</div><div class="line">            connection.disconnect();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getUrlString</span><span class="params">(String urlSpec)</span> <span class="keyword">throws</span> IOException, KeyManagementException, NoSuchAlgorithmException </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> String(getUrlBytes(urlSpec));</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">fetchItems</span><span class="params">()</span></span>&#123;</div><div class="line"></div><div class="line">        List&lt;GalleryItem&gt; galleryItemList = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line"></div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            String url = Uri.parse(<span class="string">"https://api.flickr.com/services/rest/"</span>).buildUpon().appendQueryParameter(<span class="string">"method"</span>, <span class="string">"flickr.photos.getRecent"</span>).appendQueryParameter(<span class="string">"api_key"</span>, API_KEY).appendQueryParameter(<span class="string">"format"</span>, <span class="string">"json"</span>).appendQueryParameter(<span class="string">"nojsoncallback"</span>, <span class="string">"1"</span>).appendQueryParameter(<span class="string">"extras"</span>, <span class="string">"url_s"</span>).build().toString();</div><div class="line">			Log.i(TAG, <span class="string">"HttpUrl: "</span> + url);</div><div class="line">            String jsonString = getUrlString(url);</div><div class="line">            PreUtil.putStringToDefault(AppContext.getInstance(), TAG, jsonString);</div><div class="line">       		Log.i(TAG, <span class="string">"Receive Json From Internet "</span> + jsonString);</div><div class="line">        &#125;<span class="keyword">catch</span> (Exception e)&#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">    &#125;</div><div class="line"></div><div class="line">   </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这里例子很简单吧？得到的json:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">&#123;</div><div class="line">"photos":</div><div class="line">   &#123;</div><div class="line">   "page":1,"pages":10,"perpage":100,"total":1000,"photo":</div><div class="line">   [</div><div class="line">      &#123;</div><div class="line">	  "id":"33079594864","owner":"135557505@N08","secret":"4aa208ddb9","server":"3841","farm":4,"title":"upload","ispublic":1,"isfriend":0,"isfamily":0,"url_s":"https:\/\/farm4.staticflickr.com\/3841\/33079594864_4aa208ddb9_m.jpg","height_s":"240","width_s":"194"</div><div class="line">      &#125;,</div><div class="line">      &#123;</div><div class="line">	  "id":"33079595044","owner":"33255825@N07","secret":"e7cc46dc7c","server":"2902","farm":3,"title":"2017-04-09_09-54-25","ispublic":1,"isfriend":0,"isfamily":0,"url_s":"https:\/\/farm3.staticflickr.com\/2902\/33079595044_e7cc46dc7c_m.jpg","height_s":"240","width_s":"240"</div><div class="line">	  &#125;,</div><div class="line">      &#123;</div><div class="line">	  "id":"33079596844","owner":"153628499@N08","secret":"c51b00fcfb","server":"679","farm":1,"title":"Dako Island, Siargao #throwback #summerfeels #sheenamariephotography","ispublic":1,"isfriend":0,"isfamily":0,"url_s":"https:\/\/farm1.staticflickr.com\/679\/33079596844_c51b00fcfb_m.jpg","height_s":"240","width_s":"240"</div><div class="line">	  &#125;,</div><div class="line">      &#123;</div><div class="line">	  "id":"33079598224","owner":"142581045@N07","secret":"94ed8ea590","server":"581","farm":1,"title":"B.M.W Entertainment presents Urban Spalsh 6 Music Fest to kick off the Summer Splash Pool Series at  BLK Live  in Scottsdale AZ is going to  be  an insane summer. Artist and celebrity host every week for the sexiest day party in the state. better reserve","ispublic":1,"isfriend":0,"isfamily":0,"url_s":"https:\/\/farm1.staticflickr.com\/581\/33079598224_94ed8ea590_m.jpg","height_s":"240","width_s":"240"</div><div class="line">	  &#125;,</div><div class="line">      &#123;"id":"33079598584","owner":"75860432@N02","secret":"59211f9a1a","server":"3943","farm":4,"title":"Cr\u00e9met d'Anjou","ispublic":1,"isfriend":0,"isfamily":0,"url_s":"https:\/\/farm4.staticflickr.com\/3943\/33079598584_59211f9a1a_m.jpg","height_s":"180","width_s":"240"</div><div class="line">	  &#125;</div><div class="line">    ]&#125;,</div><div class="line">     "stat":"ok"&#125;</div></pre></td></tr></table></figure></p>
+<p>没有写完json。这个不重要。没关系。简单理解一下它的用法就可以了。</p>
+<p>下面再来看一个比较全面一点的例子<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">FetchItemsTask</span> <span class="keyword">extends</span> <span class="title">AsyncTask</span>&lt;<span class="title">Void</span>,<span class="title">Void</span>,<span class="title">List</span>&lt;<span class="title">GalleryItem</span>&gt;&gt;</span>&#123;</div><div class="line"></div><div class="line">      <span class="meta">@Override</span></div><div class="line">      <span class="function"><span class="keyword">protected</span> List&lt;GalleryItem&gt; <span class="title">doInBackground</span><span class="params">(Void... params)</span> </span>&#123;</div><div class="line">          <span class="keyword">return</span> <span class="keyword">new</span> HttpUtil().fetchItems();</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      <span class="meta">@Override</span></div><div class="line">      <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onPostExecute</span><span class="params">(List&lt;GalleryItem&gt; items)</span></span>&#123;</div><div class="line">          mItems = items;</div><div class="line">          setupAdapter();</div><div class="line">      &#125;</div><div class="line">   &#125;</div></pre></td></tr></table></figure></p>
+<p>说完了AysncTask我们再来讨论一下它的优缺点，这个抽象的工具类虽然好用，但是它也只是一种轻量级的工具而已，只适合只有几秒的短时间的异步操作而已，并且有可能导致内存泄漏的问题。我们当然要要去寻找其他的替代的东西以写出更好的程序。</p>
+<p>这时候Looper、Handler、HandlerThread就闪亮登场了。<br>Message:汉语翻译过来是消息的意思，顾名思义，就是在线程之间传递的消息，可以携带message.what的int类型,也可以携带一个object类型的obj.<br>Handler:处理者,主要用于发送和处理消息，发送是handler.sendMessage()，最终传递到handler.handlerMessage();说简单一点就是异步更新UI，并且更新UI的时候，是主线程与子线程之间的通信。<br>这里讲的最清楚不过了<a href="https://developer.android.com/reference/android/os/Handler.html" target="_blank" rel="external">https://developer.android.com/reference/android/os/Handler.html</a><br>MessageQueue:消息队列，主要用于存放所有通过handler.sendMessage();的所有消息，这部分会一直存储着MessageQueue()里面，等待被处理，每一个线程只会有一个MessageQueue对象。<br>Looper:消息的循环者，也就是MessageQueue的管家,每发现MessageQueue里面有一个message的时候,就会将它取出，并传递给handler.handlerMessage();每一个线程也只会有一个looper<br>HandlerThread:HandlerThread继承与Thread，但是又有不同，唯一的不同之处在于，建立了一个单独的线程以及创立了一个消息队列,有自己单独的looper。前面有说过Handler用于主线程和子线程之间的通信。而假如你现在需要子线程与子线程之间的通信和传递数据呢？我们要在子线程中调用Looper.prepare() 为一个线程开启一个消息循环，默认情况下Android中新诞生的线程是没有开启消息循环的。（主线程除外，主线程系统会自动为其创建Looper对象，开启消息循环。） Looper对象通过MessageQueue来存放消息和事件。一个线程只能有一个Looper，对应一个MessageQueue。 然后通过Looper.loop() 让Looper开始工作，从消息队列里取消息，处理消息。比如这样子</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">Handler mHandler;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">createManualThreadWithHandler</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">new</span> Thread() &#123;</div><div class="line">	   <span class="meta">@Override</span></div><div class="line">	   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">	   <span class="keyword">super</span>.run();</div><div class="line">	   <span class="comment">//调用Looper.prepare 创建与当前线程绑定的Looper实例</span></div><div class="line">	   Looper.prepare();            </div><div class="line">	   <span class="comment">//使用上面创建的Looper生成Handler实例</span></div><div class="line">	   mHandler = <span class="keyword">new</span> Handler(Looper.myLooper());</div><div class="line">	   <span class="comment">//调用Looper.loop()实现消息循环</span></div><div class="line">	   Looper.loop();        </div><div class="line">	   &#125;    </div><div class="line">    &#125;.start();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如果每次使用都这样写的话 感觉也不是太方便。<br>这时候Google就很贴心的早就为我们封装好了一个类，就是HandlerThread。<br>Google大门常打开，开怀容纳天地：<a href="https://developer.android.com/reference/android/os/HandlerThread.html" target="_blank" rel="external">https://developer.android.com/reference/android/os/HandlerThread.html</a></p>
+<p>让我们来看看它最简单的使用<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> Handler mHandler;</div><div class="line"><span class="function"><span class="keyword">private</span> <span class="title">UseHandlerThread</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="comment">//创建实例化对象,参数的作用仅仅是一个标记作用。</span></div><div class="line">    HandlerThread workerThread = <span class="keyword">new</span> HandlerThread(<span class="string">"LightTaskThread"</span>);</div><div class="line">	<span class="comment">//启动线程</span></div><div class="line">    workerThread.start();</div><div class="line">    <span class="comment">//创建Handler,时任务投放到该先线程中,</span></div><div class="line"></div><div class="line">    <span class="comment">//复写Handler的CallBack接口类当中的的handlerMessger,调用getLooper()得到looper对象</span></div><div class="line">    mHandler = <span class="keyword">new</span> Handler(workerThread.getLooper(),<span class="keyword">new</span> Handler.Callback() &#123;</div><div class="line">     	<span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">handleMessage</span><span class="params">(Message msg)</span> </span>&#123;</div><div class="line">		<span class="comment">//实现自己的消息处理</span></div><div class="line">		<span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">		&#125;</div><div class="line">	&#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>是的,你没看错，就是这么简单。</p>
+<p>下面我们来看一个稍微复杂一点点的例子</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.grantsome.photogallery;</div><div class="line"></div><div class="line"><span class="keyword">import</span> android.graphics.Bitmap;</div><div class="line"><span class="keyword">import</span> android.graphics.BitmapFactory;</div><div class="line"><span class="keyword">import</span> android.os.Handler;</div><div class="line"><span class="keyword">import</span> android.os.HandlerThread;</div><div class="line"><span class="keyword">import</span> android.os.Message;</div><div class="line"><span class="keyword">import</span> android.util.Log;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.concurrent.ConcurrentHashMap;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.ConcurrentMap;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Created by tom on 2017/4/9.</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThumbnailDownloader</span>&lt;<span class="title">T</span>&gt; <span class="keyword">extends</span> <span class="title">HandlerThread</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String TAG = <span class="string">"ThumbnailDownloader"</span>;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> MESSAGE_DOWNLOAD = <span class="number">0</span>;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> Handler mRequestHandler;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> Handler mResponseHandler;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> ConcurrentMap&lt;T,String&gt; mRequestMap = <span class="keyword">new</span> ConcurrentHashMap&lt;&gt;();</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> mHashQuit = <span class="keyword">false</span>;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> ThumbnailDownloaderListener&lt;T&gt; mThumbnailDownloader;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ThumbnailDownloaderListener</span>&lt;<span class="title">T</span>&gt;</span>&#123;</div><div class="line">        <span class="function"><span class="keyword">void</span> <span class="title">onThumbnailDownloaded</span><span class="params">(T target,Bitmap thumbnail)</span></span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setThumbnailDownloadListener</span><span class="params">(ThumbnailDownloaderListener&lt;T&gt; listener)</span></span>&#123;</div><div class="line">        mThumbnailDownloader = listener;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ThumbnailDownloader</span><span class="params">(Handler responseHandler)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>(TAG);</div><div class="line">        mResponseHandler = responseHandler;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onLooperPrepared</span><span class="params">()</span></span>&#123;</div><div class="line">        mRequestHandler = <span class="keyword">new</span> Handler()&#123;</div><div class="line">           <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleMessage</span><span class="params">(Message msg)</span></span>&#123;</div><div class="line">               <span class="keyword">if</span>(msg.what == MESSAGE_DOWNLOAD)&#123;</div><div class="line">                   T target = (T) msg.obj;</div><div class="line">                   Log.i(TAG,<span class="string">"Got a request for URL: "</span> + mRequestMap.get(target));</div><div class="line">                   handleRequest(target);</div><div class="line">               &#125;</div><div class="line">           &#125;</div><div class="line">        &#125;;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">handleRequest</span><span class="params">(<span class="keyword">final</span> T target)</span></span>&#123;</div><div class="line">        <span class="keyword">try</span>&#123;</div><div class="line">            <span class="keyword">final</span> String url = mRequestMap.get(target);</div><div class="line">            <span class="keyword">if</span>(url==<span class="keyword">null</span>)&#123;</div><div class="line">                <span class="keyword">return</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">byte</span>[] bitmapBytes = <span class="keyword">new</span> HttpUtil().getUrlBytes(url);</div><div class="line"></div><div class="line">            <span class="keyword">final</span> Bitmap bitmap = BitmapFactory.decodeByteArray(bitmapBytes,<span class="number">0</span>,bitmapBytes.length);</div><div class="line">            Log.i(TAG,<span class="string">"Bitmap created"</span>);</div><div class="line"></div><div class="line">            mResponseHandler.post(<span class="keyword">new</span> Runnable() &#123;</div><div class="line">                <span class="meta">@Override</span></div><div class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">                    <span class="keyword">if</span>(mRequestMap.get(target)!=url||mHashQuit)&#123;</div><div class="line">                        <span class="keyword">return</span>;</div><div class="line">                    &#125;</div><div class="line">                    mRequestMap.remove(target);</div><div class="line">                    mThumbnailDownloader.onThumbnailDownloaded(target,bitmap);</div><div class="line">                &#125;</div><div class="line">            &#125;);</div><div class="line">        &#125;<span class="keyword">catch</span> (Exception e)&#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">quit</span><span class="params">()</span></span>&#123;</div><div class="line">        mHashQuit = <span class="keyword">true</span>;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.quit();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">queueThumbnail</span><span class="params">(T target,String url)</span></span>&#123;</div><div class="line">        Log.i(TAG,<span class="string">"Got a URL "</span> + url);</div><div class="line">        <span class="keyword">if</span>(url == <span class="keyword">null</span>)&#123;</div><div class="line">            mRequestMap.remove(target,url);</div><div class="line">        &#125;<span class="keyword">else</span> &#123;</div><div class="line">            mRequestMap.put(target,url);</div><div class="line">            mRequestHandler.obtainMessage(MESSAGE_DOWNLOAD,target).sendToTarget();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">clearQueue</span><span class="params">()</span></span>&#123;</div><div class="line">        mRequestHandler.removeMessages(MESSAGE_DOWNLOAD);</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">package</span> com.grantsome.photogallery;</div><div class="line"><span class="keyword">import</span> android.graphics.Bitmap;</div><div class="line"><span class="keyword">import</span> android.graphics.drawable.BitmapDrawable;</div><div class="line"><span class="keyword">import</span> android.graphics.drawable.Drawable;</div><div class="line"><span class="keyword">import</span> android.os.AsyncTask;</div><div class="line"><span class="keyword">import</span> android.os.Bundle;</div><div class="line"><span class="keyword">import</span> android.os.Handler;</div><div class="line"><span class="keyword">import</span> android.support.v4.app.Fragment;</div><div class="line"><span class="keyword">import</span> android.support.v4.content.ContextCompat;</div><div class="line"><span class="keyword">import</span> android.support.v7.widget.GridLayoutManager;</div><div class="line"><span class="keyword">import</span> android.support.v7.widget.RecyclerView;</div><div class="line"><span class="keyword">import</span> android.util.Log;</div><div class="line"><span class="keyword">import</span> android.view.LayoutInflater;</div><div class="line">port android.view.View;</div><div class="line"><span class="keyword">import</span> android.view.ViewGroup;</div><div class="line"><span class="keyword">import</span> android.widget.ImageView;</div><div class="line"><span class="keyword">import</span> java.util.ArrayList;</div><div class="line"><span class="keyword">import</span> java.util.List;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PhotoGalleryFragment</span> <span class="keyword">extends</span> <span class="title">Fragment</span> </span>&#123;    </div><div class="line">    <span class="keyword">private</span> ThumbnailDownloader&lt;PhotoHolder&gt; mThumbnailDownloader;</div><div class="line"></div><div class="line">	<span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">	    <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setRetainInstance(<span class="keyword">true</span>);</div><div class="line">        <span class="keyword">new</span> FetchItemsTask().execute();</div><div class="line">        Handler handler = <span class="keyword">new</span> Handler();</div><div class="line">        <span class="comment">//传入参数以切换到主线程</span></div><div class="line">		mThumbnailDownloader = <span class="keyword">new</span> ThumbnailDownloader&lt;&gt;(handler);</div><div class="line">        <span class="comment">//设置ThumbnailDownloadListener</span></div><div class="line">		mThumbnailDownloader.setThumbnailDownloadListener(<span class="keyword">new</span> ThumbnailDownloader.ThumbnailDownloaderListener&lt;PhotoHolder&gt;() &#123;</div><div class="line">        	<span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onThumbnailDownloaded</span><span class="params">(PhotoHolder target, Bitmap thumbnail)</span> </span>&#123;</div><div class="line">			Drawable drawable = <span class="keyword">new</span> BitmapDrawable(getResources(),thumbnail);</div><div class="line">			target.bindDrawable(drawable);</div><div class="line">			&#125;</div><div class="line">		&#125;);</div><div class="line">        <span class="comment">//执行start</span></div><div class="line">        mThumbnailDownloader.start();</div><div class="line">        <span class="comment">//执行getLooper</span></div><div class="line">        mThumbnailDownloader.getLooper();</div><div class="line">        Log.i(TAG,<span class="string">"Background thread started "</span>);</div><div class="line">	&#125;    </div><div class="line">	</div><div class="line">	<span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">PhotoAdapter</span> <span class="keyword">extends</span> <span class="title">RecyclerView</span>.<span class="title">Adapter</span>&lt;<span class="title">PhotoHolder</span>&gt;</span>&#123;</div><div class="line">     	<span class="meta">@Override</span></div><div class="line">	    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onBindViewHolder</span><span class="params">(PhotoHolder holder, <span class="keyword">int</span> position)</span> </span>&#123;</div><div class="line">     		GalleryItem galleryItem = mGalleryItemList.get(position);</div><div class="line">			mThumbnailDownloader.queueThumbnail(holder,galleryItem.getUrl());</div><div class="line">		&#125;</div><div class="line">			</div><div class="line">		<span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getItemCount</span><span class="params">()</span> </span>&#123;</div><div class="line">		    <span class="keyword">return</span> mGalleryItemList.size();</div><div class="line">        &#125;    </div><div class="line">		</div><div class="line">	&#125;    </div><div class="line">	</div><div class="line">	<span class="meta">@Override</span>    </div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span></span>&#123;</div><div class="line">     	<span class="keyword">super</span>.onDestroy();</div><div class="line">        mThumbnailDownloader.quit();</div><div class="line">		Log.i(TAG,<span class="string">"Background thread destroyed"</span>);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDestroyView</span><span class="params">()</span></span>&#123;</div><div class="line">    	<span class="keyword">super</span>.onDestroyView();</div><div class="line">		mThumbnailDownloader.clearQueue();</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>为此我特地为你准备了一张思维导图，请看<br><img src="/image/thinking_first.PNG" alt=""></p>
+<p>代码没有粘贴完整，有兴趣看源码吧，这里：<br><a href="https://github.com/Grantsome/PhotoGallery" target="_blank" rel="external">https://github.com/Grantsome/PhotoGallery</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/04/01/支持向量机SVM完全解析-入门级/" rel="next" title="支持向量机SVM完全解析--入门级">
+                <i class="fa fa-chevron-left"></i> 支持向量机SVM完全解析--入门级
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/04/10/ImageLoader的简单实现/" rel="prev" title="ImageLoader的简单实现">
+                ImageLoader的简单实现 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/image/my_photo.jpg"
+               alt="Grantsome" />
+          <p class="site-author-name" itemprop="name">Grantsome</p>
+           
+              <p class="site-description motion-element" itemprop="description">谦谦君子,温润如玉。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">34</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、参数"><span class="nav-number">1.</span> <span class="nav-text">1、参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、重写的方法"><span class="nav-number">2.</span> <span class="nav-text">2、重写的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-、必须要重写的方法"><span class="nav-number">2.1.</span> <span class="nav-text">(1)、必须要重写的方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-、不用重写-但会自动调用的方法"><span class="nav-number">2.2.</span> <span class="nav-text">(2)、不用重写(但会自动调用的方法)</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Grantsome</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("N4kDW8TfOJ2iUzAX9Dnfh5W4-gzGzoHsz", "DsKw5kNbtHbP2peJYL5zmUdx");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+  
+
+  
+  
+
+
+  
+
+</body>
+</html>

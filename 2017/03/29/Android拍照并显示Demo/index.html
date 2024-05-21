@@ -1,0 +1,988 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Grantsome" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="拍照并显示这是一个很常见的功能，各个APP几乎都有这个功能，作为一个Android程序猿，你想怎么实现呢？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android拍照并显示Demo">
+<meta property="og:url" content="http://yoursite.com/2017/03/29/Android拍照并显示Demo/index.html">
+<meta property="og:site_name" content="Grantsome">
+<meta property="og:description" content="拍照并显示这是一个很常见的功能，各个APP几乎都有这个功能，作为一个Android程序猿，你想怎么实现呢？">
+<meta property="og:image" content="http://yoursite.com/image/image_2.PNG">
+<meta property="og:image" content="http://yoursite.com/image/image_1.PNG">
+<meta property="og:image" content="http://yoursite.com/image/image_2.PNG">
+<meta property="og:updated_time" content="2017-09-09T08:12:30.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android拍照并显示Demo">
+<meta name="twitter:description" content="拍照并显示这是一个很常见的功能，各个APP几乎都有这个功能，作为一个Android程序猿，你想怎么实现呢？">
+<meta name="twitter:image" content="http://yoursite.com/image/image_2.PNG">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/03/29/Android拍照并显示Demo/"/>
+
+
+
+
+
+  <title> Android拍照并显示Demo | Grantsome </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?f4067590954f61e17bcf5f2e372e8556";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Grantsome</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">以一无所有的心境承载着这世间的一切</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/29/Android拍照并显示Demo/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Grantsome">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/image/my_photo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Grantsome">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Android拍照并显示Demo
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-29T17:15:16+08:00">
+                2017-03-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/03/29/Android拍照并显示Demo/" class="leancloud_visitors" data-flag-title="Android拍照并显示Demo">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>拍照并显示这是一个很常见的功能，各个APP几乎都有这个功能，作为一个Android程序猿，你想怎么实现呢？<br><a id="more"></a><br><strong>拍照</strong><br>直接进入正题吧。<br>思路分析如下：<br>先来一张图<img src="/image/image_2.PNG" alt=""><br>通过Context.getExternalCacheDir()方法可以获取到 SDCard/Android/data/你的应用包名/cache/目录，一般存放临时缓存数据<br>创建File对象 实现图片存储的路径<br>File(direction,filename)的这个构造方法传入的参数是我们需要的两个参数,第一个是文件路径，第二是文件名<br>将file转化为uri<br>如果BuildSDK&gt;24通过FileProvider.getUriForFile()来得到我们在Manifest.xml里面注册过的FileProvider的文件的路径,里面的参数有三个,第一个就是content,第一个就是唯一的表示的名称，一般使用Android的文件的包名加上provider,第三个就是文件名<br>如果不是,就使用直接Uri.FromFile(),<br>创建隐式intent拍照,将图片输入到指定位置的URI<br>然后用new Intent()直接新建一个拍照的变量里面的参数为”android.media.action.IMAGE_CAPTURE”(PS:android.media.action.IMAGE_CAPTURE：Intent的Action类型，从现有的相机应用中请求拍摄一张图片)<br>MediaStore.EXTRA_OUTPUT:拍照生成的图片由于没有保存在data,需要有个地方保存图片,而这key-value就是指图片保存的URI，指向文件的地址.<br>intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri)-此设置需要一个Uri对象，这个对象指定了一个保存图像的路径和文件名．<br>启动相机并传递参数<br>startActivityForResult();<br>在对应onActivityResult里面进行处理<br>使用bitmap = Bitmapfactory.decodeStream();里面的参数填写getContentResolver().openInputStream();其中contentProvider().openInputStream(imageUri)：一定要的内容其提供器里面的方法；里面的参数是本地图片的uri。之前我们已经获取<br>然后在使用imageView.setImageBitmap(bitmap);用来显示图片<br>贴上代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> ImageView mImageView;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> Button mTakePhotoButton;</div><div class="line">	</div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> TAKE_PHOTO = <span class="number">1</span>;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> Uri imageUri;</div><div class="line">	</div><div class="line">	<span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.activity_main);</div><div class="line">        mImageView = (CircleImageView) findViewById(R.id.civ);</div><div class="line">        String uri = <span class="keyword">null</span>;</div><div class="line">        mTakePhotoButton = (Button) findViewById(R.id.take_photo);</div><div class="line">        setTakePhotoButtonOnClickListener();</div><div class="line">    &#125;</div><div class="line">	</div><div class="line">	 <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">setTakePhotoButtonOnClickListener</span><span class="params">()</span></span>&#123;</div><div class="line"></div><div class="line">        mTakePhotoButton.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</div><div class="line"></div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</div><div class="line">                File outputImage = <span class="keyword">new</span> File(getExternalCacheDir(),<span class="string">"output_image.jpg"</span>);</div><div class="line">                <span class="keyword">try</span>&#123;</div><div class="line">                    <span class="keyword">if</span>(outputImage.exists())&#123;</div><div class="line">                        outputImage.delete();</div><div class="line">                    &#125;</div><div class="line">                    outputImage.createNewFile();</div><div class="line">                &#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">                    e.printStackTrace();</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">if</span>(Build.VERSION.SDK_INT&gt;<span class="number">24</span>)&#123;</div><div class="line">                    imageUri = FileProvider.getUriForFile(MainActivity.<span class="keyword">this</span>,<span class="string">"com.grantsome.mycicleimage.provider"</span>,outputImage);</div><div class="line">                &#125;<span class="keyword">else</span> &#123;</div><div class="line">                    imageUri = Uri.fromFile(outputImage);</div><div class="line">                &#125;</div><div class="line">                Intent intent = <span class="keyword">new</span> Intent(<span class="string">"android.media.action.IMAGE_CAPTURE"</span>);</div><div class="line">                intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);</div><div class="line">                startActivityForResult(intent,TAKE_PHOTO);</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line">	</div><div class="line">	<span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onActivityResult</span><span class="params">(<span class="keyword">int</span> requestCode,<span class="keyword">int</span> resultCode,Intent data)</span></span>&#123;</div><div class="line">          <span class="keyword">switch</span> (requestCode)&#123;</div><div class="line">              <span class="keyword">case</span> TAKE_PHOTO:</div><div class="line">                  <span class="keyword">if</span>(resultCode ==RESULT_OK) &#123;</div><div class="line">                      <span class="keyword">try</span> &#123;</div><div class="line">                          Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));</div><div class="line">                          mImageView_1.setImageBitmap(bitmap);</div><div class="line">                      &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">                          e.printStackTrace();</div><div class="line">                      &#125;</div><div class="line">                  &#125;</div><div class="line">                  <span class="keyword">break</span>;</div><div class="line">              <span class="keyword">default</span>:</div><div class="line">                  <span class="keyword">break</span>;</div><div class="line">          &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>之前不是说过这里有一个内容提供器吗？<br>现在我们就来看看这个内容提供器的具体的实现<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&lt;provider</div><div class="line">    android:exported="false"</div><div class="line">    android:grantUriPermissions="true"</div><div class="line">    android:authorities="com.grantsome.mycircleimage.provider"</div><div class="line">    android:name="android.support.v4.content.FileProvider"&gt;</div><div class="line">    &lt;meta-data</div><div class="line">        android:name="android.support.FILE_PROVIDER_PATHS"</div><div class="line">        android:resource="@xml/path"/&gt;</div><div class="line">&lt;/provider&gt;</div></pre></td></tr></table></figure></p>
+<p>我们来意义分析一下是这里面的一些属性的意义和作用<br>首先看provider里面的属性<br>属性：<br>android:authorities:<br>一个或多个URI权限的列表，用于标识内容提供器提供的数据，通过用分号分隔他们的名字列出多个权限。为了避免冲突，权限名称应该使用Java风格的命名约定（如com.example.provider.cartoonprovider ）。 通常，它是实现提供者的ContentProvider子类的名称<br>没有默认值。必须至少指定一个权限。</p>
+<p>android:exported<br>内容提供商是否可供其他应用使用：<br>true ：提供程序可用于其他应用程序。 任何应用程序都可以使用提供者的内容URI来访问它，但必须遵守为提供者指定的权限。<br>false ：提供程序不适用于其他应用程序。 设置android:exported=”false”以限制对您的应用程序的提供程序的访问。 只有与提供者具有相同用户ID（UID）的应用程序才能访问它。<br>因为这个属性是在API级别17中引入的，所以运行API级别16和更低级别的设备就像这个属性设置为”true” 。 如果将android:targetSdkVersion设置为17或更高版本，则运行API级别17及更高版本的设备的默认值为”false” 。<br>您可以设置android:exported=”false” ，并通过权限属性设置权限来限制对您的提供者的访问。</p>
+<p>android:grantUriPermissions<br>通常无权访问内容提供者数据的用户是否可以获得这样做的权限，暂时克服readPermission ， writePermission和permission属性所施加的readPermission ，如果可以授予权限， true “ true ”，而“ false “如果没有。 如果为“ true ”，则可以向任何内容提供者的数据授予权限。 如果为“ false ”，则只能授予<grant-uri-permission>子元素（如果有）中列出的数据子集的<grant-uri-permission> 。 默认值为“ false ”。<br>授予权限是向应用程序组件一次访问受权限保护的数据的一种方式。 例如，当电子邮件消息包含附件时，邮件应用程序可以呼叫适当的查看者来打开它，即使观众没有一般权??限来查看所有内容提供商的数据。<br>在这种情况下，在FLAG_GRANT_READ_URI_PERMISSION FLAG_GRANT_WRITE_URI_PERMISSION的Intent对象中由FLAG_GRANT_READ_URI_PERMISSION和FLAG_GRANT_WRITE_URI_PERMISSION标志授予权限。 例如，邮件应用程序可能FLAG_GRANT_READ_URI_PERMISSION FLAG_GRANT_READ_URI_PERMISSION放入传递给Context.startActivity()的Intent中。 该权限特定于Intent中的URI。<br>如果启用此功能，通过将此属性设置为“ true ”或通过定义<grant-uri-permission>子元素，必须在从提供程序中删除被覆盖的URI时调用Context.revokeUriPermission() 。<br>简单来说就是这样子：比如当application A需要使用Component B去访问Provider C，但是Component B并未添加Provider C的Read/Write permission，如果这个Provider设置了属性android:grantUriPermissions，那么就有办法使Component B访问C。</grant-uri-permission></grant-uri-permission></grant-uri-permission></p>
+<p>android:name<br>实现内容提供者的类的名称，ContentProvider的子类。 这应该是一个完全限定的类名（如“ com.example.project.TransportationProvider ”）。 但是，作为一个简写，如果名称的第一个字符是一个句点，它将附加到<manifest>元素中指定的包名称中。<br>没有默认值。 必须指定名称。</manifest></p>
+<p>其他的属性，官方文档欢迎你<a href="https://developer.android.com/guide/topics/manifest/provider-element.html" target="_blank" rel="external">https://developer.android.com/guide/topics/manifest/provider-element.html</a></p>
+<p>接着看一看meta-date里面的属性<br>meta-data<br>可以提供给父组件的附加任意数据项的名称 - 值对。 组件元素可以包含任意数量的<meta-data>子元素。 所有这些值都收集在一个Bundle对象中，并作为PackageItemInfo.metaData字段提供给PackageItemInfo.metaData 。<br>通过value指定普通值。 但是，要分配资源ID作为值，请改用resource属性。 例如，以下代码将@string/kangaroo资源中存储的任何值分配给“ zoo ”名称：</meta-data></p>
+<p>  <meta-data android：name="“zoo”android：value" =“@="" string="" kangaroo”=""><br>另一方面，使用resource属性将分配“ zoo ”资源的数字ID，而不是资源中存储的值：</meta-data></p>
+<p>  <meta-data android：name="“zoo”android：resource" =“@="" string="" kangaroo”=""><br>强烈建议您避免将相关数据提供为多个单独的<meta-data>条目。 相反，如果您有复杂的数据与组件关联，则将其作为资源存储，并使用resource属性通知组件的ID。</meta-data></meta-data></p>
+<p>属性：<br>android:name<br>该项目的唯一名称。 为了确保名称是唯一的，请使用Java风格的命名约定，例如“ com.example.project.activity.fred ”。<br>android:resource<br>对资源的引用。 资源的ID是分配给项目的值。 可以通过Bundle.getInt()方法从元数据包中Bundle.getInt() 。<br>android:value<br>分配给该项目的值。 可以分配为值的数据类型和组件用于检索这些值的Bundle方法列在下表中：<br><img src="/image/image_1.PNG" alt=""><br>觉得还不够？满足不了你对知识的渴望？戳这里：<a href="https://developer.android.com/guide/topics/manifest/meta-data-element.html" target="_blank" rel="external">https://developer.android.com/guide/topics/manifest/meta-data-element.html</a><br>好了 做完了介绍我们在回头看一下这几行xml文件代表的意思：<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&lt;provider</div><div class="line">    android:exported="false"</div><div class="line">    android:grantUriPermissions="true"</div><div class="line">    android:authorities="com.grantsome.mycircleimage.provider"</div><div class="line">    android:name="android.support.v4.content.FileProvider"&gt;</div><div class="line">    &lt;meta-data</div><div class="line">        android:name="android.support.FILE_PROVIDER_PATHS"</div><div class="line">        android:resource="@xml/path"/&gt;</div><div class="line">&lt;/provider&gt;</div></pre></td></tr></table></figure></p>
+<p>该内容提供器不可供其他应用程序使用，只能在本应用程序中使用，且对于本应用程序中没有访问权限的元素也可以访问该内容提供器。设置了一个唯一的标识符authorities。里面的附加了一个mete-data的数据项，在数据项里面引用了一个xml文件里面的path。<br>现在应该清楚明白了吧？<br>这个上面不是写了一个path文件吗？我们在resource下面新建一个文件夹xml然后在xml里面新建一个path.xml<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line">&lt;resources&gt;</div><div class="line">    &lt;paths&gt;</div><div class="line">       &lt;external-path  name="images" path="" /&gt;</div><div class="line">    &lt;/paths&gt;</div><div class="line">&lt;/resources&gt;</div></pre></td></tr></table></figure></p>
+<p>下面这个说明可以帮助你理解为什么是这样子：</p>
+<p><files-path name="name" path="path"> //相当 Context.getFilesDir() + path, name是分享url的一部分<br>  <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;cache-path name=<span class="string">"name"</span> path=<span class="string">"path"</span> /&gt; <span class="comment">//getCacheDir()</span></div><div class="line"></div><div class="line">&lt;external-path name=<span class="string">"name"</span> path=<span class="string">"path"</span> /&gt; <span class="comment">//Environment.getExternalStorageDirectory()</span></div><div class="line"></div><div class="line">&lt;external-files-path name=<span class="string">"name"</span> path=<span class="string">"path"</span> /&gt;<span class="comment">//getExternalFilesDir(String) Context.getExternalFilesDir(null)</span></div><div class="line"></div><div class="line">&lt;external-cache-path name=<span class="string">"name"</span> path=<span class="string">"path"</span> /&gt; </div><div class="line"><span class="comment">//Context.getExternalCacheDir()</span></div></pre></td></tr></table></figure></files-path></p>
+<p>path路径的值表示共享的具体路径，这里设置空值表示整个SD卡都进行共享.其中path=””,代表根目录,如果是path=”images”,表示可以向其他应用共享根目录以及其子目录的任何文件. 则表示目录名为:/storage/emulated/0/images,如果你向其他应用分享images目录范围之外的文件是不行.<br>现在我们要画一个思维导图来梳理一下我们的思维。<br><img src="/image/image_2.PNG" alt=""><br>当然 GitHub地址是不可缺少的，戳这里 <a href="https://github.com/Grantsome/MyCircleImage" target="_blank" rel="external">https://github.com/Grantsome/MyCircleImage</a><br>好了，拍照就写到这里，觉得我写得有问题的请指出，在下万分感谢。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/26/RecyclerView完全解析-入门级/" rel="next" title="RecyclerView完全解析--入门级">
+                <i class="fa fa-chevron-left"></i> RecyclerView完全解析--入门级
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/04/01/支持向量机SVM完全解析-入门级/" rel="prev" title="支持向量机SVM完全解析--入门级">
+                支持向量机SVM完全解析--入门级 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/image/my_photo.jpg"
+               alt="Grantsome" />
+          <p class="site-author-name" itemprop="name">Grantsome</p>
+           
+              <p class="site-description motion-element" itemprop="description">谦谦君子,温润如玉。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">34</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Grantsome</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("N4kDW8TfOJ2iUzAX9Dnfh5W4-gzGzoHsz", "DsKw5kNbtHbP2peJYL5zmUdx");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+  
+
+  
+  
+
+
+  
+
+</body>
+</html>

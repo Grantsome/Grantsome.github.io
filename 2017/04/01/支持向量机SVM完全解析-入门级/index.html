@@ -1,0 +1,1108 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="数学模型 SVM 基础," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Grantsome" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="支持向量机（SVM：Support Vector Machine）是新一代基于统计理论基础的学习系统">
+<meta property="og:type" content="article">
+<meta property="og:title" content="支持向量机SVM完全解析--入门级">
+<meta property="og:url" content="http://yoursite.com/2017/04/01/支持向量机SVM完全解析-入门级/index.html">
+<meta property="og:site_name" content="Grantsome">
+<meta property="og:description" content="支持向量机（SVM：Support Vector Machine）是新一代基于统计理论基础的学习系统">
+<meta property="og:image" content="http://yoursite.com/image/empty.png">
+<meta property="og:image" content="http://yoursite.com/image/right_line.png">
+<meta property="og:image" content="http://yoursite.com/image/wrong_line.png">
+<meta property="og:image" content="http://yoursite.com/image/support.PNG">
+<meta property="og:image" content="http://yoursite.com/image/image_3.PNG">
+<meta property="og:image" content="http://yoursite.com/image/pic_1.PNG">
+<meta property="og:image" content="http://yoursite.com/image/pic_2.PNG">
+<meta property="og:image" content="http://yoursite.com/image/pic_3.PNG">
+<meta property="og:image" content="http://yoursite.com/image/pic_4.PNG">
+<meta property="og:image" content="http://yoursite.com/image/pic_9.PNG">
+<meta property="og:image" content="http://yoursite.com/image/pic_5.PNG">
+<meta property="og:image" content="http://yoursite.com/image/pic_6.PNG">
+<meta property="og:image" content="http://yoursite.com/image/pic_7.PNG">
+<meta property="og:image" content="http://yoursite.com/image/pic_8.PNG">
+<meta property="og:image" content="http://yoursite.com/image/pic_10.PNG">
+<meta property="og:image" content="http://yoursite.com/image/pic_11.PNG">
+<meta property="og:image" content="http://yoursite.com/image/pic_12.PNG">
+<meta property="og:image" content="http://yoursite.com/image/pic_13.PNG">
+<meta property="og:image" content="http://yoursite.com/image/pic_14.PNG">
+<meta property="og:image" content="http://yoursite.com/image/pic_15.PNG">
+<meta property="og:image" content="http://yoursite.com/image/image_4.PNG">
+<meta property="og:image" content="http://yoursite.com/image/pic_16.PNG">
+<meta property="og:image" content="http://yoursite.com/image/pic_17.PNG">
+<meta property="og:image" content="http://yoursite.com/image/pic_19.PNG">
+<meta property="og:image" content="http://yoursite.com/image/pic_18.PNG">
+<meta property="og:image" content="http://yoursite.com/image/image_5.PNG">
+<meta property="og:image" content="http://yoursite.com/image/image_6.PNG">
+<meta property="og:image" content="http://yoursite.com/image/pic_20.PNG">
+<meta property="og:image" content="http://yoursite.com/image/image_7.PNG">
+<meta property="og:image" content="http://yoursite.com/image/pic_21.PNG">
+<meta property="og:updated_time" content="2017-09-09T08:10:38.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="支持向量机SVM完全解析--入门级">
+<meta name="twitter:description" content="支持向量机（SVM：Support Vector Machine）是新一代基于统计理论基础的学习系统">
+<meta name="twitter:image" content="http://yoursite.com/image/empty.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/04/01/支持向量机SVM完全解析-入门级/"/>
+
+
+
+
+
+  <title> 支持向量机SVM完全解析--入门级 | Grantsome </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?f4067590954f61e17bcf5f2e372e8556";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Grantsome</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">以一无所有的心境承载着这世间的一切</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/01/支持向量机SVM完全解析-入门级/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Grantsome">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/image/my_photo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Grantsome">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                支持向量机SVM完全解析--入门级
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-01T08:25:10+08:00">
+                2017-04-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/04/01/支持向量机SVM完全解析-入门级/" class="leancloud_visitors" data-flag-title="支持向量机SVM完全解析--入门级">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>支持向量机（SVM：Support Vector Machine）是新一代基于统计理论基础的学习系统<br><a id="more"></a></p>
+<h4 id="Grantsome（管山林）编写，转载请注明出处：http-http-www-grantsome-com-2017-03-26-SVM-E5-AE-8C-E5-85-A8-E8-A7-A3-E6-9E-90-E5-85-A5-E9-97-A8-E7-BA-A7"><a href="#Grantsome（管山林）编写，转载请注明出处：http-http-www-grantsome-com-2017-03-26-SVM-E5-AE-8C-E5-85-A8-E8-A7-A3-E6-9E-90-E5-85-A5-E9-97-A8-E7-BA-A7" class="headerlink" title="Grantsome（管山林）编写，转载请注明出处：http:http://www.grantsome.com/2017/03/26/SVM%E5%AE%8C%E5%85%A8%E8%A7%A3%E6%9E%90-%E5%85%A5%E9%97%A8%E7%BA%A7/"></a>Grantsome（管山林）编写，转载请注明出处：http:<a href="http://www.grantsome.com/2017/03/26/SVM%E5%AE%8C%E5%85%A8%E8%A7%A3%E6%9E%90-%E5%85%A5%E9%97%A8%E7%BA%A7/" target="_blank" rel="external">http://www.grantsome.com/2017/03/26/SVM%E5%AE%8C%E5%85%A8%E8%A7%A3%E6%9E%90-%E5%85%A5%E9%97%A8%E7%BA%A7/</a></h4><h3 id="1、概念："><a href="#1、概念：" class="headerlink" title="1、概念："></a>1、概念：</h3><p>支持向量机是新一代基于统计理论基础的学习系统。支持向量机方法是建立在统计学习理论的VC维理论和结构风险最小原理基础上的，根据有限的样本信息在模型的复杂性（即对特定训练样本的学习精度）和学习能力（即无错误地识别任意样本的能力）之间寻求最佳折中，以求获得最好的推广能力 。<br>可能看到这里大家就有疑惑了，什么是VC理论？什么又是结构风险最小呢？<br>什么是VC理论？简单易理解的解释是：VC是统计学理论用来衡量函数集性能的一种指标。准确的定义：对于一个指示函数集，如果存在h个数据样本能够被函数集中的函数按所有可能的2^h种形式分开 ，则称函数集能够把h个数据样本打散（shatter）。函数集的VC维就是能打散的最大数据样本数目h。若对任意数目的数据样本都有函数能将它们shatter，则函数集的VC维为无穷大。<br>还是不懂对吧?没关系，下面举一个例子，你就大概能够明白什么是VC维了。<br>（1）平面内只能找到3个点能被直线打散：直线只能把一堆点分成两堆，对于3个点，要分成两堆加上顺序就有2^3种。其中A、B、C表示3个点，+1，-1表示堆的类别， {A→-1,BC→+1}表示A分在标号为-1的那堆，B和C分在标号为+1的那堆。这就是一种分发。以此类推。则有如下8种分法：<br>{A→-1,BC→+1}，{A→+1,BC→-1}<br>{B→-1,AC→+1}，{B→+1,BC→-1}<br>{C→-1,AB→+1}，{C→+1,BC→-1}<br>{ABC→-1}，{ABC→+1}<br>函数集的VC维就是能打散的最大数据样本数目，这里VC维就是8。<br>（2）找不到4个点。假设有，则应该有2^4=16分法，但是把四个点分成两堆有：一堆一个点另一对三个点（1，3）；两两均分（2，2）；一堆四个另一堆没有（0，4）三种情况。对于第一种情况，4个点可分别做一次一个一堆的，加上顺序就有8种：<br>{A→-1,BCD→+1}，{A→+1,BCD→-1}<br>{B→-1,ACD→+1}，{B→+1,ACD→-1}<br>{C→-1,ABD→+1}，{C→+1,ABD→-1}<br>{D→-1,ABC→+1}，{D→+1,ABC→-1}<br>对于第二种情况有4种：<br>{AB→-1,CD→+1}，{AB→+1,CD→-1}<br>{AC→-1,BD→+1}，{AC→+1,BD→-1}<br>没有一条直线能使AD在一堆，BC在一堆，因为A、D处在对角线位置，B、C处在对角线位置。（这是我直观在图上找出来的）<br>对于第三种情况有2种；<br>{ABCD→-1}<br>{ABCD→+1}<br>所以总共加起来只有8+4+2=14种分法，不满足2^4=16分法，所以平面找不到4个点能被直线打散。<br>你可能又想问了，那么到底怎么计算VC维呢？不好意思，遗憾的是，目前尚没有通用的关于如何计算任意函数集的VC维的理论，只有对一些特殊的函数集的VC维可以准确知道。<br>第一个概念，我想我大概也只能解释到这里了,如果还有什么不明白的，欢迎留言，觉得我写得哪里有问题的，请指出。<br>下面我们来看看第二个概念，结构风险最小原理。<br>结构化风险 = 经验风险 + 置信风险<br>经验风险 =  分类器在给定样本上的误差<br>置信风险 = 分类器在未知文本上分类的结果的误差<br>对于给定的样本数量越大，学习结果越有可能正确，此时置信风险越小。<br>分类函数的VC维，显然VC维越大，推广能力越差，置信风险会变大。<br>提高样本数量，降低VC维，降低置信风险。这就是SVM的基础和目标，也是使用SVM的优势所在（优势和具体应用将在下面进行说明）。<br>概念就大概说到这里，下面进入正题。</p>
+<h3 id="2、基本思想"><a href="#2、基本思想" class="headerlink" title="2、基本思想"></a>2、基本思想</h3><p>SVM，可以说它是一种算法，因为在机器学习的领域当中，常常把算法看做是一个机器，这种算法被称为学习机器或者学习系统。<br>SVM属于有导师监督的学习算法(利用一组已知类别的样本调整分类器的参数，使其达到所要求性能的过程)，即已知训练及其所对应的类别，求训练点和类别之间的关系，以便将训练集按照类别分开，或者是预测新的训练点所对应的类别。<br>首先讲解一个概念。超平面：数学中超平面是n维欧氏空间中余维度等于一的线性子空间。这是平面中的直线、空间中的平面之推广。超平面H是从n维空间到n-1维空间的一个映射子空间，它有一个n维向量和一个实数定义。设d是n维欧式空间R中的一个非零向量，a是实数，则R中满足条件dX=a的点X所组成的集合称为R中的一张超平面。<br>这个概念有点抽象，直观一点的理解是这样子：实3维空间中，满足三元一次方程ax+by+cz=d的点(x,y,z)的全体在几何上是空间的一张平面。推而广之，n维空间中, 满足n元一次方程a1x1+a2x2+…+anxn=b的点(x1,x2,…,xn)的全体就叫空间的一张超平面（即广义平面）。由于3维以上的线性空间是比较抽象的概念，无法用现实世界中的具象物来比拟，所以唯有定义才能刻画它。<br>SVM构建了一个分割两类的超平面，在构建的过程中试图实现使两类之间的分割达到最大化。有人可能又不明白了，为什么要使得两类之间的分割达到最大化呢？有什么好处吗？<br>当然有好处，分割最大化（以一个很大的边缘分割）可以使得期望的泛误差化最小。泛误差最小的含义是：当对于新的样本（数据未知的数据点）进行分类时，基于学习系统或者学习机器所得到的分类器（超平面）,使得我们对其分类的预测错误的几率被最小化。直观来讲，这样的分类器（超平面）实现了两个类别之间的分离边缘最大化。<br>来上图片，请看下图。问如何画两条直线使得平面上的两种点能够得到最好的区分？先想一下，马上揭晓答案。<img src="/image/empty.png" alt="图1-1"><br>来看下面这张图片的划分，你觉得怎么样？<img src="/image/right_line.png" alt="图1-2"><br>这一张图片的划分呢?<img src="/image/wrong_line.png" alt="图1-3"><br>哪一个更准确？划分的误差更小？我们要的就是让它误差最小（图中所画的不一定是最小的）。当然第二张图片的划分比第三张误差更小（因为第二张图片有3个误差点，第三张图片不止4个误差点）。所以分割最大化这个概念应该能够理解了吧。<br>和分类器平面平行，分别穿过平面数据集中的一个或者多个点的两个平面就是边界平面。这些边界平面称为边缘，而SVM学习就是为了找到这个最大化的边缘超平面。落在边界平面上面的点称为支持向量。<br>如图所示<img src="/image/support.PNG" alt="图1-4"><br>现在明白了吧?<br>简单总结一下，支持向量机就是与分类器平行的两个超平面，这两个超平面能够很好的分开两类不同的数据，且穿越两类数据区域中集中的点，现预找到最佳超几何分布平面使之与两个超平面之间的距离最大，如此便能实现分类的总误差变小。</p>
+<h3 id="3、理论基础"><a href="#3、理论基础" class="headerlink" title="3、理论基础"></a>3、理论基础</h3><p>支持向量机最初是在研究线性可分问题的过程中提出来的。所以先来介绍线性SVM的基本原理，过程有点小复杂，还请各位耐心看完。一般使用X表示输入空间，Y表示输出域。通常X∈Rn，对于两类问题，Y = {-1, 1};对于多类问题，Y = {1,2,…,m}; 训练集是训练数据（样本）的集合，通常S=((x1,y1),..(xn, yn)) ∈（X×Y）n，其中n是样本数目，xi是样本(向量)，yi是它们的标记。假设样本容量为n的训练样本点集{(x<em>{i},y</em>{i}),i=1,2,3,4…n}，由两个类别组成。若x<em>{i}属于第一类，则记为y</em>{i}=1；同样的道理,若x<em>{i}属于第二类，则记为y</em>{i}=-1。<br>若存在超平面：<br>       w^{T}x+b=0<br>其中 x_{i}、x、w、b表示的是向量,而不是一个值。 为什么呢？为什么b也是一个向量呢？<br>还记得线性代数或者常微分方程吗？ 不记得了的话请看这里<br><img src="/image/image_3.PNG" alt=""><br>这个是不是我们的超平面方程很像？是的，没错。你把b移到右边来就是这个方程组。所以，b可以是一个向量。现在理解了吗？<br>能够将样本正确的划分成两类,即相同的类别落在超平面的同一侧，则称样本点集是线性可分的，即满足<br>      w^{T}x+b ≥1  yi=1<br>      w^{T}x+b≤-1  yi=-1<br>此处,可知平面w^T<em>xi+b=1;w^T</em>xi+b=-1该问题的超平面。<br>但或许大家又想问了：为何用y取1 或者 -1来表示两个不同的类别呢？其实，这个1或-1的分类标准起源于logistic回归，我们就先来看看这个logistic回归，这里只是简单介绍一下logistic回归。<br>Logistic回归为概率型非线性回归模型，是研究二分类观察结果与一些影响因素之间关系的一种多<br>变量分析方法。通常的问题是，研究某些因素条件下某个结果是否发生，比如医学中根据病人的一些症状来判断它是<br>否患有某种病。</p>
+<p>在讲解Logistic回归理论之前，我们先从LR分类器说起。LR分类器，即Logistic Regression Classifier。<br>在分类情形下，经过学习后的LR分类器是一组权值，当测试样本的数据输入时，这组权值与测试数据按w0,w1,w2…..wn照线性加和得到<img src="/image/pic_1.PNG" alt=""><br>这里是每个样本的个特征。<br>之后按照sigmoid函数的形式求出<img src="/image/pic_2.PNG" alt=""><br>由于sigmoid函数的定义域为负无穷到正无穷，值域为（0，1），因此最基本的LR分类器适合对两类目标进行分类。<br>所以Logistic回归最关键的问题就是研究如何求得这组权值.下面正式地来讲Logistic回归模型。<br>考虑具有个独立变量的向量星x={x1,x2,x3,x4….xn}，设条件慨率P(y=1|x)=p为根据观测量相对于某事件x发生的概率。那么Logistic回归模型可以表示为<img src="/image/pic_3.PNG" alt=""><br>这里<img src="/image/pic_4.PNG" alt="">称为Logistic函数。图像如图所示<img src="/image/pic_9.PNG" alt="">其中<img src="/image/pic_5.PNG" alt=""><br>那么在条件下不发生的概率为<img src="/image/pic_6.PNG" alt=""><br>所以事件发生与不发生的概率之比为<img src="/image/pic_7.PNG" alt=""><br>这个比值称为事件的发生比（the odds of experiencing an event），简记为odds。<br>取对数得到<img src="/image/pic_8.PNG" alt=""><br>其中0&lt;p&lt;1<br>可以看出Logistic回归都是围绕一个Logistic函数来展开的。<br>当我们要判别一个其他的数据点属于哪个类时，只需求，p若大于0.5就是y=1的类，反之属于y=0类。<br>我们这次使用的结果标签是y=-1,y=1，替换在logistic回归中使用的y=0和y=1。<br>w^T<em>x=w1</em>x1+w2<em>x2+w3</em>x3+w4<em>x4+…+wn</em>xn。<br>从而第一个分类超平面就得到了解释。<br>我们回到刚刚那里，<br>      w^{T}x+b ≥1  yi=1<br>      w^{T}x+b≤-1  yi=-1<br>此处,可知平面w^T<em>xi+b=1;w^T</em>xi+b=-1该问题的超平面。</p>
+<h5 id="并且对于平面w-T-xi-b-1而言到超平面的原点的距离为：-b-1-w-该方程不仅仅适用于二维平面（在-二维平面上是很好证明的）和三维。也是用于高维。"><a href="#并且对于平面w-T-xi-b-1而言到超平面的原点的距离为：-b-1-w-该方程不仅仅适用于二维平面（在-二维平面上是很好证明的）和三维。也是用于高维。" class="headerlink" title="并且对于平面w^T*xi+b=1而言到超平面的原点的距离为：|b-1|//||w||,该方程不仅仅适用于二维平面（在 二维平面上是很好证明的）和三维。也是用于高维。"></a>并且对于平面w^T*xi+b=1而言到超平面的原点的距离为：|b-1|//||w||,该方程不仅仅适用于二维平面（在 二维平面上是很好证明的）和三维。也是用于高维。</h5><p>为什么呢？<br>我们先在二维平面上面看看，也就是一条直线 ax+by+c=1;<br>那么这个点到原点的距离是不是就是|a<em>0+b</em>0+c-1|/|(a^2+b^2)^0.5|?<br>也就是|c-1|/|(a^2+b^2)^0.5|。<br>同理,在三维ax+by+cz+d=0上面,结果：|d-1|/|(a^2+b^2+c^2)^0.5|<br>继续拓展到高维，结果是不是已经不言而喻了？</p>
+<h5 id="所以超平面的原点的距离为：-b-1-w-。这个一定是对的。不要怀疑"><a href="#所以超平面的原点的距离为：-b-1-w-。这个一定是对的。不要怀疑" class="headerlink" title="所以超平面的原点的距离为：|b-1|//||w||。这个一定是对的。不要怀疑"></a>所以超平面的原点的距离为：|b-1|//||w||。这个一定是对的。不要怀疑</h5><p>同理，对于w^T<em>xi+b=1而言，到超平面的原点的距离为：|b+1|//||w||。所以两个超平面之间的距离是2/||w||（这两个超平面之间思想相互平行的）。<br>根据SVM的思想，应该使得两个超平面之间的距离最大化，也就是（2/||w||）max,转换一下，相当于对（||w||/2）min.<br>即是说：min: ||w||/2=sqrt(w^T</em>w)/2<br>为了求解该超平面方程,可以最小化上式。又要满足刚刚的那两个方程，<br>可以表达成 yi(w^T<em>xi+b)≥1<br>现在转化成为如下目标规划<br>    min  ||w||/2=sqrt(w^T</em>w)/2<br>s.t.   yi(w^T*xi+b)≥1<br>也就是二规划问题（QP问题）。并且约束条件是线性的。<br>将约束条件变化一下：可得<img src="/image/pic_10.PNG" alt=""><br>现在我们通过拉格朗日变换到拉格朗日对偶变量。拉格朗日变换的作用，简单来说就是：通过给每一个约束条件乘以一个拉格朗日乘值α,然后带入目标函数中。<br>那么我们的问题的拉格朗日表达式为：<img src="/image/pic_11.PNG" alt=""><br><img src="/image/pic_12.PNG" alt=""></p>
+<p><img src="/image/pic_13.PNG" alt=""></p>
+<p><img src="/image/pic_14.PNG" alt=""></p>
+<p><img src="/image/pic_15.PNG" alt=""></p>
+<p>其中</p>
+<h3 id="b-1-2w-xr-xs"><a href="#b-1-2w-xr-xs" class="headerlink" title="b=-1/2w(xr+xs);"></a><strong>b=-1/2<em>w</em>(xr+xs)</strong>;</h3><h5 id="xr和xs是任意一对支持向量。那么怎么知道xr和xs呢？我们刚刚看到"><a href="#xr和xs是任意一对支持向量。那么怎么知道xr和xs呢？我们刚刚看到" class="headerlink" title="xr和xs是任意一对支持向量。那么怎么知道xr和xs呢？我们刚刚看到"></a>xr和xs是任意一对支持向量。那么怎么知道xr和xs呢？我们刚刚看到</h5><p><img src="/image/image_4.PNG" alt=""><br>带入到这里里面就可以进行求解对应的支持向量了。<br>这是一般的情况，假如是下面这种情况呢？<br>在输入空间中，如果它是线性不可分的呢？这时候，我们的处理方法稍微变换了一下。让支持向量机通过非线性映射φ：n维度的R -&gt; F将数据映射到某个其他维度点集空间（称为特征空间），然后在F中执行上述线性算法，这需要φ^T<em>φ完成映射，这一函数称之为核函数。<br>一图胜过千言<img src="/image/pic_16.PNG" alt=""><br>假如我们映射到高维空间之后还是不可分怎么样？想一下？不卖关子了。<br>先看图<img src="/image/pic_17.PNG" alt=""><br>这一张图片不怎么明显，这一张图片<img src="/image/pic_19.PNG" alt=""><br>看到那一个黄色的方块了吧。那一个点是不是让你觉得很烦？想把它舍弃？<br>可以看到一个离群点（可能是噪声）可以造成超平面的移动，间隔缩小，可见以前的模型对噪声非常敏感。再有甚者，如果离群点在另外一个类中，那么这时候就是线性不可分了。<br>这时候我们应该允许一些点游离并在在模型中违背限制条件（函数间隔大于1）。我们设计得到新的模型如下（也称软间隔）：<br><img src="/image/pic_18.PNG" alt=""><br>引入非负参数εi后（称为松弛变量），就允许某些样本点的函数间隔小于1，即在最大间隔区间里面，或者函数间隔是负数，即样本点在对方的区域中。而放松限制条件后，我们需要重新调整目标函数，以对离群点进行处罚，目标函数后面加上，松弛变量的求和乘以C，表示离群点越多，目标函数值越大，而我们要求的是尽可能小的目标函数值。<br>这里的C是离群点的权重，C越大表明离群点对目标函数影响越大，也就是越不希望看到离群点。我们看到，目标函数控制了离群点的数目和程度，使大部分样本点仍然遵守限制条件。<br>引入松弛变量（惩罚因子）后，有一种很常用的变形可以用来解决分类问题中样本的“偏斜”问题。<br>  这个式子有这么几点要注意：<br>     （1）并非所有的样本点都有一个松弛变量与其对应。实际上只有“离群点”才有，或者也可以这么看，所有没离群的点松弛变量都等于0（对负类来说，离群点就是在前面图中，跑到H2右侧的那些负样本点，对正类来说，就是跑到H1左侧的那些正样本点）。<br>     （2）松弛变量的值实际上标示出了对应的点到底离群有多远，值越大，点就越远。<br>     （3）惩罚因子C决定了你有多重视离群点带来的损失，显然当所有离群点的松弛变量的和一定时，你定的C越大，对目标函数的损失也越大，此时就暗示着你非常不愿意放弃这些离群点，最极端的情况是你把C定为无限大，这样只要稍有一个点离群，目标函数的值马上变成无限大，马上让问题变成无解，这就退化成了硬间隔问题。<br>     （4）惩罚因子C不是一个变量，整个优化问题在解的时候，C是一个你必须事先指定的值，指定这个值以后，解一下，得到一个分类器，然后用测试数据看看结果怎么样，如果不够好，换一个C的值，再解一次优化问题，得到另一个分类器，再看看效果，如此就是一个参数寻优的过程，但这和优化问题本身决不是一回事，优化问题在解的过程中，C一直是定值，要记住。<br>     （5）尽管加了松弛变量这么一说，但这个问题仍然是一个优化问题，解它的过程比起原始的硬间隔问题来说，没有任何更加特殊的地方。<br>对于解决引入了松弛变量的SVM问题，我们也有我们的解法。<br>我们现在再来看一下这一个引入了松弛变量之后的方程<br><img src="/image/image_5.PNG" alt=""><br>这个模型经过一个叫做Mangasarian的证明之后，得到如下可以近似求解的方程组<br><img src="/image/image_6.PNG" alt=""><br>也就是把1/2</em>||w||^2去掉了，我们只需要利用这个结果就可以了。<br>好了，理论就暂时解释到这里。简单总结一下。支持向量机的四个要点：<br>①最大化距离②核函数③对偶理论④松弛变量。<br>当然，如果你觉得我没有讲清楚，戳这里：<a href="http://www.matlabsky.com/thread-10309-1-1.html" target="_blank" rel="external">http://www.matlabsky.com/thread-10309-1-1.html</a></p>
+<h3 id="4、案例分析-代码实现"><a href="#4、案例分析-代码实现" class="headerlink" title="4、案例分析+代码实现"></a>4、案例分析+代码实现</h3><h5 id="一个银行的商业贷款经理想要建立一个规则来决定是否批准各种贷款要求。经理认为在做决策的时候，一个公司业绩的三个关键特征是非常重要的：资产折现能力，盈利能力，活性。这个经理以目前资产和负债比作为资产的折现力的度量。盈利能力以净利润和销售额之比度量，活性以销售额和固定资产之比作为度量。这个经理收集了银行在过去五年内的18个样本于下表中。这些贷款被分为两组：1表示批准贷款，-1表示拒绝贷款。试着建立该问题分类的SVM模型。"><a href="#一个银行的商业贷款经理想要建立一个规则来决定是否批准各种贷款要求。经理认为在做决策的时候，一个公司业绩的三个关键特征是非常重要的：资产折现能力，盈利能力，活性。这个经理以目前资产和负债比作为资产的折现力的度量。盈利能力以净利润和销售额之比度量，活性以销售额和固定资产之比作为度量。这个经理收集了银行在过去五年内的18个样本于下表中。这些贷款被分为两组：1表示批准贷款，-1表示拒绝贷款。试着建立该问题分类的SVM模型。" class="headerlink" title="一个银行的商业贷款经理想要建立一个规则来决定是否批准各种贷款要求。经理认为在做决策的时候，一个公司业绩的三个关键特征是非常重要的：资产折现能力，盈利能力，活性。这个经理以目前资产和负债比作为资产的折现力的度量。盈利能力以净利润和销售额之比度量，活性以销售额和固定资产之比作为度量。这个经理收集了银行在过去五年内的18个样本于下表中。这些贷款被分为两组：1表示批准贷款，-1表示拒绝贷款。试着建立该问题分类的SVM模型。"></a>一个银行的商业贷款经理想要建立一个规则来决定是否批准各种贷款要求。经理认为在做决策的时候，一个公司业绩的三个关键特征是非常重要的：资产折现能力，盈利能力，活性。这个经理以目前资产和负债比作为资产的折现力的度量。盈利能力以净利润和销售额之比度量，活性以销售额和固定资产之比作为度量。这个经理收集了银行在过去五年内的18个样本于下表中。这些贷款被分为两组：1表示批准贷款，-1表示拒绝贷款。试着建立该问题分类的SVM模型。</h5><p>数据在这里：<img src="/image/pic_20.PNG" alt=""></p>
+<h5 id="首先我们来分析一下这个问题。"><a href="#首先我们来分析一下这个问题。" class="headerlink" title="首先我们来分析一下这个问题。"></a>首先我们来分析一下这个问题。</h5><p>该问题很明显是一个分类的问题，</p>
+<h5 id="具体的解法是：我们首先对给出的三个重要的指标进行数据标准化处理，至于为什么要进行数据标准化以及怎么进行数据标准化处理，戳这里。http-blog-sina-com-cn-s-blog-4ee13c2c0100o92b-html"><a href="#具体的解法是：我们首先对给出的三个重要的指标进行数据标准化处理，至于为什么要进行数据标准化以及怎么进行数据标准化处理，戳这里。http-blog-sina-com-cn-s-blog-4ee13c2c0100o92b-html" class="headerlink" title="具体的解法是：我们首先对给出的三个重要的指标进行数据标准化处理，至于为什么要进行数据标准化以及怎么进行数据标准化处理，戳这里。http://blog.sina.com.cn/s/blog_4ee13c2c0100o92b.html"></a>具体的解法是：我们首先对给出的三个重要的指标进行数据标准化处理，至于为什么要进行数据标准化以及怎么进行数据标准化处理，戳这里。<a href="http://blog.sina.com.cn/s/blog_4ee13c2c0100o92b.html" target="_blank" rel="external">http://blog.sina.com.cn/s/blog_4ee13c2c0100o92b.html</a></h5><p>数据标准化处理过后，首先得到标准化处理过后的矩阵的行数m和列数n。首先生成一个m<em>1的元素都为1的向量e。然后令b=-e,就是一个m</em>1的元素都为-1的向量。这个向量b就是我们的线性规划模型里面的方程组Ax&lt;=b里面的b。<br>接着取出我们已有数据的分类结果，也就是类别一列的数据。所形成的的向量为D。<br>我们之前数据化标准化之后的三列分别点乘-D，这里是点乘，点乘是阶数相同的向量或矩阵之前对应的位置相乘。<br>为什么是-D呢？因为我们之前的方程是: 约束条件≥B.而MATLAB里面求解线性规划的格式是对应的约束条件≤F,所以要在约束条两边同时乘以-1，现在就变成了： -约束条件≤-B。而乘以D的原因，还记得那个公式吗？<br><img src="/image/image_7.PNG" alt=""><br>这样应该很明显了吧？<br>然后在取一个初始解，到此为止，模型的求解就算基本完成了。<br>还有最后一步，模型的验证与结果显示，这一步也很关键。<br>我们之求得了一个解x=(x1,x2,x3,x4);该超平面是a<em>x1+b</em>x2+c*x3-x4=0;<br>因为线性方程组的原因，这里是-x4;可以去推导看看。（如果A的第四列那里改负的，这里就是+ x4了）。<br>然后计算一下超平面的分类结果,并使用sign(R)函数（该函数的作用：如果R&gt;0,就输出1,R=0;输出0，R&lt;0，输入-1）<br>最后输出就可以了。<br>代码在这里：</p>
+<pre><code class="java">  function [] = svm_first()
+%UNTITLED ´线性规划求解SVM模型
+% 清空环境变量，读入数据
+clc
+clear all
+X0=xlsread(&#39;G:\MATLAB\Function\svm_data.xlsx&#39;,&#39;B2:E19&#39;);  
+for i = 1:3
+    X(:,i)=(X0(:,i)-mean(X0(:,i)))/std(X0(:,i)); %数据标准化处理
+end
+
+%  数据预处理
+[m,n]=size(X);
+e=ones(m,1);
+D=[X0(:,4)];
+B=zeros(m,m);
+C=zeros(m,m);
+for i=1:m
+    B(i,i)=1;
+    C(i,i)=D(i,1);
+end
+%  转化成线性规划来求解
+A=[-X(:,1).*D,-X(:,2).*D,-X(:,3).*D,D,-B];
+b=-e;
+f=[0,0,0,0,ones(1,m)];
+lb=[-Inf,-Inf,-Inf,-Inf,zeros(1,m)]&#39;;
+x=linprog(f,A,b,[],[],lb);
+% 模型的验证和输出
+W=[x(1,1),x(2,1),x(3,1)]; 
+CC=x(4,1);
+X1=[X(:,1),X(:,2),X(:,3)];
+R1=X1*W&#39;-CC;
+R2=sign(R1);
+disp(&#39;³ÌÐòÊä³ö½á¹û£º&#39;);
+disp(&#39;³¬Æ½Ãæ·½³Ì£º&#39;);
+disp(&#39;X1&#39;);
+disp(num2str(x(1,1)));
+disp(&#39;X2&#39;);
+disp(num2str(x(2,1)));
+disp(&#39;X3&#39;);
+disp(num2str(x(3,1)));
+disp(&#39;intercept:&#39;);
+disp(num2str(x(4,1)));
+disp(&#39;³¬Æ½Ãæ·ÖÀà½á¹û&#39;);
+R=[R1,R2]
+end
+</code></pre>
+<p>运行结果：<br><img src="/image/pic_21.PNG" alt=""><br>源码和数据下载地址:(电脑上面可能需要翻墙，手机可以直接进去)<br><a href="https://github.com/Grantsome/SVM_First" target="_blank" rel="external">https://github.com/Grantsome/SVM_First</a></p>
+<h3 id="5、模型的优缺点及其改进"><a href="#5、模型的优缺点及其改进" class="headerlink" title="5、模型的优缺点及其改进"></a>5、模型的优缺点及其改进</h3><p>(1)优点：<br>①SVM 是一种有坚实理论基础的新颖的小样本学习方法。它基本上不涉及概率测度及大数定律等,因此不同于现有的统计方法。从本质上看,它避开了从归纳到演绎的传统过程,实现了高效的从训练样本到预报样本的“转导推理”,大大简化了通常的分类和回归等问题。<br>②SVM 的最终决策函数只由少数的支持向量所确定,计算的复杂性取决于支持向量的数目,而不是样本空间的维数,这在某种意义上避免了“维数灾难”。<br>③少数支持向量决定了最终结果,这不但可以帮助我们抓住关键样本、“剔除”大量冗余样本,而且注定了该方法不但算法简单,而且具有较好的“鲁棒”性。这种“鲁棒”性主要体现在:<br>增、删非支持向量样本对模型没有影响;<br>支持向量样本集具有一定的鲁棒性;<br>有些成功的应用中,SVM 方法对核的选取不敏感<br>(2)缺点<br>① SVM算法对大规模训练样本难以实施<br>由于SVM是借助二次规划来求解支持向量，而求解二次规划将涉及m阶矩阵的计算（m为样本的个数），当m数目很大时该矩阵的存储和计算将耗费大量的机器内存和运算时间。针对以上问题的主要改进有有J.Platt的SMO算法、T.Joachims的SVM、C.J.C.Burges等的PCGC、张学工的CSVM以及O.L.Mangasarian等的SOR算法<br>② 用SVM解决多分类问题存在困难<br>经典的支持向量机算法只给出了二类分类的算法，而实际应用中，一般要解决多类的分类问题。可以通过多个二类支持向量机的组合来解决。主要有一对多组合模式、一对一组合模式和SVM决策树；再就是通过构造多个分类器的组合来解决。主要原理是克服SVM固有的缺点，结合其他算法的优势，解决多类问题的分类精度。如：与粗集理论结合，形成一种优势互补的多类问题的组合分类器。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数学模型-SVM-基础/" rel="tag"># 数学模型 SVM 基础</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/29/Android拍照并显示Demo/" rel="next" title="Android拍照并显示Demo">
+                <i class="fa fa-chevron-left"></i> Android拍照并显示Demo
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/04/09/AsyncTask和HandlerThread完全解析-入门级/" rel="prev" title="AsyncTask和HandlerThread完全解析--入门级">
+                AsyncTask和HandlerThread完全解析--入门级 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/image/my_photo.jpg"
+               alt="Grantsome" />
+          <p class="site-author-name" itemprop="name">Grantsome</p>
+           
+              <p class="site-description motion-element" itemprop="description">谦谦君子,温润如玉。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">34</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Grantsome（管山林）编写，转载请注明出处：http-http-www-grantsome-com-2017-03-26-SVM-E5-AE-8C-E5-85-A8-E8-A7-A3-E6-9E-90-E5-85-A5-E9-97-A8-E7-BA-A7"><span class="nav-number">1.</span> <span class="nav-text">Grantsome（管山林）编写，转载请注明出处：http:http://www.grantsome.com/2017/03/26/SVM%E5%AE%8C%E5%85%A8%E8%A7%A3%E6%9E%90-%E5%85%A5%E9%97%A8%E7%BA%A7/</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1、概念："><span class="nav-number"></span> <span class="nav-text">1、概念：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、基本思想"><span class="nav-number"></span> <span class="nav-text">2、基本思想</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、理论基础"><span class="nav-number"></span> <span class="nav-text">3、理论基础</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#并且对于平面w-T-xi-b-1而言到超平面的原点的距离为：-b-1-w-该方程不仅仅适用于二维平面（在-二维平面上是很好证明的）和三维。也是用于高维。"><span class="nav-number">0.1.</span> <span class="nav-text">并且对于平面w^T*xi+b=1而言到超平面的原点的距离为：|b-1|//||w||,该方程不仅仅适用于二维平面（在 二维平面上是很好证明的）和三维。也是用于高维。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#所以超平面的原点的距离为：-b-1-w-。这个一定是对的。不要怀疑"><span class="nav-number">0.2.</span> <span class="nav-text">所以超平面的原点的距离为：|b-1|//||w||。这个一定是对的。不要怀疑</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#b-1-2w-xr-xs"><span class="nav-number"></span> <span class="nav-text">b=-1/2w(xr+xs);</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#xr和xs是任意一对支持向量。那么怎么知道xr和xs呢？我们刚刚看到"><span class="nav-number">0.1.</span> <span class="nav-text">xr和xs是任意一对支持向量。那么怎么知道xr和xs呢？我们刚刚看到</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、案例分析-代码实现"><span class="nav-number"></span> <span class="nav-text">4、案例分析+代码实现</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#一个银行的商业贷款经理想要建立一个规则来决定是否批准各种贷款要求。经理认为在做决策的时候，一个公司业绩的三个关键特征是非常重要的：资产折现能力，盈利能力，活性。这个经理以目前资产和负债比作为资产的折现力的度量。盈利能力以净利润和销售额之比度量，活性以销售额和固定资产之比作为度量。这个经理收集了银行在过去五年内的18个样本于下表中。这些贷款被分为两组：1表示批准贷款，-1表示拒绝贷款。试着建立该问题分类的SVM模型。"><span class="nav-number">0.1.</span> <span class="nav-text">一个银行的商业贷款经理想要建立一个规则来决定是否批准各种贷款要求。经理认为在做决策的时候，一个公司业绩的三个关键特征是非常重要的：资产折现能力，盈利能力，活性。这个经理以目前资产和负债比作为资产的折现力的度量。盈利能力以净利润和销售额之比度量，活性以销售额和固定资产之比作为度量。这个经理收集了银行在过去五年内的18个样本于下表中。这些贷款被分为两组：1表示批准贷款，-1表示拒绝贷款。试着建立该问题分类的SVM模型。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#首先我们来分析一下这个问题。"><span class="nav-number">0.2.</span> <span class="nav-text">首先我们来分析一下这个问题。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#具体的解法是：我们首先对给出的三个重要的指标进行数据标准化处理，至于为什么要进行数据标准化以及怎么进行数据标准化处理，戳这里。http-blog-sina-com-cn-s-blog-4ee13c2c0100o92b-html"><span class="nav-number">0.3.</span> <span class="nav-text">具体的解法是：我们首先对给出的三个重要的指标进行数据标准化处理，至于为什么要进行数据标准化以及怎么进行数据标准化处理，戳这里。http://blog.sina.com.cn/s/blog_4ee13c2c0100o92b.html</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5、模型的优缺点及其改进"><span class="nav-number"></span> <span class="nav-text">5、模型的优缺点及其改进</span></a></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Grantsome</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("N4kDW8TfOJ2iUzAX9Dnfh5W4-gzGzoHsz", "DsKw5kNbtHbP2peJYL5zmUdx");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  
+
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1054 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="面试," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Grantsome" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="学习Java&amp;amp;Android已经有8个月的时间了，最近蠢蠢欲动，去面试了学校的某一高大上的组织。咳咳，发现自己很多东西都不太清楚，学得似是而非，Java的基础真的还需要加强，虽然我面试之前没有复习Java。那么就开始解决问题和疑惑吧，一个问题一个问题的解决，希望下次能够长点记性。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第一次Android面试总结">
+<meta property="og:url" content="http://yoursite.com/2017/06/03/第一次Android面试总结/index.html">
+<meta property="og:site_name" content="Grantsome">
+<meta property="og:description" content="学习Java&amp;amp;Android已经有8个月的时间了，最近蠢蠢欲动，去面试了学校的某一高大上的组织。咳咳，发现自己很多东西都不太清楚，学得似是而非，Java的基础真的还需要加强，虽然我面试之前没有复习Java。那么就开始解决问题和疑惑吧，一个问题一个问题的解决，希望下次能够长点记性。">
+<meta property="og:image" content="http://yoursite.com/image/static_first.PNG">
+<meta property="og:image" content="http://yoursite.com/image/static_second.PNG">
+<meta property="og:image" content="http://yoursite.com/image/static_third.PNG">
+<meta property="og:image" content="http://yoursite.com/image/static_fourth.PNG">
+<meta property="og:image" content="http://yoursite.com/image/static_fifth.PNG">
+<meta property="og:image" content="http://yoursite.com/image/static_sixth.PNG">
+<meta property="og:image" content="http://yoursite.com/image/final_first.PNG">
+<meta property="og:image" content="http://yoursite.com/image/final_second.PNG">
+<meta property="og:image" content="http://yoursite.com/image/final_third.PNG">
+<meta property="og:image" content="http://yoursite.com/image/equals_second.PNG">
+<meta property="og:image" content="http://yoursite.com/image/equals_third.PNG">
+<meta property="og:image" content="http://yoursite.com/image/reflect_first.PNG">
+<meta property="og:updated_time" content="2017-09-09T08:11:28.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="第一次Android面试总结">
+<meta name="twitter:description" content="学习Java&amp;amp;Android已经有8个月的时间了，最近蠢蠢欲动，去面试了学校的某一高大上的组织。咳咳，发现自己很多东西都不太清楚，学得似是而非，Java的基础真的还需要加强，虽然我面试之前没有复习Java。那么就开始解决问题和疑惑吧，一个问题一个问题的解决，希望下次能够长点记性。">
+<meta name="twitter:image" content="http://yoursite.com/image/static_first.PNG">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/06/03/第一次Android面试总结/"/>
+
+
+
+
+
+  <title> 第一次Android面试总结 | Grantsome </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?f4067590954f61e17bcf5f2e372e8556";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Grantsome</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">以一无所有的心境承载着这世间的一切</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/03/第一次Android面试总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Grantsome">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/image/my_photo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Grantsome">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                第一次Android面试总结
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-03T07:40:12+08:00">
+                2017-06-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/06/03/第一次Android面试总结/" class="leancloud_visitors" data-flag-title="第一次Android面试总结">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>学习Java&amp;Android已经有8个月的时间了，最近蠢蠢欲动，去面试了学校的某一高大上的组织。咳咳，发现自己很多东西都不太清楚，学得似是而非，Java的基础真的还需要加强，虽然我面试之前没有复习Java。那么就开始解决问题和疑惑吧，一个问题一个问题的解决，希望下次能够长点记性。<br><a id="more"></a></p>
+<h3 id="Java篇"><a href="#Java篇" class="headerlink" title="Java篇"></a>Java篇</h3><h4 id="面向对象与面向过程的概念-区别和好处"><a href="#面向对象与面向过程的概念-区别和好处" class="headerlink" title="面向对象与面向过程的概念(区别和好处)"></a>面向对象与面向过程的概念(区别和好处)</h4><p>我承认这个是一个很基础的问题，但还是感觉不好阐述。<br>面向过程：面向过程是一种以事件/问题为中心的编程思想。就是分析一个事件/问题的解决步骤，用函数实现步骤，最后按照顺序调用函数。主要是该怎么做，“怎么”是重点。(程序=算法+数据)<br>面向对象：面向对象是一种以事物为中心的编程思想。就是把事件/问题分解，然后抽象出来各种对象，接着给对象发送“消息”，让对象去完成某些步骤。主要是谁去做，“谁”是重点。(程序=对象+消息)<br>举个栗子：以老师给学生上课为例。<br>面向过程的思路是这样子：1、打铃后开始上课。2、老师开始讲课 3、学生开始听课 4、老师提问 5、学生回答问题 6、老师布置作业 7、学生写作业 8、学生交作业 9、老师给学生打平时成绩 10、打铃后下课<br>而面向对象的思路却是：1、教室广播系统对象，主要行为是播放上下课铃声 2、老师对象，主要行为有讲课、提问和布置作业 3、学生对象，主要行为有听课和回答问题以及写作业等 4、评分规则系统<br>感受到了什么？没错，面向对象是以功能块为划分的。<br>假如现在有一个 老师给学生上课的时候有校领导来检查老师上课的质量<br>如果是面向过程的话，几乎就要全盘改写顺序了，校领导要在打铃之前从后门进来，在老师提问和讲课的时候要认真观察学生的反应，下课之后还要和老师聊一下对老师的评价。<br>假如是面向对象的话，那就不一样了。增加一个校领导对象，然后在增加一个校领导对老师的评价规则就可以了。<br>得出结论，使用面向对象的编程思想更容易适应需求的变化，也就是程序的可扩展性比较好。</p>
+<h4 id="说明一下static和final关键字的用法和特点"><a href="#说明一下static和final关键字的用法和特点" class="headerlink" title="说明一下static和final关键字的用法和特点"></a>说明一下static和final关键字的用法和特点</h4><p>static概述：static直接翻译过来是静态的，就是静态成员修饰符，其修饰的静态变量脱离具体对象独立存在。<br>举个栗子：学生读书的时候都有一个班级，但这个班级不属于任何一个人，这个班的班主任、班费也不属于任何人，班级、班主任、班费属于所有学生的整体，所以可以脱离具体的某个学生而独立存在。我们在定义学生类的时候就可以定义班级为static。<br>由于可以不依附任何对象而独立存在，所以访问这些static成员的时候，可以通过类名加“.”进行直接访问。<br>常见的static的用法有几种，分别是static修饰变量,static修饰方法,static修饰代码块,static修饰类<br>一个一个的来看,首先看看static修饰变量。<br>JVM只为static修饰的变量分配一次内存<br>直接看Demo</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * Created by Grantsome on 2017/06/03</div><div class="line"> * static修饰静态变量Demo</div><div class="line"> */</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StaticVariableDemo</span></span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        <span class="comment">// TODO 自动生成的方法存根</span></div><div class="line">        <span class="comment">//声明一个叫做demo1的StaticVariableDemo的对象并将其实例化</span></div><div class="line">        StaticVariableDemo demo01 = <span class="keyword">new</span> StaticVariableDemo();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">//构造方法</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">StaticVariableDemo</span><span class="params">()</span></span>&#123;</div><div class="line">        StaticStudent studentOne = <span class="keyword">new</span> StaticStudent(<span class="string">"Grantsome"</span>,<span class="number">2015213041</span>,<span class="number">19</span>,<span class="number">84</span>);</div><div class="line">        StaticStudent studentTwo = <span class="keyword">new</span> StaticStudent(<span class="string">"Grantsome"</span>,<span class="number">2015213041</span>,<span class="number">19</span>,<span class="number">84</span>,<span class="number">666666</span>);</div><div class="line">        StaticStudent studentThree = <span class="keyword">new</span> StaticStudent(<span class="string">"Grantsome"</span>,<span class="number">2015213041</span>,<span class="number">19</span>,<span class="number">84</span>);</div><div class="line">        studentOne.getStaticStudent();</div><div class="line">        studentTwo.getStaticStudent();</div><div class="line">        studentThree.getStaticStudent();</div><div class="line">        NormalStudent studentFour = <span class="keyword">new</span> NormalStudent(<span class="string">"Grantsome"</span>,<span class="number">2015213041</span>,<span class="number">19</span>,<span class="number">84</span>,<span class="number">777777</span>);</div><div class="line">        NormalStudent studentFive = <span class="keyword">new</span> NormalStudent(<span class="string">"Grantsome"</span>,<span class="number">2015213041</span>,<span class="number">19</span>,<span class="number">84</span>);</div><div class="line">        studentFour.getNormalStudent();</div><div class="line">        studentFive.getNormalStudent();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line"><span class="comment">//定义有静态变量的学生类</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">StaticStudent</span></span>&#123;</div><div class="line">    String name;<span class="comment">//姓名</span></div><div class="line">    <span class="keyword">int</span> number;<span class="comment">//学号</span></div><div class="line">    <span class="keyword">int</span> age;<span class="comment">//年龄</span></div><div class="line">    <span class="keyword">float</span> score;<span class="comment">//分数</span></div><div class="line">    <span class="keyword">static</span> <span class="keyword">int</span> inClass = <span class="number">11121501</span>;<span class="comment">//所在班级</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">StaticStudent</span><span class="params">(String mName,<span class="keyword">int</span> mNumber,<span class="keyword">int</span> mAge,<span class="keyword">int</span> mScore)</span></span>&#123;</div><div class="line">        <span class="keyword">this</span>.name = mName;</div><div class="line">        <span class="keyword">this</span>.number = mNumber;</div><div class="line">        <span class="keyword">this</span>.age = mAge;</div><div class="line">        <span class="keyword">this</span>.score = mScore;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">//构造方法</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">StaticStudent</span><span class="params">(String mName,<span class="keyword">int</span> mNumber,<span class="keyword">int</span> mAge,<span class="keyword">int</span> mScore,<span class="keyword">int</span> mInClass)</span></span>&#123;</div><div class="line">        <span class="keyword">this</span>.name = mName;</div><div class="line">        <span class="keyword">this</span>.number = mNumber;</div><div class="line">        <span class="keyword">this</span>.age = mAge;</div><div class="line">        <span class="keyword">this</span>.score = mScore;</div><div class="line">        <span class="keyword">this</span>.inClass = mInClass;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getStaticStudent</span><span class="params">()</span></span>&#123;</div><div class="line">        System.out.println(<span class="string">"StaticStudent "</span>+<span class="string">"name="</span>+name+<span class="string">" number="</span>+number+<span class="string">" age="</span>+age+<span class="string">" score="</span>+score+<span class="string">" inClass="</span>+inClass);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//定义有没有变量的学生类</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">NormalStudent</span></span>&#123;</div><div class="line">    String name;<span class="comment">//姓名</span></div><div class="line">    <span class="keyword">int</span> number;<span class="comment">//学号</span></div><div class="line">    <span class="keyword">int</span> age;<span class="comment">//年龄</span></div><div class="line">    <span class="keyword">float</span> score;<span class="comment">//分数</span></div><div class="line">    <span class="keyword">int</span> inClass = <span class="number">11121501</span>;<span class="comment">//所在班级</span></div><div class="line"></div><div class="line">    <span class="comment">//构造方法</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">NormalStudent</span><span class="params">(String mName,<span class="keyword">int</span> mNumber,<span class="keyword">int</span> mAge,<span class="keyword">int</span> mScore)</span></span>&#123;</div><div class="line">        <span class="keyword">this</span>.name = mName;</div><div class="line">        <span class="keyword">this</span>.number = mNumber;</div><div class="line">        <span class="keyword">this</span>.age = mAge;</div><div class="line">        <span class="keyword">this</span>.score = mScore;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">NormalStudent</span><span class="params">(String mName,<span class="keyword">int</span> mNumber,<span class="keyword">int</span> mAge,<span class="keyword">int</span> mScore,<span class="keyword">int</span> mInClass)</span></span>&#123;</div><div class="line">        <span class="keyword">this</span>.name = mName;</div><div class="line">        <span class="keyword">this</span>.number = mNumber;</div><div class="line">        <span class="keyword">this</span>.age = mAge;</div><div class="line">        <span class="keyword">this</span>.score = mScore;</div><div class="line">        <span class="keyword">this</span>.inClass = mInClass;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getNormalStudent</span><span class="params">()</span></span>&#123;</div><div class="line">        System.out.println(<span class="string">"NormalStudent "</span>+<span class="string">"name="</span>+name+<span class="string">" number="</span>+number+<span class="string">" age="</span>+age+<span class="string">" score="</span>+score+<span class="string">" inClass="</span>+inClass);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>猜一下运行结果,由于static inClass属于一个类的整体,所以不管怎样前三个的输出结果都是一样的都是inClass=666666;没有静态变量的自然看有没有传入参数了，有传入inClass参数就输出那个参数，没有就是默认的参数。<br>运行结果截图：</p>
+<p><img src="/image/static_first.PNG" alt=""></p>
+<p>和我们想的一样。<br>看一看直接访问Static里面的静态变量的代码：在main()里面加了一行<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        <span class="comment">// TODO 自动生成的方法存根</span></div><div class="line">        <span class="comment">//声明一个叫做demo1的StaticVariableDemo的对象并将其实例化</span></div><div class="line">        StaticVariableDemo demo01 = <span class="keyword">new</span> StaticVariableDemo();</div><div class="line">        System.out.println(StaticStudent.inClass);</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>运行结果截图：</p>
+<p><img src="/image/static_second.PNG" alt=""></p>
+<p>接下来看看static修饰方法<br>static修饰方法的意义和修饰变量的意义是一样的，都是可以单独调用：对象名.方法名。并且该方法不属于任何实例的对象，可以脱离于具体的对象而独立存在，它属于整个类。<br>举个栗子：用班费这个行为不属于任何一个学生，它属于学生的整体。<br>静态方法在访问本类的成员时，只允许访问静态成员（即静态成员变量和静态方法），而不允许访问非静态成员变量和非静态方法；非静态方法则无此限制。</p>
+<p><img src="/image/static_third.PNG" alt=""></p>
+<p>提示报错，原因是不能在静态方法里面访问非静态变量，可以访问静态变量。但非静态方法可以访问静态变量。</p>
+<p><img src="/image/static_fourth.PNG" alt=""></p>
+<p>提示报错，原因是不能在静态方法里面调用非静态方法，可以调用静态方法。但非静态方法可以调用静态方法。<br>前面说了，static修饰的方法不能可以独立于任何实例对象而存在，那么static方法里面可以使用this和super等关键字吗？答案是不能，因为this是需要一个具体的对象的，this指向了这个具体的对象，而static方法可以不需要具体的对象，同理super也是。</p>
+<p><img src="/image/static_fifth.PNG" alt=""></p>
+<p>没有错吧？<br>接下来看看static修饰代码块<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> kotlin.reflect.jvm.internal.FunctionCaller;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Created by Grantsome on 2017/06/03</div><div class="line"> * static修饰静态代码块Demo</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StaticMethodDemo</span></span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String MY_NAME = <span class="string">"Grantsome"</span>;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String HER_NAME = <span class="string">"Doris"</span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        <span class="comment">// TODO 自动生成的方法存根</span></div><div class="line">        <span class="comment">//声明一个叫做demo1的StaticMethodDemo的对象并将其实例化</span></div><div class="line">       StaticMethodDemo demo01 = <span class="keyword">new</span> StaticMethodDemo();</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">//构造方法</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">StaticMethodDemo</span><span class="params">()</span></span>&#123;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">static</span> &#123;</div><div class="line">        System.out.println(MY_NAME);</div><div class="line">        StaticMethodDemo.MY_NAME = <span class="string">"男神"</span>;</div><div class="line">        System.out.println(MY_NAME);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">static</span> &#123;</div><div class="line">        System.out.println(HER_NAME);</div><div class="line">        StaticMethodDemo.HER_NAME = <span class="string">"女神"</span>;</div><div class="line">        System.out.println(HER_NAME);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>运行结果截图：</p>
+<p><img src="/image/static_sixth.PNG" alt=""></p>
+<p>静态内部内没什么好说的，都差不多，就不在赘述了。接下来说说final<br>final：最终的，不可变的，也就是具有最终态的特征的数字。<br>首先看看final修饰变量的时候能不能被改变</p>
+<p><img src="/image/final_first.PNG" alt=""></p>
+<p>编译器报错，指出final变量不能重新被赋值。所以final关键字修饰的变量是不可改变的<br>在看看final修饰的方法。<br>final修饰的方法，如果final方法(私有类型方法除外)是在父类里面，那么子类继承父类的时候是不能重写这个方法的。final修饰的方法，如果final方法是在父类里面，那么子类继承父类的时候是不能重写这个方法的。</p>
+<p><img src="/image/final_second.PNG" alt=""></p>
+<p>接着看final修饰类。<br>当一个类被final修饰的时候，那么这个类就不允许被继承了，按照国人的话来讲这个类就绝后了。</p>
+<p><img src="/image/final_third.PNG" alt=""></p>
+<p>当final遇上static：<br>final与static final的区别是：final在一个对象类唯一，static final在多个对象中都唯一。也就是对于某一个类的对象的整体唯一，它属于整体的不可变且唯一。<br>一个既是static又是final的域只占据一段不能改变的存储空间，只有一份。</p>
+<h4 id="简要说一下继承与多态这两种特性。"><a href="#简要说一下继承与多态这两种特性。" class="headerlink" title="简要说一下继承与多态这两种特性。"></a>简要说一下继承与多态这两种特性。</h4><p>继承：复用代码是 Java 众多引人注目的功能之一。但要想成为极具革命性的语言，仅仅能够复制代码并对加以改变是不够的，它还必须能够做更多的事情。在这句话中最引人注目的是“复用代码”,尽可能的复用代码使我们程序员一直在追求的，现在介绍一种复用代码的方式，也是 Java 三大特性之一—继承。<br>概念的引入：假如我们现在要写一个班的学生类(属性有姓名、编号、年龄、班级、性别、成绩等)，又要写学院的教师类(姓名、编号、年龄、授课班级、性别、课程编号，课程名称等)，如果我们去写的话会发现他们两者具有很多相同的属性(姓名，编号，性别，年龄等)。写重复代码对于程序猿而言可不是什么光荣的事情，这时候怎么办呢？这就有了继承：我们可以抽象一个person类出来(具有姓名，编号，性别，年龄等属性)，让student混合teacher分别继承person类，继承过后person的属性和方法teacher和student也都有了。<br>注意点：Java只支持单继承 使用父类的方法(非私有方法)的时候 super.方法名 就可以了。</p>
+<p>多态：主要分两种多态：方法的重载与覆写 对象的多态性(向上转型和向下转型)。<br>重载：@Overloading 指的是方法名称相同，参数类型或者个数不同，存在与一个类里面。<br>覆写：@Override 方法名称、参数类型、返回值全部相同，并且被覆写的方法不能比父类的方法权限严格(即是说：如果一个方法在父类里面是public,那么在覆写的时候不能低于public权限(private&lt;default&lt;public))，存在与继承的时候。<br>转型规则：向上转型：父类 具体父类对象名 = 子类实例;<br>          向下转型：子类 子类对象 = (子类) 父类实例;<br>注意：向下转型之前必有向上转型。egg:Father father = new Child(); Child child = (Child) father;</p>
+<h4 id="抽象类和接口的区别"><a href="#抽象类和接口的区别" class="headerlink" title="抽象类和接口的区别"></a>抽象类和接口的区别</h4><p>抽象类可以有默认的实现方法，而接口不允许有默认实现的方法。<br>抽象类可以有默认的构造器，而接口不允许有。<br>抽象类的子类通过继承(extends)抽象类来实现抽象类里面的抽象方法，如果子类不是抽象类，需要实现所有的抽象方法。接口通过实现(implments)所有的抽象方法。<br>抽象类访问修饰符自己定义，而接口的访问修饰符只能是默认的public,不能写其他的访问修饰符。<br>抽象类里面加入新方法可以自己实现，也可以由子类实现，而接口必须有子类实现。</p>
+<h4 id="“-”和equals-的区别"><a href="#“-”和equals-的区别" class="headerlink" title="“==”和equals()的区别"></a>“==”和equals()的区别</h4><p>==是比较两个变量所指向的地址(内存区域)是否相同，而equals()是比较值//内容是否相同(没有覆写的情况下，也就是默认情况)。<br>例子：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        String s1 = <span class="string">"Hello World"</span>;</div><div class="line">        String s2 = <span class="keyword">new</span> String(<span class="string">"Hello World"</span>);</div><div class="line">        String s3 = <span class="string">"Hello World"</span>;</div><div class="line">        <span class="keyword">if</span>(s1==s2)&#123;</div><div class="line">            System.out.println(<span class="string">"s1==s2"</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span>(s1.equals(s2))&#123;</div><div class="line">            System.out.println(<span class="string">"s1.equals(s2)"</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span>(s1==s3)&#123;</div><div class="line">            System.out.println(<span class="string">"s1==s3"</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span>(s1.equals(s3))&#123;</div><div class="line">            System.out.println(<span class="string">"s1.equals(s3)"</span>);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>输出结果：</p>
+<p><img src="/image/equals_second.PNG" alt=""></p>
+<p>分析原因：程序在运行的时候会创建一个字符串缓冲池当使用 s1 = “Hello World” 这样的表达是创建字符串的时候，程序首先会在这个String缓冲池中寻找相同值的对象，在第一个程序中，s1先被放到了池中，所以在s3被创建的时候，程序找到了具有相同值的 s1，将s3引用s1所引用的对象”Hello World”.<br>s2创建的时候使用了 new 操作符，也即：明白的告诉程序：”我要一个新的！不要旧的！”于是一个新的”Hello World”的Sting对象被创建在内存中。他们的值相同，但是位置不同，所以才出现了上面的结果。<br>稍微修改一下代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        String s1 = <span class="string">"Hello World"</span>;</div><div class="line">        String s2 = <span class="keyword">new</span> String(<span class="string">"Hello World"</span>);</div><div class="line">        String s3 = <span class="string">"Hello World"</span>;</div><div class="line">		s2 = s2.intern();</div><div class="line">        <span class="keyword">if</span>(s1==s2)&#123;</div><div class="line">            System.out.println(<span class="string">"s1==s2"</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span>(s1.equals(s2))&#123;</div><div class="line">            System.out.println(<span class="string">"s1.equals(s2)"</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span>(s1==s3)&#123;</div><div class="line">            System.out.println(<span class="string">"s1==s3"</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span>(s1.equals(s3))&#123;</div><div class="line">            System.out.println(<span class="string">"s1.equals(s3)"</span>);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>执行结果：</p>
+<p><img src="/image/equals_third.PNG" alt=""></p>
+<p>分析原因：检查字符串池里是否存在”Hello World”这么一个字符串，如果存在，就返回池里的字符串；如果不存在，该方法会 把”Hello World”添加到字符串池中，然后再返回它的引用。</p>
+<h4 id="set和list的区别"><a href="#set和list的区别" class="headerlink" title="set和list的区别"></a>set和list的区别</h4><p>List的接口实现类：LinkedList ArrayList Vector ，而Set的接口实现类：HashSet LinkedHashSet<br>List放入有顺序，可重复 而Set不可重复并且无顺序。<br>List适合经常追加数据、插入删除数据。</p>
+<h4 id="反射的原理"><a href="#反射的原理" class="headerlink" title="反射的原理"></a>反射的原理</h4><p>JAVA反射机制是:在运行时，对于任意一个类，都能够知道这个类的所有属性和方法；对于任意一个对象，都能够调用它的任意一个方法；这种动态获取的信息以及动态调用对象的方法的功能称为java语言的反射机制。<br>也就是提供如下功能：<br>在运行时判断任意一个对象所属的类。<br>在运行时构造任意一个类的对象。<br>在运行时判断任意一个类所具有的成员变量和方法。<br>在运行时调用任意一个对象的方法。</p>
+<p>先看一个简单的例子：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">Class ReflectDemo&#123;</div><div class="line"></div><div class="line">&#125;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GetClassNameDemo</span></span>&#123;</div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span></span>&#123;</div><div class="line">     ReflectDemo reflect = <span class="keyword">new</span> ReflectDemo();</div><div class="line">	 System.out.println(reflect.getClass().getName());</div><div class="line">   &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>运行结果：<br>ReflectDemo<br>为什么会有一个getClass()的方法呢？因为这个类默认继承Object。返回的class是反射的源头。<br>正常情况下，我们实例化一个对象的时候都是这样子：首先引入需要的路径(包名.类名)，然后通过new得到实例化对象，有没有其他方法呢？有，通过反射。<br>再来看一个小例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">Class ReflectDemo&#123;</div><div class="line"></div><div class="line">&#125;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GetClassNameDemo</span></span>&#123;</div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span></span>&#123;</div><div class="line">        ReflectDemo r = <span class="keyword">new</span> ReflectDemo();</div><div class="line">        System.out.println(r.getClass().getName());</div><div class="line">        Class&lt;?&gt; c1 = <span class="keyword">null</span>;</div><div class="line">        Class&lt;?&gt; c2 = <span class="keyword">null</span>;</div><div class="line">        Class&lt;?&gt; c3 = <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">try</span>&#123;</div><div class="line">            c1 = Class.forName(<span class="string">"ReflectDemo"</span>);</div><div class="line">        &#125;<span class="keyword">catch</span> (ClassNotFoundException e)&#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">        c2 = <span class="keyword">new</span> ReflectDemo().getClass();</div><div class="line">        c3 = ReflectDemo.class;</div><div class="line">        System.out.println(<span class="string">"c1的类名称 "</span> + c1.getName());</div><div class="line">        System.out.println(<span class="string">"c2的类名称 "</span> + c2.getName());</div><div class="line">        System.out.println(<span class="string">"c3的类名称 "</span> + c3.getName());</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>运行结果：<br>ReflectDemo<br>ReflectDemo<br>ReflectDemo</p>
+<p>接着我们看如何实例化一个对象：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span></span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> String name;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">()</span></span>&#123;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.name = name;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> name;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAge</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> age;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAge</span><span class="params">(<span class="keyword">int</span> age)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.age = age;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"姓名: "</span> + name + <span class="string">" 年龄: "</span> + age;</div><div class="line">    &#125;</div><div class="line">	</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GetClassNameDemo</span></span>&#123;</div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span></span>&#123;</div><div class="line">        Class&lt;?&gt; c = <span class="keyword">null</span>;</div><div class="line">		<span class="keyword">try</span>&#123;</div><div class="line">		  c = Class.forName(<span class="string">"Person"</span>);</div><div class="line">		&#125;<span class="keyword">catch</span>(ClassNotFoundException e)&#123;</div><div class="line">		  e.printStackTrace();</div><div class="line">		&#125;</div><div class="line">        Person person = <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">try</span>&#123;</div><div class="line">          person = (Person) c.newInstance();</div><div class="line">        &#125;<span class="keyword">catch</span> (Exception e)&#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">        person.setName(<span class="string">"Grantsome"</span>);</div><div class="line">        person.setAge(<span class="number">19</span>);</div><div class="line">        System.out.println(person);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>运行结果：<br>姓名: Grantsome 年龄: 19 </p>
+<p>再看看如何取得类的结构：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="class"><span class="keyword">interface</span> <span class="title">China</span></span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String NATIONAL = <span class="string">"China"</span>;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String AUTHOR = <span class="string">"Grantsome"</span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">sayChina</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    <span class="function">String <span class="title">sayHello</span><span class="params">(String name,<span class="keyword">int</span> age)</span></span>;</div><div class="line"></div><div class="line">&#125;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> <span class="keyword">implements</span> <span class="title">China</span></span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> String name;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">(String name,<span class="keyword">int</span> age)</span></span>&#123;</div><div class="line">        <span class="keyword">this</span>.age = age;</div><div class="line">        <span class="keyword">this</span>.name = name;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">()</span></span>&#123;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.name = name;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> name;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAge</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> age;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAge</span><span class="params">(<span class="keyword">int</span> age)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.age = age;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"姓名: "</span> + name + <span class="string">" 年龄: "</span> + age;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayChina</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"作者："</span> + AUTHOR +<span class="string">" 国家："</span> + NATIONAL);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">sayHello</span><span class="params">(String name, <span class="keyword">int</span> age)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> name + <span class="string">",你好！我今年"</span> +age + <span class="string">"岁了"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GetClassNameDemo</span></span>&#123;</div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span></span>&#123;</div><div class="line">     </div><div class="line">        Class&lt;?&gt; c1 = <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">try</span>&#123;</div><div class="line">            c1 = Class.forName(<span class="string">"Person"</span>);</div><div class="line">        &#125;<span class="keyword">catch</span>(ClassNotFoundException e)&#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        Method m[] = c1.getMethods();<span class="comment">//得到全部方法</span></div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;m.length;i++)&#123;</div><div class="line">            Class&lt;?&gt; r = m[i].getReturnType();<span class="comment">//得到方法的返回值</span></div><div class="line">            Class&lt;?&gt; p[] = m[i].getParameterTypes();<span class="comment">//得到全部参数的类型</span></div><div class="line">            System.out.print(Modifier.toString(m[i].getModifiers()) + <span class="string">" "</span> + r.getName() + <span class="string">" "</span> + m[i].getName() + <span class="string">"("</span>);</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; p.length; j++) &#123;</div><div class="line">                System.out.print(p[j].getName() + <span class="string">" "</span> + <span class="string">"arg"</span> + j);</div><div class="line">                <span class="keyword">if</span> (j &lt; p.length - <span class="number">1</span>) &#123;</div><div class="line">                    System.out.print(<span class="string">","</span>);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            System.out.print(<span class="string">")"</span>);</div><div class="line">            System.out.println(<span class="string">""</span>);</div><div class="line">        &#125;</div><div class="line">   &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><img src="/image/reflect_first.PNG" alt=""></p>
+<p>先就写这么多吧。</p>
+<h3 id="Android篇"><a href="#Android篇" class="headerlink" title="Android篇"></a>Android篇</h3>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/面试/" rel="tag"># 面试</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/10/浅谈思考--决定命运的上帝之手/" rel="next" title="浅谈思考--决定命运的上帝之手">
+                <i class="fa fa-chevron-left"></i> 浅谈思考--决定命运的上帝之手
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/10/手机的阴谋-信息时代的最大骗局/" rel="prev" title="手机的阴谋--信息时代的最大骗局">
+                手机的阴谋--信息时代的最大骗局 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/image/my_photo.jpg"
+               alt="Grantsome" />
+          <p class="site-author-name" itemprop="name">Grantsome</p>
+           
+              <p class="site-description motion-element" itemprop="description">谦谦君子,温润如玉。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">34</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Java篇"><span class="nav-number">1.</span> <span class="nav-text">Java篇</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#面向对象与面向过程的概念-区别和好处"><span class="nav-number">1.1.</span> <span class="nav-text">面向对象与面向过程的概念(区别和好处)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#说明一下static和final关键字的用法和特点"><span class="nav-number">1.2.</span> <span class="nav-text">说明一下static和final关键字的用法和特点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#简要说一下继承与多态这两种特性。"><span class="nav-number">1.3.</span> <span class="nav-text">简要说一下继承与多态这两种特性。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#抽象类和接口的区别"><span class="nav-number">1.4.</span> <span class="nav-text">抽象类和接口的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#“-”和equals-的区别"><span class="nav-number">1.5.</span> <span class="nav-text">“==”和equals()的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#set和list的区别"><span class="nav-number">1.6.</span> <span class="nav-text">set和list的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#反射的原理"><span class="nav-number">1.7.</span> <span class="nav-text">反射的原理</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Android篇"><span class="nav-number">2.</span> <span class="nav-text">Android篇</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Grantsome</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("N4kDW8TfOJ2iUzAX9Dnfh5W4-gzGzoHsz", "DsKw5kNbtHbP2peJYL5zmUdx");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+  
+
+  
+  
+
+
+  
+
+</body>
+</html>
